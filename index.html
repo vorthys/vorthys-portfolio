@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorthys — web design &amp; front-end, Prague</title>
+<meta name="description" content="Landing pages, small business sites and dashboards. Hand-built, fast, responsive. Five live demos inside.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{
+  --bg:#e9e8e4;
+  --card:#f6f5f2;
+  --ink:#16181c;
+  --muted:#63676e;
+  --line:rgba(22,24,28,.14);
+  --shell:min(1180px, 100% - 3rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.05;letter-spacing:-.02em;font-weight:600}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-.01em}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+a{color:inherit}
+.shell{width:var(--shell);margin-inline:auto}
+
+header{padding:1.5rem 0;position:sticky;top:0;background:rgba(233,232,228,.88);backdrop-filter:blur(8px);z-index:50}
+.bar{display:flex;align-items:center;gap:2rem}
+.brand{font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+.brand i{font-style:normal;color:var(--muted)}
+nav{margin-left:auto;display:flex;gap:1.5rem}
+nav a{text-decoration:none;font-size:.92rem;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--ink);color:var(--bg);border-radius:999px;padding:.7rem 1.25rem;text-decoration:none;font-size:.92rem;font-weight:500;transition:transform .15s,opacity .2s}
+.btn:hover{transform:translateY(-2px);opacity:.9}
+.btn--line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn--line:hover{background:var(--card)}
+
+.hero{padding:clamp(3rem,8vw,6.5rem) 0 clamp(2.5rem,5vw,4rem)}
+.hero h1{font-size:clamp(2.8rem,7vw,5.4rem)}
+.hero h1 em{font-style:italic}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:52ch;margin:1.75rem 0 2.25rem}
+.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.avail{display:inline-flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--muted)}
+.avail i{width:8px;height:8px;border-radius:50%;background:#2f9e5f;display:block}
+
+section{padding:clamp(3rem,6vw,5rem) 0}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.25rem;margin-bottom:2.5rem}
+.sec-head h2{font-size:clamp(1.6rem,3.4vw,2.4rem)}
+.sec-head .mono{color:var(--muted)}
+
+/* work cards */
+.work{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem}
+.case{
+  display:flex;flex-direction:column;text-decoration:none;background:var(--card);
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.case:hover{transform:translateY(-4px);box-shadow:0 24px 48px -32px rgba(22,24,28,.55)}
+.swatch{height:190px;position:relative;display:flex;align-items:flex-end;padding:1.1rem;overflow:hidden}
+.swatch b{font-size:1.9rem;font-weight:600;letter-spacing:-.03em;position:relative;z-index:2}
+.swatch .grid-lines{position:absolute;inset:0;opacity:.4}
+.case-body{padding:1.25rem 1.35rem 1.5rem;display:grid;gap:.55rem}
+.case-body h3{font-size:1.15rem}
+.case-body p{margin:0;color:var(--muted);font-size:.93rem}
+.tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.35rem}
+.tag{border:1px solid var(--line);border-radius:999px;padding:.15rem .6rem;font-size:.74rem;color:var(--muted)}
+.open{margin-top:.4rem;font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:.35rem}
+.case:hover .open{gap:.6rem}
+
+/* swatch palettes */
+.sw-kavarna{background:#15171b;color:#efede8}
+.sw-kavarna .grid-lines{background:repeating-linear-gradient(90deg,transparent 0 26px,rgba(242,194,48,.35) 26px 28px)}
+.sw-saas{background:#f7f8fa;color:#0e1420;box-shadow:inset 0 -1px 0 var(--line)}
+.sw-saas .grid-lines{background:repeating-linear-gradient(0deg,transparent 0 21px,rgba(27,58,107,.12) 21px 22px),repeating-linear-gradient(90deg,transparent 0 21px,rgba(27,58,107,.12) 21px 22px)}
+.sw-saas::after{content:"";position:absolute;right:1.1rem;top:1.1rem;width:54px;height:16px;background:#ff5a1f;border-radius:4px;transform:rotate(-4deg)}
+.sw-studio{background:#121212;color:#ded8cd}
+.sw-studio .grid-lines{background:radial-gradient(circle at 78% 26%,rgba(193,39,45,.55),transparent 58%)}
+.sw-fitness{background:#edeae4;color:#2b2a6b}
+.sw-fitness .grid-lines{background:radial-gradient(circle at 82% 20%,rgba(255,61,127,.55),transparent 46%),radial-gradient(circle at 18% 82%,rgba(43,42,107,.35),transparent 52%)}
+.sw-smart{background:#05070c;color:#e2e8f0}
+.sw-smart .grid-lines{background:radial-gradient(circle at 50% 50%,rgba(56,189,248,.4),transparent 55%);}
+.sw-smart::after{content:"";position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border:1px solid rgba(255,255,255,.25);border-radius:50%}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2rem}
+.service h3{font-size:1.05rem;margin-bottom:.4rem}
+.service p{margin:0;color:var(--muted);font-size:.93rem}
+.service .mono{color:var(--ink);display:block;margin-bottom:.85rem}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.35rem}
+.step .n{font-family:"Instrument Serif",serif;font-size:2.2rem;line-height:1;display:block;margin-bottom:.5rem}
+.step h3{font-size:1rem;margin-bottom:.35rem}
+.step p{margin:0;color:var(--muted);font-size:.9rem}
+
+/* pricing */
+.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.rate{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+.rate .amount{font-family:"Instrument Serif",serif;font-size:2.4rem;line-height:1}
+.rate ul{margin:.3rem 0 0;padding-left:1.05rem;color:var(--muted);font-size:.9rem;display:grid;gap:.3rem}
+.rate .btn{margin-top:auto}
+
+/* contact */
+.contact{background:var(--ink);color:var(--bg);border-radius:24px;padding:clamp(2rem,5vw,3.5rem);display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;align-items:center}
+.contact h2{font-size:clamp(1.8rem,4vw,2.8rem);max-width:18ch}
+.contact a.big{font-size:1.2rem;color:var(--bg)}
+.contact .btn{background:var(--bg);color:var(--ink)}
+
+footer{padding:2.5rem 0 3.5rem;color:var(--muted);font-size:.86rem}
+.foot{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.5rem}
+.disclaimer{max-width:52ch}
+
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important}html{scroll-behavior:auto}}
+@media (max-width:760px){nav{display:none}}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell bar">
+    <div class="brand">Vorthys <i>— web &amp; front-end</i></div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#rates">Rates</a>
+    </nav>
+    <a class="btn" href="#contact">Start a project</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="shell">
+    <p class="mono" style="color:var(--muted);margin:0 0 1.5rem">Prague · working with clients across the EU</p>
+    <h1>Small sites that <em class="serif">look expensive</em> and load in under a second.</h1>
+    <p>I build landing pages, business sites and dashboards by hand — no page-builder templates, no plugin sprawl. Five demos below, each one a different brief and a different visual direction.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#work">See the work</a>
+      <a class="btn btn--line" href="#rates">Rates &amp; turnaround</a>
+      <span class="avail"><i></i>Taking projects for August</span>
+    </div>
+  </div>
+</div>
+
+<section id="work">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>Selected demos</h2>
+      <span class="mono">Five briefs · five directions</span>
+    </div>
+
+    <div class="work">
+      <a class="case" href="kavarna/index.html">
+        <div class="swatch sw-kavarna"><span class="grid-lines"></span><b>ZRNO</b></div>
+        <div class="case-body">
+          <h3>Coffee roastery, Prague</h3>
+          <p>Roast batches as the hero: lot data, altitude, processing and a roast-level scale — the way speciality coffee actually labels itself.</p>
+          <div class="tags"><span class="tag">Czech copy</span><span class="tag">Local business</span><span class="tag">CSS ticker</span></div>
+          <span class="open">Open demo →</span>
+        </div>
+      </a>
+
+      <a class="case" href="saas/index.html">
+        <div class="swatch sw-saas"><span class="grid-lines"></span><b>Hodina</b></div>
+        <div class="case-body">
+          <h3>SaaS landing, EU invoicing</h3>
+          <p>Interactive hero: click blocks on the tracked day and watch them become invoice lines with live totals and reverse-charge VAT.</p>
+          <div class="tags"><span class="tag">Product page</span><span class="tag">Live interaction</span><span class="tag">Pricing &amp; FAQ</span></div>
+          <span class="open">Open demo →</span>
+        </div>
+      </a>
+
+      <a class="case" href="studio/index.html">
+        <div class="swatch sw-studio"><span class="grid-lines"></span><b>SVĚTLO</b></div>
+        <div class="case-body">
+          <h3>Portrait studio</h3>
+          <p>Gallery built as a film contact sheet — sprocket holes, frame numbers, colour appearing on hover, lightbox with shooting data.</p>
+          <div class="tags"><span class="tag">Photography</span><span class="tag">Lightbox</span><span class="tag">Dark UI</span></div>
+          <span class="open">Open demo →</span>
+        </div>
+      </a>
+
+      <a class="case" href="fitness/index.html">
+        <div class="swatch sw-fitness"><span class="grid-lines"></span><b>PULS</b></div>
+        <div class="case-body">
+          <h3>Training studio, booking</h3>
+          <p>The weekly schedule is the hero. Pick a slot, it drops into the booking form; the form validates and answers you by name.</p>
+          <div class="tags"><span class="tag">Czech copy</span><span class="tag">Booking form</span><span class="tag">Schedule grid</span></div>
+          <span class="open">Open demo →</span>
+        </div>
+      </a>
+
+      <a class="case" href="smart-home/index.html">
+        <div class="swatch sw-smart"><span class="grid-lines"></span><b>Smart home</b></div>
+        <div class="case-body">
+          <h3>Dashboard, orbital layout</h3>
+          <p>Eight home subsystems on an orbit around the hub: live metrics, status states, scenario links drawn between related nodes.</p>
+          <div class="tags"><span class="tag">React + Tailwind</span><span class="tag">Data UI</span><span class="tag">Animation</span></div>
+          <span class="open">Open demo →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>What I take on</h2>
+      <span class="mono">Front-end only</span>
+    </div>
+    <div class="services">
+      <div class="service">
+        <span class="mono">Build</span>
+        <h3>Landing pages</h3>
+        <p>One page, written and designed around a single action: book, buy, or get in touch. Copy included if you don't have it.</p>
+      </div>
+      <div class="service">
+        <span class="mono">Build</span>
+        <h3>Small business sites</h3>
+        <p>Three to eight pages with a menu, schedule, price list or gallery. Editable content structure agreed before I start.</p>
+      </div>
+      <div class="service">
+        <span class="mono">Build</span>
+        <h3>Dashboards &amp; components</h3>
+        <p>React, Tailwind and shadcn/ui components wired to your data, or one polished screen your team can copy from.</p>
+      </div>
+      <div class="service">
+        <span class="mono">Fix</span>
+        <h3>Rescue work</h3>
+        <p>Broken layout, mobile that doesn't fit, a slow page, a form that stopped sending. Quoted per task, usually same week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>How a project runs</h2>
+      <span class="mono">Typically 5—10 working days</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="n serif">1</span>
+        <h3>Brief, in writing</h3>
+        <p>What the page must achieve, who reads it, what you already have. Half an hour of questions saves a week of revisions.</p>
+      </div>
+      <div class="step">
+        <span class="n serif">2</span>
+        <h3>Direction first</h3>
+        <p>You see the hero and one section before the rest exists. We agree on type, colour and tone there — not at the end.</p>
+      </div>
+      <div class="step">
+        <span class="n serif">3</span>
+        <h3>Build and review</h3>
+        <p>Full page on a preview link, tested on phone and desktop. Two rounds of changes are part of the price.</p>
+      </div>
+      <div class="step">
+        <span class="n serif">4</span>
+        <h3>Handover</h3>
+        <p>Deployed to your hosting or mine, source files yours, plus a short note on how to edit the parts you'll want to change.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rates">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>Rates</h2>
+      <span class="mono">Fixed price · invoiced from Czechia</span>
+    </div>
+    <div class="rates">
+      <div class="rate">
+        <h3>Landing page</h3>
+        <div class="amount">€450</div>
+        <ul><li>One page, up to 7 sections</li><li>Copy polish, responsive, contact form</li><li>5 working days, 2 revision rounds</li></ul>
+        <a class="btn btn--line" href="#contact">Ask about a landing</a>
+      </div>
+      <div class="rate">
+        <h3>Business site</h3>
+        <div class="amount">€1 100</div>
+        <ul><li>Up to 6 pages, shared components</li><li>Gallery, schedule or price list</li><li>10 working days, 3 revision rounds</li></ul>
+        <a class="btn" href="#contact">Ask about a site</a>
+      </div>
+      <div class="rate">
+        <h3>Fix &amp; improve</h3>
+        <div class="amount">€45<span style="font-size:1rem;font-family:'Instrument Sans'"> / hour</span></div>
+        <ul><li>Layout, responsive and speed fixes</li><li>Small features on an existing site</li><li>Minimum booking: 2 hours</li></ul>
+        <a class="btn btn--line" href="#contact">Send the problem</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="shell">
+    <div class="contact">
+      <h2>Tell me what the page has to do.</h2>
+      <div style="display:grid;gap:.9rem">
+        <a class="big" href="mailto:hello@example.com">hello@example.com</a>
+        <a class="btn" href="mailto:hello@example.com">Write about a project</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot">
+    <div class="disclaimer">
+      <strong>About these demos:</strong> every brand on this page is fictional and built to show design and front-end work. No client data, no real business is represented.
+    </div>
+    <div>© 2026 Vorthys · Prague</div>
+  </div>
+</footer>
+
+</body>
+</html>

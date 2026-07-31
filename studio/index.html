@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVĚTLO — portrait studio, Prague</title>
+<meta name="description" content="Portrait sittings in a converted darkroom in Prague 7. Film and digital, one photographer, no rush.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600&family=Roboto+Mono:wght@400;500&family=Work+Sans:wght@300;400;500&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{
+  --dark:#121212;
+  --film:#1b1a18;
+  --edge:#262421;
+  --safelight:#c1272d;
+  --silver:#ded8cd;
+  --muted:#8d867b;
+  --shell:min(1240px, 100% - 3rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--dark);color:var(--silver);font-family:"Work Sans",system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Oswald,system-ui,sans-serif;margin:0;font-weight:500;line-height:1;letter-spacing:.01em;text-transform:uppercase}
+.mono{font-family:"Roboto Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase}
+a{color:inherit}
+img{display:block;max-width:100%}
+.shell{width:var(--shell);margin-inline:auto}
+
+header{position:sticky;top:0;z-index:60;background:rgba(18,18,18,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--edge)}
+.bar{display:flex;align-items:center;gap:2rem;padding:1rem 0}
+.brand{font-family:Oswald;font-weight:600;font-size:1.25rem;letter-spacing:.34em}
+nav{margin-left:auto;display:flex;gap:1.75rem}
+nav a{text-decoration:none;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+nav a:hover{color:var(--silver)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--safelight);color:var(--silver);background:transparent;text-decoration:none;padding:.65rem 1.2rem;font-family:"Roboto Mono",monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .25s,color .25s}
+.btn:hover{background:var(--safelight);color:#fff}
+.btn--solid{background:var(--safelight);color:#fff}
+.btn--solid:hover{background:#a51f24}
+
+/* hero */
+.hero{position:relative;padding:clamp(3.5rem,9vw,7rem) 0 clamp(3rem,6vw,5rem);overflow:hidden}
+.hero::before{content:"";position:absolute;top:-30%;right:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(193,39,45,.22),transparent 65%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);align-items:center;position:relative}
+.hero h1{font-size:clamp(3rem,9vw,6.6rem);font-weight:300;line-height:.92}
+.hero h1 b{font-weight:600;color:#fff}
+.hero p{color:var(--muted);max-width:38ch;margin:1.75rem 0 2.25rem}
+.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+.hero-frame{position:relative;border:1px solid var(--edge);padding:10px;background:var(--film)}
+.hero-frame img{aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.1) brightness(.92)}
+.hero-frame figcaption{display:flex;justify-content:space-between;padding-top:.7rem}
+
+/* contact sheet */
+section{padding:clamp(3.5rem,7vw,6rem) 0}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;border-bottom:1px solid var(--edge);padding-bottom:1.25rem}
+.head h2{font-size:clamp(1.9rem,4.4vw,3.1rem);font-weight:300}
+.head h2 b{font-weight:600}
+.head p{color:var(--muted);max-width:40ch;margin:0}
+
+.sheet{background:var(--film);padding:clamp(1rem,2.5vw,2rem);border:1px solid var(--edge)}
+.strip{position:relative;padding-block:22px;margin-bottom:1.25rem}
+.strip::before,.strip::after{
+  content:"";position:absolute;left:0;right:0;height:14px;
+  background-image:radial-gradient(circle at 7px 7px, var(--dark) 3.5px, transparent 4px);
+  background-size:20px 14px;background-color:#0d0c0b;
+}
+.strip::before{top:0}
+.strip::after{bottom:0}
+.strip-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:#0d0c0b;padding:6px}
+.frame{position:relative;border:0;padding:0;background:none;cursor:pointer;overflow:hidden}
+.frame img{aspect-ratio:1;object-fit:cover;filter:grayscale(1) contrast(1.05) brightness(.8);transition:filter .45s ease, transform .45s ease}
+.frame:hover img,.frame:focus-visible img{filter:none;transform:scale(1.03)}
+.frame figcaption{
+  position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;
+  padding:.45rem .55rem;background:linear-gradient(180deg,transparent,rgba(13,12,11,.9));
+  font-family:"Roboto Mono",monospace;font-size:.62rem;letter-spacing:.08em;color:var(--silver);
+  opacity:0;transition:opacity .3s;
+}
+.frame:hover figcaption,.frame:focus-visible figcaption{opacity:1}
+.frame .num{position:absolute;top:.4rem;left:.5rem;font-family:"Roboto Mono",monospace;font-size:.62rem;color:var(--safelight);letter-spacing:.1em}
+
+/* sessions */
+.sessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.session{border:1px solid var(--edge);padding:1.6rem;display:flex;flex-direction:column;gap:1rem;background:var(--film);transition:border-color .3s}
+.session:hover{border-color:var(--safelight)}
+.session h3{font-size:1.4rem;font-weight:500}
+.session .price{font-family:"Roboto Mono",monospace;font-size:1.5rem;color:#fff}
+.session ul{margin:0;padding-left:1.05rem;display:grid;gap:.35rem;color:var(--muted);font-size:.92rem}
+.session .btn{margin-top:auto;justify-content:center}
+
+/* studio */
+.studio-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
+.studio-photos{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.studio-photos img{aspect-ratio:3/4;object-fit:cover;filter:grayscale(.6) brightness(.85)}
+.facts{display:grid;gap:.6rem;margin-top:2rem;font-family:"Roboto Mono",monospace;font-size:.8rem}
+.facts div{display:flex;justify-content:space-between;border-bottom:1px solid var(--edge);padding-bottom:.5rem}
+.facts span:last-child{color:#fff}
+
+/* booking */
+.book{border:1px solid var(--edge);background:var(--film);padding:clamp(1.75rem,4vw,3rem);display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.book h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300}
+.book p{color:var(--muted);margin:.9rem 0 0;max-width:42ch}
+
+footer{border-top:1px solid var(--edge);padding:2.5rem 0;color:var(--muted);font-size:.85rem}
+.foot{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;align-items:center}
+.demo-note{border:1px dashed var(--edge);padding:.45rem .8rem;font-family:"Roboto Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,900px)}
+dialog::backdrop{background:rgba(9,8,8,.92)}
+.lb{border:1px solid var(--edge);background:var(--film);padding:12px}
+.lb img{max-height:74vh;width:100%;object-fit:contain}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;padding-top:.75rem;font-family:"Roboto Mono",monospace;font-size:.7rem;letter-spacing:.1em;color:var(--muted)}
+.lb-bar button{background:none;border:1px solid var(--edge);color:var(--silver);padding:.35rem .7rem;cursor:pointer;font:inherit}
+
+@media (max-width:900px){
+  .hero-grid,.studio-grid,.book{grid-template-columns:1fr}
+  .strip-inner{grid-template-columns:repeat(2,1fr)}
+  nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}html{scroll-behavior:auto}}
+:focus-visible{outline:2px solid var(--safelight);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell bar">
+    <div class="brand">SVĚTLO</div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#studio">Studio</a>
+      <a href="#book">Book</a>
+    </nav>
+    <a class="btn" href="#book">Book a sitting</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <p class="mono" style="color:var(--safelight);margin:0 0 1.5rem">Portrait studio · Praha 7</p>
+      <h1>Sit down.<br><b>Stay a while.</b></h1>
+      <p>A converted darkroom with one north window. Sittings run ninety minutes because the first twenty are spent forgetting the camera is there.</p>
+      <div class="hero-actions">
+        <a class="btn btn--solid" href="#book">Book a sitting</a>
+        <a class="btn" href="#work">See the contact sheet</a>
+      </div>
+    </div>
+    <figure class="hero-frame" style="margin:0">
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&q=80" alt="Studio portrait of a woman in soft window light">
+      <figcaption class="mono"><span>Roll 118 · frame 07</span><span>85 mm · f/2</span></figcaption>
+    </figure>
+  </div>
+</div>
+
+<section id="work">
+  <div class="shell">
+    <div class="head">
+      <div>
+        <p class="mono" style="color:var(--safelight)">Selected work</p>
+        <h2 style="margin-top:.8rem">Contact <b>sheet</b></h2>
+      </div>
+      <p>Frames come off the sheet the way we mark them up: grease pencil on the keepers, nothing retouched beyond dust.</p>
+    </div>
+
+    <div class="sheet">
+      <div class="strip">
+        <div class="strip-inner">
+          <button class="frame" data-full="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1400&q=85" data-meta="Roll 116 · 50 mm · f/1.8 · ISO 400">
+            <span class="num">12</span>
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80" alt="Portrait of a man in daylight">
+            <figcaption><span>Marek</span><span>50 mm</span></figcaption>
+          </button>
+          <button class="frame" data-full="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1400&q=85" data-meta="Roll 116 · 85 mm · f/2 · ISO 200">
+            <span class="num">12A</span>
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="Laughing portrait">
+            <figcaption><span>Tereza</span><span>85 mm</span></figcaption>
+          </button>
+          <button class="frame" data-full="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=85" data-meta="Roll 117 · 85 mm · f/2.8 · ISO 400">
+            <span class="num">13</span>
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Headshot of a smiling man">
+            <figcaption><span>Headshot</span><span>85 mm</span></figcaption>
+          </button>
+          <button class="frame" data-full="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1400&q=85" data-meta="Roll 118 · 85 mm · f/2 · ISO 160">
+            <span class="num">13A</span>
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80" alt="Studio portrait in low key light">
+            <figcaption><span>Studio</span><span>85 mm</span></figcaption>
+          </button>
+        </div>
+      </div>
+
+      <div class="strip">
+        <div class="strip-inner">
+          <button class="frame" data-full="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=85" data-meta="Roll 121 · 35 mm · f/8 · ISO 100">
+            <span class="num">14</span>
+            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80" alt="Photographer working on a cliff">
+            <figcaption><span>On location</span><span>35 mm</span></figcaption>
+          </button>
+          <button class="frame" data-full="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=1400&q=85" data-meta="Roll 121 · 35 mm · f/5.6 · ISO 100">
+            <span class="num">14A</span>
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=600&q=80" alt="Armchair on a cliff by the sea">
+            <figcaption><span>Set piece</span><span>35 mm</span></figcaption>
+          </button>
+          <button class="frame" data-full="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=1400&q=85" data-meta="Roll 122 · 50 mm · f/1.4 · ISO 800">
+            <span class="num">15</span>
+            <img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=600&q=80" alt="Bar interior at night">
+            <figcaption><span>Reportage</span><span>50 mm</span></figcaption>
+          </button>
+          <button class="frame" data-full="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1400&q=85" data-meta="Roll 122 · 24 mm · f/11 · ISO 100">
+            <span class="num">15A</span>
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&q=80" alt="Mountains in fog">
+            <figcaption><span>Landscape</span><span>24 mm</span></figcaption>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sessions">
+  <div class="shell">
+    <div class="head">
+      <div>
+        <p class="mono" style="color:var(--safelight)">Sessions</p>
+        <h2 style="margin-top:.8rem">What a <b>sitting</b> costs</h2>
+      </div>
+      <p>Prices include the sitting, the edit, and delivery. Retouching beyond skin and dust is quoted separately.</p>
+    </div>
+    <div class="sessions">
+      <article class="session">
+        <h3>Headshot</h3>
+        <div class="price">3 500 Kč</div>
+        <ul><li>45 minutes, one look</li><li>Studio light or window</li><li>5 edited files, delivered in 3 days</li></ul>
+        <a class="btn" href="#book">Book headshot</a>
+      </article>
+      <article class="session">
+        <h3>Portrait sitting</h3>
+        <div class="price">6 900 Kč</div>
+        <ul><li>90 minutes, two looks</li><li>Film and digital side by side</li><li>15 edited files + contact sheet</li></ul>
+        <a class="btn btn--solid" href="#book">Book sitting</a>
+      </article>
+      <article class="session">
+        <h3>Team day</h3>
+        <div class="price">from 18 000 Kč</div>
+        <ul><li>Up to 12 people, one location</li><li>Consistent light across the set</li><li>Web and print crops of every frame</li></ul>
+        <a class="btn" href="#book">Ask about a team day</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="studio">
+  <div class="shell studio-grid">
+    <div>
+      <div class="head" style="display:block;border:0;padding:0;margin-bottom:1.5rem">
+        <p class="mono" style="color:var(--safelight)">The room</p>
+        <h2 style="margin-top:.8rem">One window,<br><b>no rush</b></h2>
+      </div>
+      <p style="color:var(--muted);max-width:44ch">Two floors above a bookbinder in Holešovice. The darkroom still works, so film shot here can be developed here — you'll see the negatives before you leave.</p>
+      <div class="facts">
+        <div><span>Address</span><span>Osadní 12, Praha 7</span></div>
+        <div><span>Daylight hours</span><span>09:00 — 16:30</span></div>
+        <div><span>Studio light</span><span>Profoto, 2 heads</span></div>
+        <div><span>Film developed on site</span><span>B&amp;W, C-41</span></div>
+      </div>
+    </div>
+    <div class="studio-photos">
+      <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=700&q=80" alt="Camera body and lenses on a dark surface">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=700&q=80" alt="Landscape print on the wall">
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="shell">
+    <div class="book">
+      <div>
+        <h2>Sittings run <b>Tuesday to Saturday</b></h2>
+        <p>Write what the pictures are for and roughly when you need them. You'll get times back the same day.</p>
+      </div>
+      <div style="display:grid;gap:.75rem">
+        <a class="btn btn--solid" href="mailto:ahoj@svetlo-studio.cz">ahoj@svetlo-studio.cz</a>
+        <a class="btn" href="tel:+420608222111">+420 608 222 111</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot">
+    <div class="brand" style="font-size:.95rem">SVĚTLO</div>
+    <div class="demo-note">Demo project — fictional studio</div>
+  </div>
+</footer>
+
+<dialog id="lightbox">
+  <div class="lb">
+    <img id="lbImg" alt="">
+    <div class="lb-bar"><span id="lbMeta"></span><button id="lbClose">Close</button></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  const dlg = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg');
+  const meta = document.getElementById('lbMeta');
+
+  document.querySelectorAll('.frame').forEach(f => {
+    f.addEventListener('click', () => {
+      img.src = f.dataset.full;
+      img.alt = f.querySelector('img').alt;
+      meta.textContent = f.dataset.meta;
+      dlg.showModal();
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', e => { if(e.target === dlg) dlg.close(); });
+})();
+</script>
+</body>
+</html>

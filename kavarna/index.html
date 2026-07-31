@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZRNO — pražírna a kavárna, Praha 7</title>
+<meta name="description" content="Malá pražírna v Holešovicích. Každou středu pražíme novou šarži, ve čtvrtek ji čepujeme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800;125,900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{
+  --ink:#15171b;
+  --ink-soft:#2a2e35;
+  --concrete:#c9c6bf;
+  --paper:#efede8;
+  --marker:#f2c230;
+  --steel:#6b727c;
+  --line:rgba(21,23,27,.14);
+  --shell:min(1240px, 100% - 3rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;font-variation-settings:"wdth" 112;margin:0;line-height:.94;letter-spacing:-.02em}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+a{color:inherit}
+img{max-width:100%;display:block}
+.shell{width:var(--shell);margin-inline:auto}
+
+/* ---- header ---- */
+header{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--paper)}
+.bar{display:flex;align-items:center;gap:2rem;padding:.9rem 0}
+.logo{font-family:Archivo;font-variation-settings:"wdth" 125;font-weight:900;font-size:1.35rem;letter-spacing:.02em}
+.logo span{color:var(--marker)}
+nav{margin-left:auto;display:flex;gap:1.75rem}
+nav a{text-decoration:none;font-size:.9rem;color:rgba(239,237,232,.72);transition:color .2s}
+nav a:hover,nav a:focus-visible{color:var(--marker)}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;border:0;cursor:pointer;
+  background:var(--marker);color:var(--ink);font-weight:700;font-size:.9rem;
+  padding:.72rem 1.25rem;text-decoration:none;transition:transform .15s, background .2s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn--ghost{background:transparent;color:var(--paper);box-shadow:inset 0 0 0 1px rgba(239,237,232,.35)}
+.btn--ghost:hover{background:rgba(239,237,232,.1)}
+
+/* ---- hero ---- */
+.hero{background:var(--ink);color:var(--paper);padding:clamp(3rem,7vw,6rem) 0 0;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:end}
+.hero h1{font-size:clamp(3.2rem,8.2vw,7.4rem);font-variation-settings:"wdth" 125;font-weight:900;text-transform:uppercase}
+.hero h1 em{font-style:normal;display:block;color:var(--marker)}
+.hero p{max-width:34ch;color:rgba(239,237,232,.72);margin:1.75rem 0 2rem}
+.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap}
+.hero-photo{position:relative;margin-bottom:-2px}
+.hero-photo img{filter:grayscale(1) contrast(1.08);aspect-ratio:4/5;object-fit:cover}
+.hero-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(21,23,27,.55) 100%);
+}
+.tape{
+  position:absolute;left:-.75rem;bottom:2rem;background:var(--marker);color:var(--ink);
+  padding:.5rem .9rem;font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+
+/* ---- ticker ---- */
+.ticker{background:var(--marker);color:var(--ink);overflow:hidden;border-block:2px solid var(--ink)}
+.ticker-track{display:flex;gap:3rem;padding:.6rem 0;white-space:nowrap;animation:slide 32s linear infinite}
+.ticker-track span{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---- sections ---- */
+section{padding:clamp(3.5rem,7vw,6.5rem) 0}
+.head{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:2.75rem;flex-wrap:wrap}
+.head h2{font-size:clamp(2rem,4.6vw,3.4rem);text-transform:uppercase;font-weight:800}
+.head .mono{color:var(--steel)}
+.head p{margin:0;max-width:44ch;color:var(--ink-soft);flex:1 1 260px}
+
+/* ---- batch cards (signature) ---- */
+.batches{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem}
+.batch{
+  background:#fff;border:1px solid var(--line);padding:1.6rem 1.5rem 1.75rem;
+  display:flex;flex-direction:column;gap:1.1rem;transition:transform .25s, box-shadow .25s;
+}
+.batch:hover{transform:translateY(-4px);box-shadow:0 18px 40px -28px rgba(21,23,27,.55)}
+.batch-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.batch h3{font-size:1.5rem;font-weight:800}
+.batch .origin{color:var(--steel);font-size:.85rem;margin-top:.35rem}
+.lot{background:var(--ink);color:var(--marker);padding:.28rem .5rem;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em}
+dl{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1rem;margin:0;font-size:.88rem}
+dt{color:var(--steel);font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding-top:.2rem}
+dd{margin:0;font-weight:500}
+.roast{margin-top:auto}
+.roast-scale{position:relative;height:10px;border-radius:99px;background:linear-gradient(90deg,#d9c9a8,#a9743f,#5b3720,#2c1a12)}
+.roast-pin{position:absolute;top:-5px;width:2px;height:20px;background:var(--ink);transform:translateX(-50%)}
+.roast-pin::after{content:attr(data-label);position:absolute;top:22px;left:50%;transform:translateX(-50%);font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.roast-legend{display:flex;justify-content:space-between;margin-top:1.9rem;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--steel)}
+.notes{display:flex;flex-wrap:wrap;gap:.4rem}
+.note{border:1px solid var(--line);padding:.22rem .6rem;font-size:.78rem}
+
+/* ---- space ---- */
+.space{background:var(--ink);color:var(--paper)}
+.space-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
+.space h2{color:var(--paper)}
+.space p{color:rgba(239,237,232,.72);max-width:46ch}
+.space-photos{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.space-photos img{aspect-ratio:1;object-fit:cover;filter:grayscale(.35)}
+.space-photos img:first-child{grid-column:span 2;aspect-ratio:16/9}
+.hours{display:grid;gap:.4rem;margin-top:2rem;font-family:"IBM Plex Mono",monospace;font-size:.82rem}
+.hours div{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(239,237,232,.2);padding-bottom:.4rem}
+
+/* ---- courses ---- */
+.courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.course{border:1px solid var(--line);background:#fff;padding:1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.course h3{font-size:1.25rem;font-weight:800}
+.course .price{font-family:"IBM Plex Mono",monospace;font-size:1.4rem;font-weight:600}
+.course ul{margin:0;padding-left:1.1rem;color:var(--ink-soft);font-size:.9rem;display:grid;gap:.35rem}
+.course .btn{margin-top:auto;justify-content:center}
+
+/* ---- find us ---- */
+.find{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:stretch}
+.map{
+  position:relative;min-height:320px;border:1px solid var(--line);
+  background:
+    repeating-linear-gradient(0deg,transparent 0 39px,rgba(21,23,27,.08) 39px 40px),
+    repeating-linear-gradient(90deg,transparent 0 39px,rgba(21,23,27,.08) 39px 40px),
+    #e4e1da;
+}
+.map::before{content:"";position:absolute;left:12%;top:0;bottom:0;width:26px;background:rgba(107,114,124,.25);transform:skewX(-8deg)}
+.map::after{content:"";position:absolute;left:0;right:0;top:58%;height:34px;background:rgba(107,114,124,.2)}
+.pin{position:absolute;left:44%;top:46%;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.pin i{width:16px;height:16px;background:var(--marker);border:3px solid var(--ink);border-radius:50%;display:block}
+.pin span{background:var(--ink);color:var(--paper);padding:.25rem .55rem;font-family:"IBM Plex Mono",monospace;font-size:.65rem;letter-spacing:.1em;white-space:nowrap}
+.contact-list{display:grid;gap:1.5rem;align-content:center}
+.contact-list h3{font-size:1.1rem;font-weight:800;text-transform:uppercase}
+.contact-list a{font-size:1.15rem}
+
+/* ---- footer ---- */
+footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size:.85rem}
+.foot{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;align-items:center}
+.demo-note{border:1px dashed rgba(239,237,232,.3);padding:.5rem .8rem;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+
+@media (max-width:900px){
+  .hero-grid,.space-grid,.find{grid-template-columns:1fr}
+  /* grid children default to min-width:auto and refuse to shrink below their longest word */
+  .hero-grid>*,.space-grid>*,.find>*{min-width:0}
+  .hero h1{font-size:clamp(2.5rem,11vw,7.4rem)}
+  .hero-photo{order:-1}
+  nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+:focus-visible{outline:3px solid var(--marker);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell bar">
+    <div class="logo">ZRNO<span>.</span></div>
+    <nav>
+      <a href="#sarze">Šarže</a>
+      <a href="#kavarna">Kavárna</a>
+      <a href="#kurzy">Kurzy</a>
+      <a href="#kontakt">Kde nás najdete</a>
+    </nav>
+    <a class="btn" href="#sarze">Objednat zrna</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <p class="mono" style="color:var(--marker);margin:0 0 1.25rem">Pražírna · Praha 7 — Holešovice</p>
+      <h1>Pražíme ve středu<em>čepujeme ve čtvrtek</em></h1>
+      <p>Jeden buben, dvacet kilo týdně, žádné sklady. Kávu potkáte v kavárně čtyři dny po pražení — přesně tehdy, kdy chutná nejlíp.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#sarze">Aktuální šarže</a>
+        <a class="btn btn--ghost" href="#kurzy">Kurzy pro veřejnost</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=900&q=80" alt="Barista připravuje filtrovanou kávu">
+      <div class="tape">Šarže 24 / středa 7:10</div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Etiopie Guji · 1 950 m n. m. · praná</span><span>Kolumbie Huila · 1 720 m n. m. · honey</span><span>Brazílie Cerrado · 1 100 m n. m. · naturální</span><span>Pražírna otevřena Po–Pá</span>
+    <span>Etiopie Guji · 1 950 m n. m. · praná</span><span>Kolumbie Huila · 1 720 m n. m. · honey</span><span>Brazílie Cerrado · 1 100 m n. m. · naturální</span><span>Pražírna otevřena Po–Pá</span>
+  </div>
+</div>
+
+<section id="sarze">
+  <div class="shell">
+    <div class="head">
+      <p class="mono">01 — Aktuální šarže</p>
+      <h2>Co je teď v bubnu</h2>
+      <p>Každý pytel má svůj profil pražení. Píšeme ho na sáček i sem — ať víte, co kupujete, ještě než otevřete víčko.</p>
+    </div>
+
+    <div class="batches">
+      <article class="batch">
+        <div class="batch-top">
+          <div>
+            <h3>Guji Uraga</h3>
+            <div class="origin">Etiopie · farma Tero</div>
+          </div>
+          <div class="lot">LOT 24-A</div>
+        </div>
+        <dl>
+          <dt>Výška</dt><dd>1 950 m n. m.</dd>
+          <dt>Odrůda</dt><dd>Heirloom</dd>
+          <dt>Zpracování</dt><dd>Praná</dd>
+          <dt>Upraženo</dt><dd>29. 7. 2026</dd>
+        </dl>
+        <div class="notes"><span class="note">jasmín</span><span class="note">meruňka</span><span class="note">černý čaj</span></div>
+        <div class="roast">
+          <div class="roast-scale"><span class="roast-pin" style="left:18%" data-label="filtr"></span></div>
+          <div class="roast-legend"><span>světlé</span><span>tmavé</span></div>
+        </div>
+      </article>
+
+      <article class="batch">
+        <div class="batch-top">
+          <div>
+            <h3>Huila Pitalito</h3>
+            <div class="origin">Kolumbie · družstvo Monteverde</div>
+          </div>
+          <div class="lot">LOT 24-B</div>
+        </div>
+        <dl>
+          <dt>Výška</dt><dd>1 720 m n. m.</dd>
+          <dt>Odrůda</dt><dd>Caturra</dd>
+          <dt>Zpracování</dt><dd>Honey</dd>
+          <dt>Upraženo</dt><dd>29. 7. 2026</dd>
+        </dl>
+        <div class="notes"><span class="note">třtinový cukr</span><span class="note">pomeranč</span><span class="note">mléčná čokoláda</span></div>
+        <div class="roast">
+          <div class="roast-scale"><span class="roast-pin" style="left:46%" data-label="espresso"></span></div>
+          <div class="roast-legend"><span>světlé</span><span>tmavé</span></div>
+        </div>
+      </article>
+
+      <article class="batch">
+        <div class="batch-top">
+          <div>
+            <h3>Cerrado Mineiro</h3>
+            <div class="origin">Brazílie · farma Boa Vista</div>
+          </div>
+          <div class="lot">LOT 24-C</div>
+        </div>
+        <dl>
+          <dt>Výška</dt><dd>1 100 m n. m.</dd>
+          <dt>Odrůda</dt><dd>Mundo Novo</dd>
+          <dt>Zpracování</dt><dd>Naturální</dd>
+          <dt>Upraženo</dt><dd>22. 7. 2026</dd>
+        </dl>
+        <div class="notes"><span class="note">lískový ořech</span><span class="note">kakao</span><span class="note">karamel</span></div>
+        <div class="roast">
+          <div class="roast-scale"><span class="roast-pin" style="left:72%" data-label="espresso tmavé"></span></div>
+          <div class="roast-legend"><span>světlé</span><span>tmavé</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="space" id="kavarna">
+  <div class="shell space-grid">
+    <div>
+      <div class="head" style="display:block">
+        <p class="mono" style="color:var(--marker)">02 — Kavárna</p>
+        <h2 style="margin-top:.75rem">Sedm stolů<br>a výhled do pražírny</h2>
+      </div>
+      <p>Bývalá zámečnická dílna v Komunardů. Buben stojí za sklem, takže při ranní kávě uvidíte, jak se dělá ta příští. Wi-Fi je, zásuvek je málo — schválně.</p>
+      <div class="hours">
+        <div><span>Pondělí — pátek</span><span>7:30 — 18:00</span></div>
+        <div><span>Sobota — neděle</span><span>9:00 — 17:00</span></div>
+        <div><span>Pražíme</span><span>středa 6:00 — 11:00</span></div>
+      </div>
+    </div>
+    <div class="space-photos">
+      <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=80" alt="Interiér kavárny">
+      <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=80" alt="Pražená kávová zrna">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="Tři šálky s latte art">
+    </div>
+  </div>
+</section>
+
+<section id="kurzy">
+  <div class="shell">
+    <div class="head">
+      <p class="mono">03 — Kurzy</p>
+      <h2>Naučíme vás to<br>za jedno dopoledne</h2>
+      <p>Malé skupiny do šesti lidí, vlastní mlýnek k dispozici. Kurzy vedou naši baristé, ne externí lektoři.</p>
+    </div>
+    <div class="courses">
+      <article class="course">
+        <h3>Filtr doma</h3>
+        <div class="price">950 Kč</div>
+        <ul><li>V60, Aeropress, French press</li><li>Mletí a poměr vody</li><li>3 hodiny · sobota dopoledne</li></ul>
+        <a class="btn" href="#kontakt">Rezervovat místo</a>
+      </article>
+      <article class="course">
+        <h3>Základy espressa</h3>
+        <div class="price">1 200 Kč</div>
+        <ul><li>Nastavení mlýnku a dávky</li><li>Extrakce, chuťové vady</li><li>4 hodiny · úterý večer</li></ul>
+        <a class="btn" href="#kontakt">Rezervovat místo</a>
+      </article>
+      <article class="course">
+        <h3>Latte art</h3>
+        <div class="price">1 500 Kč</div>
+        <ul><li>Napěnění mléka od nuly</li><li>Srdce, tulipán, rozeta</li><li>4 hodiny · čtvrtek večer</li></ul>
+        <a class="btn" href="#kontakt">Rezervovat místo</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="shell">
+    <div class="head">
+      <p class="mono">04 — Kde nás najdete</p>
+      <h2>Komunardů 32</h2>
+    </div>
+    <div class="find">
+      <div class="map" role="img" aria-label="Schematická mapa: Komunardů 32, Praha 7">
+        <div class="pin"><i></i><span>ZRNO</span></div>
+      </div>
+      <div class="contact-list">
+        <div>
+          <h3>Adresa</h3>
+          <p style="margin:.4rem 0 0">Komunardů 32<br>170 00 Praha 7 — Holešovice<br><span class="mono" style="color:var(--steel)">tram Dělnická, 3 minuty pěšky</span></p>
+        </div>
+        <div>
+          <h3>Rezervace a kurzy</h3>
+          <p style="margin:.4rem 0 0"><a href="mailto:ahoj@zrno-prazirna.cz">ahoj@zrno-prazirna.cz</a><br><a href="tel:+420777123456">+420 777 123 456</a></p>
+        </div>
+        <div>
+          <h3>Velkoobchod</h3>
+          <p style="margin:.4rem 0 0">Dodáváme do kaváren v Praze a Brně. Napište si o vzorky aktuální šarže.</p>
+          <a class="btn" style="margin-top:.75rem" href="mailto:ahoj@zrno-prazirna.cz">Poptat vzorky</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot">
+    <div>
+      <div class="logo" style="font-size:1.1rem">ZRNO<span>.</span></div>
+      <p style="margin:.5rem 0 0">Pražírna a kavárna, Praha 7</p>
+    </div>
+    <div class="demo-note">Ukázkový web — fiktivní značka</div>
+  </div>
+</footer>
+
+</body>
+</html>

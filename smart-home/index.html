@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="ru" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Умный дом — орбитальная панель (превью без сборки)</title>
+
+    <!-- Tailwind Play CDN: нужен только для этого превью. В проекте Tailwind ставится через npm. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              border: "hsl(var(--border))",
+              input: "hsl(var(--input))",
+              ring: "hsl(var(--ring))",
+              background: "hsl(var(--background))",
+              foreground: "hsl(var(--foreground))",
+              primary: {
+                DEFAULT: "hsl(var(--primary))",
+                foreground: "hsl(var(--primary-foreground))",
+              },
+              secondary: {
+                DEFAULT: "hsl(var(--secondary))",
+                foreground: "hsl(var(--secondary-foreground))",
+              },
+              destructive: {
+                DEFAULT: "hsl(var(--destructive))",
+                foreground: "hsl(var(--destructive-foreground))",
+              },
+              muted: {
+                DEFAULT: "hsl(var(--muted))",
+                foreground: "hsl(var(--muted-foreground))",
+              },
+              accent: {
+                DEFAULT: "hsl(var(--accent))",
+                foreground: "hsl(var(--accent-foreground))",
+              },
+              card: {
+                DEFAULT: "hsl(var(--card))",
+                foreground: "hsl(var(--card-foreground))",
+              },
+            },
+            keyframes: {
+              "hub-breathe": {
+                "0%, 100%": { transform: "scale(1)", opacity: "1" },
+                "50%": { transform: "scale(1.06)", opacity: "0.85" },
+              },
+              "link-flow": {
+                from: { strokeDashoffset: "24" },
+                to: { strokeDashoffset: "0" },
+              },
+            },
+            animation: {
+              "hub-breathe":
+                "hub-breathe 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "link-flow": "link-flow 1.2s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        :root {
+          --background: 222.2 84% 4.9%;
+          --foreground: 210 40% 98%;
+          --card: 222.2 84% 4.9%;
+          --card-foreground: 210 40% 98%;
+          --primary: 210 40% 98%;
+          --primary-foreground: 222.2 47.4% 11.2%;
+          --secondary: 217.2 32.6% 17.5%;
+          --secondary-foreground: 210 40% 98%;
+          --muted: 217.2 32.6% 17.5%;
+          --muted-foreground: 215 20.2% 65.1%;
+          --accent: 217.2 32.6% 17.5%;
+          --accent-foreground: 210 40% 98%;
+          --destructive: 0 62.8% 30.6%;
+          --destructive-foreground: 210 40% 98%;
+          --border: 217.2 32.6% 17.5%;
+          --input: 217.2 32.6% 17.5%;
+          --ring: 212.7 26.8% 83.9%;
+          --radius: 0.5rem;
+        }
+        body {
+          @apply bg-[#05070c] text-foreground;
+        }
+      }
+
+      @layer components {
+        .smart-home-scene {
+          background:
+            radial-gradient(
+              circle at 50% 45%,
+              rgba(56, 189, 248, 0.12),
+              transparent 55%
+            ),
+            radial-gradient(
+              circle at 15% 15%,
+              rgba(168, 85, 247, 0.1),
+              transparent 45%
+            ),
+            radial-gradient(
+              circle at 85% 80%,
+              rgba(45, 212, 191, 0.1),
+              transparent 45%
+            ),
+            #05070c;
+        }
+        .smart-home-grid {
+          background-image: linear-gradient(
+              to right,
+              rgba(255, 255, 255, 0.035) 1px,
+              transparent 1px
+            ),
+            linear-gradient(
+              to bottom,
+              rgba(255, 255, 255, 0.035) 1px,
+              transparent 1px
+            );
+          background-size: 48px 48px;
+          mask-image: radial-gradient(
+            circle at 50% 50%,
+            black 0%,
+            transparent 72%
+          );
+          -webkit-mask-image: radial-gradient(
+            circle at 50% 50%,
+            black 0%,
+            transparent 72%
+          );
+        }
+      }
+    </style>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.3.1",
+          "react/": "https://esm.sh/react@18.3.1/",
+          "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
+          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react",
+          "lucide-react": "https://esm.sh/lucide-react@0.446.0?external=react",
+          "clsx": "https://esm.sh/clsx@2.1.1",
+          "tailwind-merge": "https://esm.sh/tailwind-merge@2.5.2"
+        }
+      }
+    </script>
+    <script src="https://unpkg.com/@babel/standalone@7.25.7/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!--
+      Это зеркало компонента src/components/ui/smart-home-orbital.tsx на чистом JSX:
+      оно нужно только чтобы посмотреть результат без Node.js.
+      Рабочий, типизированный исходник живёт в src/.
+    -->
+    <script type="text/babel" data-type="module" data-presets="react">
+      import React, {
+        useCallback,
+        useEffect,
+        useMemo,
+        useRef,
+        useState,
+      } from "react";
+      import { createRoot } from "react-dom/client";
+      import { clsx } from "clsx";
+      import { twMerge } from "tailwind-merge";
+      import {
+        Activity,
+        AlertTriangle,
+        ArrowRight,
+        Blinds,
+        Camera,
+        Cpu,
+        Droplet,
+        Droplets,
+        Fan,
+        Gauge,
+        Leaf,
+        Lightbulb,
+        Link2,
+        Lock,
+        Moon,
+        Pause,
+        Plug,
+        Play,
+        Power,
+        ShieldCheck,
+        Sparkles,
+        Sun,
+        Thermometer,
+        Timer,
+        Waves,
+        WifiOff,
+        Wind,
+        Zap,
+      } from "lucide-react";
+
+      const cn = (...inputs) => twMerge(clsx(inputs));
+
+      /* ---------- shadcn/ui: badge, button, card ---------- */
+
+      function Badge({ className, ...props }) {
+        return (
+          <div
+            className={cn(
+              "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors",
+              className
+            )}
+            {...props}
+          />
+        );
+      }
+
+      function Button({ className, ...props }) {
+        return (
+          <button
+            className={cn(
+              "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent",
+              className
+            )}
+            {...props}
+          />
+        );
+      }
+
+      const Card = ({ className, ...props }) => (
+        <div
+          className={cn(
+            "rounded-lg border bg-card text-card-foreground shadow-sm",
+            className
+          )}
+          {...props}
+        />
+      );
+      const CardHeader = ({ className, ...props }) => (
+        <div
+          className={cn("flex flex-col space-y-1.5 p-6", className)}
+          {...props}
+        />
+      );
+      const CardTitle = ({ className, ...props }) => (
+        <h3
+          className={cn(
+            "text-2xl font-semibold leading-none tracking-tight",
+            className
+          )}
+          {...props}
+        />
+      );
+      const CardContent = ({ className, ...props }) => (
+        <div className={cn("p-6 pt-0", className)} {...props} />
+      );
+
+      /* ---------- SmartHomeOrbital ---------- */
+
+      const STATUS_META = {
+        active: {
+          label: "АКТИВНО",
+          dot: "#34d399",
+          badge: "border-emerald-400/40 bg-emerald-400/15 text-emerald-200",
+          icon: Activity,
+        },
+        idle: {
+          label: "ОЖИДАНИЕ",
+          dot: "#94a3b8",
+          badge: "border-slate-400/30 bg-slate-400/10 text-slate-200",
+          icon: Power,
+        },
+        alert: {
+          label: "ВНИМАНИЕ",
+          dot: "#fbbf24",
+          badge: "border-amber-400/40 bg-amber-400/15 text-amber-200",
+          icon: AlertTriangle,
+        },
+        offline: {
+          label: "НЕ В СЕТИ",
+          dot: "#f87171",
+          badge: "border-rose-400/40 bg-rose-400/15 text-rose-200",
+          icon: WifiOff,
+        },
+      };
+
+      function getRadius(width) {
+        if (width < 420) return 112;
+        if (width < 640) return 140;
+        if (width < 1024) return 172;
+        return 208;
+      }
+
+      function SmartHomeOrbital({
+        nodes,
+        hubTitle = "Умный дом",
+        hubSubtitle = "Центральный хаб",
+        autoRotate: autoRotateProp = true,
+        className,
+        onNodeSelect,
+      }) {
+        const [expandedItems, setExpandedItems] = useState({});
+        const [rotationAngle, setRotationAngle] = useState(0);
+        const [autoRotate, setAutoRotate] = useState(autoRotateProp);
+        const [pulseEffect, setPulseEffect] = useState({});
+        const [activeNodeId, setActiveNodeId] = useState(null);
+        const [size, setSize] = useState({ width: 0, height: 0 });
+
+        const containerRef = useRef(null);
+        const orbitRef = useRef(null);
+        const nodeRefs = useRef({});
+
+        const radius = getRadius(size.width || 1024);
+
+        useEffect(() => {
+          const el = orbitRef.current;
+          if (!el) return;
+          const update = () =>
+            setSize({ width: el.clientWidth, height: el.clientHeight });
+          update();
+          const observer = new ResizeObserver(update);
+          observer.observe(el);
+          return () => observer.disconnect();
+        }, []);
+
+        useEffect(() => {
+          if (!autoRotate) return;
+          const timer = setInterval(() => {
+            setRotationAngle((prev) => Number(((prev + 0.25) % 360).toFixed(3)));
+          }, 50);
+          return () => clearInterval(timer);
+        }, [autoRotate]);
+
+        const getRelatedItems = useCallback(
+          (itemId) =>
+            (nodes.find((item) => item.id === itemId) || {}).relatedIds || [],
+          [nodes]
+        );
+
+        const centerViewOnNode = useCallback(
+          (nodeId) => {
+            const nodeIndex = nodes.findIndex((item) => item.id === nodeId);
+            if (nodeIndex < 0) return;
+            const targetAngle = (nodeIndex / nodes.length) * 360;
+            setRotationAngle((((270 - targetAngle) % 360) + 360) % 360);
+          },
+          [nodes]
+        );
+
+        const resetView = useCallback(() => {
+          setExpandedItems({});
+          setActiveNodeId(null);
+          setPulseEffect({});
+          setAutoRotate(true);
+          onNodeSelect && onNodeSelect(null);
+        }, [onNodeSelect]);
+
+        const toggleItem = useCallback(
+          (id) => {
+            const isOpening = !expandedItems[id];
+            setExpandedItems(isOpening ? { [id]: true } : {});
+
+            if (isOpening) {
+              setActiveNodeId(id);
+              setAutoRotate(false);
+              const newPulse = {};
+              getRelatedItems(id).forEach((relId) => {
+                newPulse[relId] = true;
+              });
+              setPulseEffect(newPulse);
+              centerViewOnNode(id);
+              onNodeSelect &&
+                onNodeSelect(nodes.find((item) => item.id === id) || null);
+            } else {
+              setActiveNodeId(null);
+              setAutoRotate(true);
+              setPulseEffect({});
+              onNodeSelect && onNodeSelect(null);
+            }
+          },
+          [centerViewOnNode, expandedItems, getRelatedItems, nodes, onNodeSelect]
+        );
+
+        const handleContainerClick = (e) => {
+          if (e.target === containerRef.current || e.target === orbitRef.current) {
+            resetView();
+          }
+        };
+
+        const calculateNodePosition = useCallback(
+          (index, total) => {
+            const angle = ((index / total) * 360 + rotationAngle) % 360;
+            const radian = (angle * Math.PI) / 180;
+            const x = radius * Math.cos(radian);
+            const y = radius * Math.sin(radian);
+            const zIndex = Math.round(100 + 50 * Math.cos(radian));
+            const opacity = Math.max(
+              0.45,
+              Math.min(1, 0.45 + 0.55 * ((1 + Math.sin(radian)) / 2))
+            );
+            return { x, y, angle, zIndex, opacity };
+          },
+          [radius, rotationAngle]
+        );
+
+        const positions = useMemo(
+          () =>
+            nodes.map((_, index) => calculateNodePosition(index, nodes.length)),
+          [calculateNodePosition, nodes]
+        );
+
+        const isRelatedToActive = (itemId) =>
+          activeNodeId !== null && getRelatedItems(activeNodeId).includes(itemId);
+
+        const links = useMemo(() => {
+          if (activeNodeId === null) return [];
+          const activeIndex = nodes.findIndex((item) => item.id === activeNodeId);
+          if (activeIndex < 0) return [];
+          const from = positions[activeIndex];
+          return getRelatedItems(activeNodeId)
+            .map((relId) => {
+              const relIndex = nodes.findIndex((item) => item.id === relId);
+              if (relIndex < 0) return null;
+              return { id: relId, from, to: positions[relIndex] };
+            })
+            .filter(Boolean);
+        }, [activeNodeId, getRelatedItems, nodes, positions]);
+
+        const summary = useMemo(() => {
+          const devices = nodes.reduce(
+            (acc, node) => acc + (node.devices || 0),
+            0
+          );
+          return {
+            devices,
+            active: nodes.filter((n) => n.status === "active").length,
+            alerts: nodes.filter((n) => n.status === "alert").length,
+            offline: nodes.filter((n) => n.status === "offline").length,
+          };
+        }, [nodes]);
+
+        const activeNode = nodes.find((n) => n.id === activeNodeId) || null;
+
+        return (
+          <div
+            ref={containerRef}
+            onClick={handleContainerClick}
+            className={cn(
+              "smart-home-scene relative flex h-screen w-full flex-col items-center justify-center overflow-hidden",
+              className
+            )}
+          >
+            <div className="smart-home-grid pointer-events-none absolute inset-0" />
+
+            <div className="pointer-events-none absolute left-0 right-0 top-0 z-[300] flex flex-col gap-1 p-5 sm:p-8">
+              <div className="flex items-center gap-2 text-white/90">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                <h1 className="text-sm font-semibold uppercase tracking-[0.25em]">
+                  {hubTitle}
+                </h1>
+              </div>
+              <p className="text-xs text-white/45">
+                {summary.devices} устройств · {summary.active} подсистем активно
+                {summary.alerts > 0
+                  ? ` · ${summary.alerts} требует внимания`
+                  : ""}
+              </p>
+            </div>
+
+            <div className="relative flex h-full w-full max-w-5xl items-center justify-center">
+              <div
+                ref={orbitRef}
+                className="absolute flex h-full w-full items-center justify-center"
+                style={{ perspective: "1200px" }}
+              >
+                {size.width > 0 && links.length > 0 && (
+                  <svg
+                    className="pointer-events-none absolute inset-0 h-full w-full"
+                    viewBox={`${-size.width / 2} ${-size.height / 2} ${
+                      size.width
+                    } ${size.height}`}
+                    style={{ zIndex: 90 }}
+                  >
+                    {links.map((link) => (
+                      <line
+                        key={link.id}
+                        x1={link.from.x}
+                        y1={link.from.y}
+                        x2={link.to.x}
+                        y2={link.to.y}
+                        stroke="rgba(255,255,255,0.35)"
+                        strokeWidth={1}
+                        strokeDasharray="4 8"
+                        className="animate-link-flow"
+                      />
+                    ))}
+                  </svg>
+                )}
+
+                <div
+                  className="absolute rounded-full border border-white/10"
+                  style={{ width: radius * 2, height: radius * 2 }}
+                />
+                <div
+                  className="absolute rounded-full border border-dashed border-white/[0.06]"
+                  style={{ width: radius * 2 + 56, height: radius * 2 + 56 }}
+                />
+
+                <div className="absolute z-10 flex h-20 w-20 items-center justify-center">
+                  <div className="absolute h-24 w-24 animate-ping rounded-full border border-white/15 opacity-60" />
+                  <div
+                    className="absolute h-28 w-28 animate-ping rounded-full border border-white/10 opacity-40"
+                    style={{ animationDelay: "0.6s" }}
+                  />
+                  <div className="absolute h-16 w-16 animate-hub-breathe rounded-full bg-gradient-to-br from-sky-400 via-indigo-500 to-emerald-400 opacity-90 blur-[2px]" />
+                  <div className="relative flex h-12 w-12 flex-col items-center justify-center rounded-full bg-slate-950/80 text-white ring-1 ring-white/25 backdrop-blur-md">
+                    <Cpu size={18} />
+                  </div>
+                  <div className="absolute -bottom-8 whitespace-nowrap text-[10px] uppercase tracking-[0.2em] text-white/40">
+                    {hubSubtitle}
+                  </div>
+                </div>
+
+                {nodes.map((item, index) => {
+                  const position = positions[index];
+                  const isExpanded = Boolean(expandedItems[item.id]);
+                  const isRelated = isRelatedToActive(item.id);
+                  const isPulsing = Boolean(pulseEffect[item.id]);
+                  const isDimmed =
+                    activeNodeId !== null && !isExpanded && !isRelated;
+                  const Icon = item.icon;
+                  const status = STATUS_META[item.status];
+                  const StatusIcon = status.icon;
+                  const glowSize = item.load * 0.5 + 46;
+
+                  return (
+                    <div
+                      key={item.id}
+                      ref={(el) => {
+                        nodeRefs.current[item.id] = el;
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={isExpanded}
+                      aria-label={`${item.title}: ${status.label.toLowerCase()}`}
+                      className="absolute cursor-pointer transition-all duration-700 focus:outline-none"
+                      style={{
+                        transform: `translate(${position.x}px, ${position.y}px)`,
+                        zIndex: isExpanded ? 250 : position.zIndex,
+                        opacity: isExpanded
+                          ? 1
+                          : isDimmed
+                          ? 0.3
+                          : position.opacity,
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleItem(item.id);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleItem(item.id);
+                        }
+                      }}
+                    >
+                      <div
+                        className={cn(
+                          "pointer-events-none absolute rounded-full",
+                          isPulsing && "animate-pulse"
+                        )}
+                        style={{
+                          background: `radial-gradient(circle, ${item.accent.from}40 0%, ${item.accent.to}00 70%)`,
+                          width: glowSize,
+                          height: glowSize,
+                          left: -(glowSize - 44) / 2,
+                          top: -(glowSize - 44) / 2,
+                        }}
+                      />
+
+                      <div
+                        className={cn(
+                          "relative flex h-11 w-11 items-center justify-center rounded-2xl border transition-all duration-300",
+                          isExpanded
+                            ? "scale-125 border-white/70 text-slate-950"
+                            : isRelated
+                            ? "border-white/60 text-white"
+                            : "border-white/20 text-white/80"
+                        )}
+                        style={{
+                          background: isExpanded
+                            ? `linear-gradient(135deg, ${item.accent.from}, ${item.accent.to})`
+                            : "rgba(8, 12, 20, 0.85)",
+                          boxShadow: isExpanded
+                            ? `0 0 28px ${item.accent.from}66`
+                            : isRelated
+                            ? `0 0 16px ${item.accent.from}55`
+                            : "none",
+                        }}
+                      >
+                        <Icon size={18} />
+                        <span
+                          className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-slate-950"
+                          style={{ background: status.dot }}
+                        />
+                      </div>
+
+                      <div
+                        className={cn(
+                          "absolute left-1/2 top-14 -translate-x-1/2 whitespace-nowrap text-[11px] font-medium tracking-wide transition-all duration-300",
+                          isExpanded ? "scale-110 text-white" : "text-white/60"
+                        )}
+                      >
+                        {item.title}
+                      </div>
+
+                      {isExpanded && (
+                        <Card
+                          onClick={(e) => e.stopPropagation()}
+                          className="absolute left-1/2 top-24 w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-visible border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-xl max-sm:fixed max-sm:inset-x-4 max-sm:bottom-6 max-sm:left-auto max-sm:top-auto max-sm:w-auto max-sm:max-w-none max-sm:translate-x-0"
+                        >
+                          <div className="absolute -top-3 left-1/2 h-3 w-px -translate-x-1/2 bg-white/30 max-sm:hidden" />
+                          <div
+                            className="absolute inset-x-0 -top-px h-px"
+                            style={{
+                              background: `linear-gradient(90deg, transparent, ${item.accent.from}, transparent)`,
+                            }}
+                          />
+                          <CardHeader className="space-y-2 p-4 pb-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <Badge
+                                className={cn(
+                                  "gap-1 px-2 py-0 text-[10px] tracking-wider",
+                                  status.badge
+                                )}
+                              >
+                                <StatusIcon size={10} />
+                                {status.label}
+                              </Badge>
+                              <span className="text-[10px] uppercase tracking-wider text-white/40">
+                                {item.zone}
+                              </span>
+                            </div>
+                            <CardTitle className="text-base font-semibold">
+                              {item.title}
+                            </CardTitle>
+                          </CardHeader>
+
+                          <CardContent className="p-4 pt-0 text-xs text-white/70">
+                            <p className="leading-relaxed">{item.content}</p>
+
+                            {item.metrics && item.metrics.length > 0 && (
+                              <div className="mt-3 grid grid-cols-2 gap-2">
+                                {item.metrics.map((metric) => {
+                                  const MetricIcon = metric.icon;
+                                  return (
+                                    <div
+                                      key={metric.label}
+                                      className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-2"
+                                    >
+                                      <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/40">
+                                        {MetricIcon && <MetricIcon size={10} />}
+                                        {metric.label}
+                                      </div>
+                                      <div className="mt-0.5 font-mono text-sm text-white">
+                                        {metric.value}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            <div className="mt-4 border-t border-white/10 pt-3">
+                              <div className="mb-1 flex items-center justify-between text-[11px]">
+                                <span className="text-white/50">
+                                  {item.loadLabel || "Нагрузка"}
+                                </span>
+                                <span className="font-mono text-white">
+                                  {item.load}%
+                                </span>
+                              </div>
+                              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                                <div
+                                  className="h-full rounded-full transition-all duration-700"
+                                  style={{
+                                    width: `${item.load}%`,
+                                    background: `linear-gradient(90deg, ${item.accent.from}, ${item.accent.to})`,
+                                  }}
+                                />
+                              </div>
+                            </div>
+
+                            {item.relatedIds.length > 0 && (
+                              <div className="mt-4 border-t border-white/10 pt-3">
+                                <div className="mb-2 flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/40">
+                                  <Link2 size={10} />
+                                  Связанные сценарии
+                                </div>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {item.relatedIds.map((relatedId) => {
+                                    const relatedItem = nodes.find(
+                                      (i) => i.id === relatedId
+                                    );
+                                    if (!relatedItem) return null;
+                                    return (
+                                      <Button
+                                        key={relatedId}
+                                        className="h-7 gap-1 rounded-full border-white/15 bg-white/[0.03] px-2.5 text-[11px] text-white/75 hover:bg-white/10 hover:text-white"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleItem(relatedId);
+                                        }}
+                                      >
+                                        {relatedItem.title}
+                                        <ArrowRight size={10} />
+                                      </Button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 z-[300] flex flex-wrap items-center justify-between gap-3 p-5 sm:p-8">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-white/45">
+                <span className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  активно {summary.active}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  внимание {summary.alerts}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                  не в сети {summary.offline}
+                </span>
+                {activeNode && (
+                  <span className="text-white/70">
+                    выбрано: {activeNode.title}
+                  </span>
+                )}
+              </div>
+
+              <Button
+                className="h-8 gap-1.5 rounded-full border-white/15 bg-white/[0.04] px-3 text-[11px] text-white/70 hover:bg-white/10 hover:text-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAutoRotate((prev) => !prev);
+                }}
+              >
+                {autoRotate ? <Pause size={12} /> : <Play size={12} />}
+                {autoRotate ? "Пауза" : "Вращать"}
+              </Button>
+            </div>
+          </div>
+        );
+      }
+
+      /* ---------- Данные умного дома ---------- */
+
+      const smartHomeNodes = [
+        {
+          id: 1,
+          title: "Микроклимат",
+          zone: "Гостиная · Спальня · Кабинет",
+          content:
+            "Держит 22 °C днём и опускает до 20 °C к 23:00. Тёплый пол включается, если температура падает ниже уставки на 0.5 °C.",
+          category: "Климат",
+          icon: Thermometer,
+          relatedIds: [3, 4, 8],
+          status: "active",
+          load: 64,
+          loadLabel: "Нагрузка контура",
+          devices: 9,
+          accent: { from: "#fb923c", to: "#f43f5e" },
+          metrics: [
+            { label: "Температура", value: "22.4 °C", icon: Thermometer },
+            { label: "Влажность", value: "41 %", icon: Droplets },
+            { label: "Тёплый пол", value: "27 °C", icon: Activity },
+            { label: "Режим", value: "Комфорт", icon: Sun },
+          ],
+        },
+        {
+          id: 2,
+          title: "Очиститель воздуха",
+          zone: "Детская · Гостиная",
+          content:
+            "Авторежим по PM2.5: разгоняется до 3-й скорости, когда частицы превышают 15 мкг/м³. Ресурс HEPA-фильтра подходит к концу.",
+          category: "Воздух",
+          icon: Wind,
+          relatedIds: [3, 4],
+          status: "alert",
+          load: 18,
+          loadLabel: "Ресурс HEPA-фильтра",
+          devices: 3,
+          accent: { from: "#22d3ee", to: "#34d399" },
+          metrics: [
+            { label: "PM2.5", value: "7 мкг/м³", icon: Leaf },
+            { label: "Скорость", value: "Авто · 2", icon: Gauge },
+            { label: "Наработка", value: "1 840 ч", icon: Timer },
+            { label: "Ночной режим", value: "Вкл", icon: Moon },
+          ],
+        },
+        {
+          id: 3,
+          title: "Вентиляция",
+          zone: "Квартира · Рекуператор",
+          content:
+            "Приток свежего воздуха с рекуперацией тепла. Разгоняется по CO₂: выше 900 ppm — принудительное проветривание.",
+          category: "Воздух",
+          icon: Fan,
+          relatedIds: [1, 2, 4],
+          status: "active",
+          load: 45,
+          loadLabel: "Производительность",
+          devices: 4,
+          accent: { from: "#38bdf8", to: "#818cf8" },
+          metrics: [
+            { label: "CO₂", value: "620 ppm", icon: Gauge },
+            { label: "Приток", value: "120 м³/ч", icon: Wind },
+            { label: "Рекуперация", value: "78 %", icon: Sparkles },
+            { label: "Фильтр G4", value: "62 %", icon: Timer },
+          ],
+        },
+        {
+          id: 4,
+          title: "Увлажнение",
+          zone: "Спальня · Детская",
+          content:
+            "Догоняет влажность до 45 % перед сном и уходит в тихий режим. Пауза, если работает приточная вентиляция на максимуме.",
+          category: "Климат",
+          icon: Droplets,
+          relatedIds: [1, 3],
+          status: "idle",
+          load: 72,
+          loadLabel: "Уровень воды",
+          devices: 2,
+          accent: { from: "#60a5fa", to: "#22d3ee" },
+          metrics: [
+            { label: "Влажность", value: "41 %", icon: Droplet },
+            { label: "Цель", value: "45 %", icon: Gauge },
+            { label: "Расход", value: "0.3 л/ч", icon: Waves },
+            { label: "Шум", value: "26 дБ", icon: Activity },
+          ],
+        },
+        {
+          id: 5,
+          title: "Освещение",
+          zone: "Все комнаты · 34 источника",
+          content:
+            "Сцена «Вечер»: тёплый свет 2700 K, подсветка кухни 30 %. После 23:00 коридор включается на 10 % по датчику движения.",
+          category: "Свет",
+          icon: Lightbulb,
+          relatedIds: [6, 7, 8],
+          status: "active",
+          load: 38,
+          loadLabel: "Яркость сцены",
+          devices: 34,
+          accent: { from: "#fbbf24", to: "#f472b6" },
+          metrics: [
+            { label: "Сцена", value: "Вечер", icon: Sparkles },
+            { label: "Температура", value: "2700 K", icon: Sun },
+            { label: "Включено", value: "12 / 34", icon: Lightbulb },
+            { label: "Потребление", value: "148 Вт", icon: Zap },
+          ],
+        },
+        {
+          id: 6,
+          title: "Шторы",
+          zone: "Гостиная · Спальня",
+          content:
+            "Открываются по восходу и закрываются, когда солнце греет окно сильнее 700 Вт/м² — снимает нагрузку с кондиционера.",
+          category: "Свет",
+          icon: Blinds,
+          relatedIds: [1, 5],
+          status: "active",
+          load: 70,
+          loadLabel: "Открыто",
+          devices: 5,
+          accent: { from: "#a3a3a3", to: "#e2e8f0" },
+          metrics: [
+            { label: "Положение", value: "70 %", icon: Blinds },
+            { label: "Освещённость", value: "540 лк", icon: Sun },
+            { label: "Закат", value: "21:14", icon: Timer },
+            { label: "Режим", value: "Солнце", icon: Sparkles },
+          ],
+        },
+        {
+          id: 7,
+          title: "Безопасность",
+          zone: "Прихожая · Периметр",
+          content:
+            "Охрана снята — дома есть люди. Камеры пишут по движению, умный замок закрыт, датчик протечки на кухне сухой.",
+          category: "Охрана",
+          icon: ShieldCheck,
+          relatedIds: [5],
+          status: "idle",
+          load: 96,
+          loadLabel: "Заряд датчиков",
+          devices: 16,
+          accent: { from: "#a78bfa", to: "#6366f1" },
+          metrics: [
+            { label: "Датчики", value: "12 онлайн", icon: Activity },
+            { label: "Камеры", value: "4 записи", icon: Camera },
+            { label: "Замок", value: "Закрыт", icon: Lock },
+            { label: "Протечка", value: "Сухо", icon: Waves },
+          ],
+        },
+        {
+          id: 8,
+          title: "Энергия",
+          zone: "Щиток · Ввод",
+          content:
+            "Считает потребление по подсистемам и переносит бойлер со стиральной машиной на ночной тариф после 23:00.",
+          category: "Энергия",
+          icon: Zap,
+          relatedIds: [1, 5, 6],
+          status: "active",
+          load: 27,
+          loadLabel: "Нагрузка сети",
+          devices: 6,
+          accent: { from: "#4ade80", to: "#facc15" },
+          metrics: [
+            { label: "Сейчас", value: "1.84 кВт", icon: Plug },
+            { label: "За сутки", value: "12.6 кВт·ч", icon: Gauge },
+            { label: "Тариф", value: "Ночной", icon: Moon },
+            { label: "Пик", value: "3.2 кВт", icon: Activity },
+          ],
+        },
+      ];
+
+      createRoot(document.getElementById("root")).render(
+        <SmartHomeOrbital
+          nodes={smartHomeNodes}
+          hubTitle="Умный дом"
+          hubSubtitle="Хаб · Vorthys"
+        />
+      );
+    </script>
+  </body>
+</html>

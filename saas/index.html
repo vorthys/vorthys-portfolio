@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hodina — tracked hours become EU invoices</title>
+<meta name="description" content="Time tracking that writes the invoice for you: reverse charge, OSS and Czech paušální daň handled before you hit send.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f8fa;
+  --card:#ffffff;
+  --ink:#0e1420;
+  --ink-2:#4a5568;
+  --blue:#1b3a6b;
+  --stamp:#ff5a1f;
+  --rule:#dfe3ea;
+  --shell:min(1200px, 100% - 3rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;line-height:1.02;letter-spacing:-.03em;font-weight:800}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+a{color:inherit}
+.shell{width:var(--shell);margin-inline:auto}
+button{font:inherit}
+
+/* nav */
+header{position:sticky;top:0;z-index:60;background:rgba(247,248,250,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.bar{display:flex;align-items:center;gap:2rem;padding:.85rem 0}
+.brand{display:flex;align-items:center;gap:.55rem;font-family:"Bricolage Grotesque";font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
+.brand i{width:12px;height:12px;background:var(--stamp);border-radius:2px;display:block;transform:rotate(12deg)}
+nav{margin-left:auto;display:flex;gap:1.6rem}
+nav a{text-decoration:none;font-size:.92rem;color:var(--ink-2)}
+nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:.45rem;background:var(--ink);color:#fff;border:0;border-radius:8px;padding:.7rem 1.15rem;font-size:.92rem;font-weight:600;text-decoration:none;cursor:pointer;transition:transform .15s,background .2s}
+.btn:hover{transform:translateY(-1px);background:var(--blue)}
+.btn--quiet{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.btn--quiet:hover{background:#fff}
+
+/* hero */
+.hero{padding:clamp(3rem,7vw,5.5rem) 0 clamp(2rem,4vw,3rem);position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 23px,rgba(27,58,107,.06) 23px 24px),
+    repeating-linear-gradient(90deg,transparent 0 23px,rgba(27,58,107,.06) 23px 24px);
+  mask-image:linear-gradient(180deg,#000,transparent 78%);
+}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:2.5rem;max-width:52rem}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem)}
+.hero h1 u{text-decoration:none;background:linear-gradient(180deg,transparent 62%,rgba(255,90,31,.28) 62%)}
+.hero p.lead{font-size:1.12rem;color:var(--ink-2);max-width:46ch;margin:1.35rem 0 1.9rem}
+.hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
+.hero-actions .note{font-size:.85rem;color:var(--ink-2)}
+
+/* signature: day timeline -> invoice */
+.machine{display:grid;grid-template-columns:1.25fr .95fr;gap:1.25rem;margin-top:clamp(2rem,4vw,3rem)}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:1.4rem}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:1.1rem}
+.panel-head .mono{color:var(--ink-2)}
+.hint{font-size:.82rem;color:var(--ink-2)}
+
+.day{display:flex;gap:4px;height:76px}
+.block{
+  position:relative;border:1px solid var(--rule);border-radius:8px;background:#eef1f6;cursor:pointer;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:.5rem;text-align:left;
+  transition:background .2s,border-color .2s,transform .15s;overflow:hidden;
+}
+.block:hover{transform:translateY(-2px)}
+.block[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.block[aria-pressed="true"] .b-h{color:rgba(255,255,255,.75)}
+.block .b-t{font-size:.78rem;font-weight:600;line-height:1.15}
+.block .b-h{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-2);margin-top:.15rem}
+.block.break{cursor:default;background:repeating-linear-gradient(45deg,#f1f3f7 0 6px,#e8ebf1 6px 12px);border-style:dashed}
+.block.break:hover{transform:none}
+.axis{display:flex;justify-content:space-between;margin-top:.5rem;font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-2)}
+
+.invoice{font-family:"IBM Plex Mono",monospace}
+.inv-rows{display:grid;gap:.5rem;min-height:132px;font-size:.78rem}
+.inv-row{display:flex;justify-content:space-between;gap:1rem;padding-bottom:.45rem;border-bottom:1px dashed var(--rule);animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.inv-empty{font-size:.8rem;color:var(--ink-2);font-family:Inter,sans-serif}
+.inv-total{margin-top:1rem;padding-top:.9rem;border-top:2px solid var(--ink);display:grid;gap:.35rem;font-size:.82rem}
+.inv-total div{display:flex;justify-content:space-between}
+.inv-total .grand{font-size:1.35rem;font-weight:600}
+.stamp{
+  display:inline-block;margin-top:1rem;border:2px solid var(--stamp);color:var(--stamp);
+  padding:.3rem .6rem;border-radius:4px;font-size:.66rem;letter-spacing:.12em;transform:rotate(-3deg);
+}
+
+/* sections */
+section{padding:clamp(3.5rem,7vw,6rem) 0}
+.section-head{max-width:44rem;margin-bottom:2.75rem}
+.section-head h2{font-size:clamp(1.9rem,4.2vw,3rem);margin-top:.9rem}
+.section-head p{color:var(--ink-2);margin:1rem 0 0}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.75rem}
+.col h3{font-size:1.15rem;margin-bottom:.5rem}
+.col p{color:var(--ink-2);font-size:.95rem;margin:0}
+.col .mono{color:var(--stamp);display:block;margin-bottom:.9rem}
+
+/* vat band */
+.vat{background:var(--ink);color:#fff}
+.vat h2{color:#fff}
+.vat p{color:rgba(255,255,255,.7)}
+.vat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:2.5rem}
+.vat-card{border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:1.25rem}
+.vat-card h3{font-size:1rem;margin-bottom:.45rem}
+.vat-card p{font-size:.9rem;margin:0}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.plan{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:1.6rem;display:flex;flex-direction:column;gap:1rem}
+.plan--main{border:2px solid var(--ink);position:relative}
+.plan--main::after{content:"Most freelancers pick this";position:absolute;top:-11px;left:1.4rem;background:var(--stamp);color:#fff;font-size:.68rem;letter-spacing:.06em;padding:.15rem .5rem;border-radius:4px}
+.plan .price{font-family:"Bricolage Grotesque";font-size:2.6rem;font-weight:800;letter-spacing:-.03em}
+.plan .price small{font-size:.9rem;font-weight:500;color:var(--ink-2);font-family:Inter}
+.plan ul{margin:0;padding-left:1.1rem;display:grid;gap:.4rem;font-size:.92rem;color:var(--ink-2)}
+.plan .btn{margin-top:auto;justify-content:center}
+
+/* faq */
+details{border-bottom:1px solid var(--rule);padding:1.05rem 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--stamp);font-family:"IBM Plex Mono",monospace}
+details[open] summary::after{content:"–"}
+details p{color:var(--ink-2);margin:.7rem 0 0;font-size:.95rem;max-width:62ch}
+
+footer{border-top:1px solid var(--rule);padding:2.5rem 0;font-size:.88rem;color:var(--ink-2)}
+.foot{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;align-items:center}
+.demo-note{border:1px dashed var(--rule);border-radius:6px;padding:.45rem .75rem;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase}
+
+@media (max-width:880px){
+  .machine{grid-template-columns:1fr}
+  nav{display:none}
+  /* the day stacks into rows: blocks keep their labels instead of squeezing */
+  .day{height:auto;flex-direction:column;gap:6px}
+  .block{flex:none !important;min-width:0;flex-direction:row;align-items:center;justify-content:space-between;gap:.75rem;padding:.65rem .8rem}
+  .block .b-h{margin-top:0;white-space:nowrap}
+  .block .b-t{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .axis{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}html{scroll-behavior:auto}}
+:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell bar">
+    <div class="brand"><i></i>Hodina</div>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#vat">EU VAT</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn" href="#pricing">Start free</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <p class="mono" style="color:var(--stamp);margin:0">Time tracking · Invoicing · EU VAT</p>
+        <h1 style="margin-top:1.1rem">Your Tuesday,<br><u>already invoiced</u>.</h1>
+        <p class="lead">Track the day once. Hodina turns the billable blocks into an invoice with the right VAT treatment — reverse charge for EU companies, plain zero-rate for the rest.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#pricing">Start free — 14 days</a>
+          <a class="btn btn--quiet" href="#how">See how it works</a>
+          <span class="note">No card. Export to Fakturoid or PDF.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="machine">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="mono">Tuesday, 28 July</p>
+            <p class="hint" style="margin:.35rem 0 0">Click a block to bill it — or unbill it.</p>
+          </div>
+          <div class="mono" id="dayTotal">0.00 h billable</div>
+        </div>
+
+        <div class="day" id="day">
+          <button class="block" style="flex:2" aria-pressed="true" data-task="Landing page — hero section" data-hours="2" data-rate="55"><span class="b-t">Hero section</span><span class="b-h">09:00 · 2h</span></button>
+          <button class="block" style="flex:1.5" aria-pressed="true" data-task="Client call — scope review" data-hours="1.5" data-rate="55"><span class="b-t">Client call</span><span class="b-h">11:00 · 1.5h</span></button>
+          <div class="block break" style="flex:1" aria-hidden="true"><span class="b-t">Lunch</span><span class="b-h">12:30 · 1h</span></div>
+          <button class="block" style="flex:2.5" aria-pressed="true" data-task="Responsive fixes — mobile breakpoints" data-hours="2.5" data-rate="55"><span class="b-t">Responsive fixes</span><span class="b-h">13:30 · 2.5h</span></button>
+          <button class="block" style="flex:1" aria-pressed="false" data-task="Admin — inbox and estimates" data-hours="1" data-rate="55"><span class="b-t">Admin</span><span class="b-h">16:00 · 1h</span></button>
+        </div>
+        <div class="axis"><span>09:00</span><span>12:00</span><span>15:00</span><span>17:00</span></div>
+      </div>
+
+      <div class="panel invoice">
+        <div class="panel-head">
+          <p class="mono">Invoice 2026-041 · draft</p>
+          <span class="mono" style="color:var(--ink-2)">EUR</span>
+        </div>
+        <div class="inv-rows" id="invRows"></div>
+        <div class="inv-total">
+          <div><span>Subtotal</span><span id="subtotal">€0.00</span></div>
+          <div><span>VAT (reverse charge)</span><span>€0.00</span></div>
+          <div class="grand"><span>Total</span><span id="grand">€0.00</span></div>
+        </div>
+        <div class="stamp">VAT reverse charged — Art. 196</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="shell">
+    <div class="section-head">
+      <p class="mono" style="color:var(--stamp)">How it works</p>
+      <h2>Three steps, none of them a spreadsheet</h2>
+      <p>Hodina sits between your calendar and your accountant. You keep working the way you already do.</p>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <span class="mono">Step one</span>
+        <h3>Track by project</h3>
+        <p>Start a timer, or drop a block onto the day afterwards. Rates live on the project, so you never retype them.</p>
+      </div>
+      <div class="col">
+        <span class="mono">Step two</span>
+        <h3>Pick what's billable</h3>
+        <p>Admin and breaks stay off the invoice unless you say otherwise. Every block keeps its own note for the line item.</p>
+      </div>
+      <div class="col">
+        <span class="mono">Step three</span>
+        <h3>Send, then forget</h3>
+        <p>Hodina fills in the VAT treatment from the client's country and VAT number, numbers the invoice, and emails it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vat" id="vat">
+  <div class="shell">
+    <div class="section-head">
+      <p class="mono" style="color:var(--stamp)">EU VAT</p>
+      <h2>The part everyone gets wrong</h2>
+      <p>Cross-border invoicing has three cases and one of them costs you money if you miss it. Hodina picks the case from the client record.</p>
+    </div>
+    <div class="vat-grid">
+      <div class="vat-card">
+        <h3>EU company with VAT ID</h3>
+        <p>Reverse charge, zero VAT on the invoice, the Art. 196 note printed automatically. The client accounts for it at home.</p>
+      </div>
+      <div class="vat-card">
+        <h3>Local client</h3>
+        <p>Domestic rate applies. If you're not registered, the invoice says so instead of quietly charging nothing.</p>
+      </div>
+      <div class="vat-card">
+        <h3>Outside the EU</h3>
+        <p>Out of scope, with the place-of-supply note your accountant expects to see on the document.</p>
+      </div>
+      <div class="vat-card">
+        <h3>Czech specifics</h3>
+        <p>Tracks the turnover threshold and flags the month you cross it, so registration isn't a surprise in April.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="shell">
+    <div class="section-head">
+      <p class="mono" style="color:var(--stamp)">Pricing</p>
+      <h2>Two plans. Both cheaper than one lost invoice.</h2>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Solo</h3>
+        <div class="price">€9 <small>/ month</small></div>
+        <ul>
+          <li>Unlimited projects and clients</li>
+          <li>Invoices in EUR, CZK, USD</li>
+          <li>Reverse charge handling</li>
+          <li>PDF and Fakturoid export</li>
+        </ul>
+        <a class="btn btn--quiet" href="#">Start free trial</a>
+      </div>
+      <div class="plan plan--main">
+        <h3>Studio</h3>
+        <div class="price">€19 <small>/ month</small></div>
+        <ul>
+          <li>Everything in Solo</li>
+          <li>Up to 5 people, shared rates</li>
+          <li>Recurring retainers</li>
+          <li>Payment reminders on day 7 and 14</li>
+          <li>Accountant access, read-only</li>
+        </ul>
+        <a class="btn" href="#">Start free trial</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="shell" style="max-width:min(820px,100% - 3rem)">
+    <div class="section-head">
+      <p class="mono" style="color:var(--stamp)">FAQ</p>
+      <h2>Questions we actually get</h2>
+    </div>
+    <details open>
+      <summary>Does this replace my accountant?</summary>
+      <p>No. It gives your accountant documents that don't need fixing — correct numbering, correct VAT note, one export per quarter.</p>
+    </details>
+    <details>
+      <summary>What if I forget to track a day?</summary>
+      <p>Add blocks after the fact. Hodina reads your calendar and suggests them, and you keep or drop each one.</p>
+    </details>
+    <details>
+      <summary>Can I invoice in CZK and get paid in EUR?</summary>
+      <p>Yes. The invoice carries both amounts and the ČNB rate for the date of supply, which is what the tax office asks for.</p>
+    </details>
+    <details>
+      <summary>What happens to my data if I leave?</summary>
+      <p>Export everything as CSV and PDF on the way out. No lock-in period, cancel from the billing page.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot">
+    <div class="brand" style="font-size:1rem"><i></i>Hodina</div>
+    <div class="demo-note">Demo project — fictional product</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const day = document.getElementById('day');
+  const rows = document.getElementById('invRows');
+  const subtotalEl = document.getElementById('subtotal');
+  const grandEl = document.getElementById('grand');
+  const dayTotalEl = document.getElementById('dayTotal');
+  const money = n => '€' + n.toFixed(2);
+
+  function render(){
+    const picked = [...day.querySelectorAll('.block[aria-pressed="true"]')];
+    rows.innerHTML = '';
+    let hours = 0, sum = 0;
+
+    if(!picked.length){
+      rows.innerHTML = '<p class="inv-empty">Nothing billed yet. Pick a block on the left and it lands here.</p>';
+    }
+
+    picked.forEach(b => {
+      const h = parseFloat(b.dataset.hours);
+      const rate = parseFloat(b.dataset.rate);
+      hours += h; sum += h * rate;
+      const row = document.createElement('div');
+      row.className = 'inv-row';
+      row.innerHTML = '<span>' + b.dataset.task + '<br><span style="color:var(--ink-2)">' + h.toFixed(1) + ' h × €' + rate + '</span></span><span>' + money(h * rate) + '</span>';
+      rows.appendChild(row);
+    });
+
+    subtotalEl.textContent = money(sum);
+    grandEl.textContent = money(sum);
+    dayTotalEl.textContent = hours.toFixed(2) + ' h billable';
+  }
+
+  day.addEventListener('click', e => {
+    const b = e.target.closest('.block[aria-pressed]');
+    if(!b) return;
+    b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
