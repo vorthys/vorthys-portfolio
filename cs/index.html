@@ -139,6 +139,31 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .step h3{font-size:1rem;margin-bottom:.4rem}
 .step p{margin:0;color:var(--ink-2);font-size:.9rem}
 
+.included{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+.inc h3{font-size:1rem;margin-bottom:.35rem;display:flex;align-items:center;gap:.5rem}
+.inc h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--amber);flex:none}
+.inc p{margin:0;color:var(--ink-2);font-size:.92rem}
+
+.compare{width:100%;border-collapse:collapse;font-size:.94rem;margin-top:.5rem}
+.compare th,.compare td{text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--line);vertical-align:top}
+.compare thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:400}
+.compare tbody tr:last-child td{border-bottom:0}
+.compare .us{background:var(--card)}
+.compare .us td:first-child{font-weight:600}
+.compare-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+
+.faq{display:grid;gap:0;max-width:62rem}
+.faq details{border-bottom:1px solid var(--line);padding:1.1rem 0}
+.faq summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:1.5rem;font-size:1.02rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--amber-deep);font-family:"JetBrains Mono",monospace}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:.7rem 0 0;color:var(--ink-2);font-size:.95rem;max-width:64ch}
+
+.offer{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:var(--paper);border-radius:16px;padding:1.15rem 1.4rem;margin-bottom:1.4rem}
+.offer p{margin:0;font-size:.95rem;color:rgba(244,243,239,.75);max-width:62ch}
+.offer b{color:var(--amber)}
+
 .rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1rem}
 .rate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;gap:.75rem}
 .rate--main{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
@@ -179,6 +204,7 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       <a href="#studio">Studio</a>
       <a href="#postup">Postup</a>
       <a href="#cenik">Ceník</a>
+      <a href="#faq">FAQ</a>
       <span class="lang"><a href="/">EN</a><a href="/cs/" aria-current="page">CS</a></span>
     </nav>
     <a class="btn" href="#kontakt">Poptat web</a>
@@ -372,16 +398,21 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       <h2>Ceník</h2>
       <span class="mono">Pevná cena · fakturujeme z ČR</span>
     </div>
+    <div class="offer">
+      <p>Rozjíždíme se, a tak první tři zakázky děláme se <b>slevou 30 %</b> — výměnou za referenci a svolení ukázat práci tady. Napište si o ni v poptávce.</p>
+      <a class="btn btn--amber" href="mailto:info@vorthys.eu?subject=Zaj%C3%ADm%C3%A1%20m%C4%9B%20sleva">Chci slevu</a>
+    </div>
+
     <div class="rates">
       <div class="rate">
         <h3>Jednostránkový web</h3>
-        <div class="amount">11 000 Kč</div>
+        <div class="amount">14 900 Kč</div>
         <ul><li>Jedna stránka, až 7 sekcí</li><li>Texty, responzivita, kontaktní formulář</li><li>5 pracovních dní, 2 kola úprav</li></ul>
         <a class="btn btn--line" href="#kontakt">Poptat jednostránku</a>
       </div>
       <div class="rate rate--main">
         <h3>Firemní web</h3>
-        <div class="amount">27 000 Kč</div>
+        <div class="amount">34 900 Kč</div>
         <ul><li>Až 6 stránek se sdílenými prvky</li><li>Galerie, rozvrh nebo ceník</li><li>10 pracovních dní, 3 kola úprav</li></ul>
         <a class="btn" href="#kontakt">Poptat firemní web</a>
       </div>
@@ -391,6 +422,128 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
         <ul><li>Rozbité rozložení, mobil, rychlost</li><li>Drobné funkce na stávajícím webu</li><li>Minimální objednávka 2 hodiny</li></ul>
         <a class="btn btn--line" href="#kontakt">Popsat problém</a>
       </div>
+      <div class="rate">
+        <h3>Správa webu</h3>
+        <div class="amount">990 Kč <small>/ měs</small></div>
+        <ul><li>Úpravy textů a fotek, hodina měsíčně</li><li>Hlídání dostupnosti a formulářů</li><li>Zrušíte kdykoli, bez závazku</li></ul>
+        <a class="btn btn--line" href="#kontakt">Poptat správu</a>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-2);font-size:.92rem;margin:1.4rem 0 0;max-width:66ch">
+      Cenu domluvíme předem a už se nemění — není to odhad, který během práce naroste. Platba je 50 % na začátku a 50 % při předání. Hosting a doménu platíte přímo vy, takže vám zůstávají v rukou; obvykle vyjdou na 0–150 Kč měsíčně.
+    </p>
+  </div>
+</section>
+
+<section id="vcene">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>V ceně každé zakázky</h2>
+      <span class="mono">Žádné položky navíc</span>
+    </div>
+    <div class="included">
+      <div class="inc">
+        <h3>Responzivita</h3>
+        <p>Otestováno na telefonu, tabletu i počítači před předáním — ne „mělo by fungovat“, ale otevřeno a zkontrolováno.</p>
+      </div>
+      <div class="inc">
+        <h3>Technické SEO</h3>
+        <p>Titulky, popisky, struktura nadpisů, náhled pro sdílení, sitemap a robots.txt. Odkaz na váš web vypadá dobře i ve zprávě.</p>
+      </div>
+      <div class="inc">
+        <h3>Rychlost</h3>
+        <p>Komprimované obrázky, žádné zbytečné knihovny, správně načtená písma. Ukázky na tomto webu se načtou pod jednu sekundu.</p>
+      </div>
+      <div class="inc">
+        <h3>Zdrojové soubory</h3>
+        <p>Web je váš včetně kódu. Žádná uzavřená stavebnice, ze které byste se museli vykupovat.</p>
+      </div>
+      <div class="inc">
+        <h3>Návod k úpravám</h3>
+        <p>Krátký písemný návod, kde přesně měnit texty, ceny nebo fotky, které budete chtít měnit sami.</p>
+      </div>
+      <div class="inc">
+        <h3>Dvě kola úprav</h3>
+        <p>Jsou v ceně, neúčtujeme je zvlášť. Většina zakázek vyčerpá jedno a půl.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="srovnani">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>Čtyři způsoby, jak přijít k webu</h2>
+      <span class="mono">Poctivé srovnání</span>
+    </div>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr><th>Cesta</th><th>Obvyklá cena</th><th>Čas</th><th>Kde to bolí</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Poskládat si to sám ve Wixu nebo Squarespace</td>
+            <td>400–700 Kč měsíčně, napořád</td>
+            <td>Víkend a pak večery</td>
+            <td>Vypadá jako šablona, ze které vznikl. Za vlastní web platíte nájem a nevezmete si ho s sebou.</td>
+          </tr>
+          <tr>
+            <td>Koupit šablonu a upravit ji</td>
+            <td>1 500 Kč jednorázově + váš čas</td>
+            <td>1–2 týdny piplání</td>
+            <td>Levné, dokud se něco nerozbije. Hromada pluginů web zpomalí a aktualizace rozhodí rozvržení.</td>
+          </tr>
+          <tr class="us">
+            <td>Malé studio (my)</td>
+            <td>14 900–34 900 Kč jednorázově</td>
+            <td>5–10 pracovních dní</td>
+            <td>Vyšší vstupní cena než šablona. A neděláme e-shopy napojené na sklad.</td>
+          </tr>
+          <tr>
+            <td>Plnohodnotná agentura</td>
+            <td>80 000–200 000 Kč</td>
+            <td>1–3 měsíce</td>
+            <td>Mezi vámi a prací stojí account manager. Nad určitou velikostí se to vyplatí, pod ní platíte režii.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>Na co se lidé ptají</h2>
+      <span class="mono">Než napíšete</span>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Co cenu zvedá nahoru?</summary>
+        <p>Tři věci, v tomto pořadí: kolik textu je potřeba napsat od nuly, kolik stránek sdílí stejné rozvržení a jestli se má web s něčím propojit — rezervačním kalendářem, platební bránou, CRM. Složitost designu hraje mnohem menší roli, než se čeká.</p>
+      </details>
+      <details>
+        <summary>Co když směr nebude podle mých představ?</summary>
+        <p>Právě proto uvidíte úvodní obrazovku a jednu sekci dřív, než vznikne cokoli dalšího. Když směr nesedí, změníme ho tam — rychle a levně. Drahé je předělávat hotovou stránku, takže takhle nepracujeme.</p>
+      </details>
+      <details>
+        <summary>Kdo platí hosting a doménu?</summary>
+        <p>Vy, přímo, a účty zůstanou na vaše jméno. Statický web jako ukázky tady se dá hostovat zdarma, doména stojí zhruba 250 Kč ročně. Je lepší, když klíče od svého webu držíte vy, než abyste o přístup museli žádat nás.</p>
+      </details>
+      <details>
+        <summary>Zvládnu si texty upravovat sám?</summary>
+        <p>Ano. Při předání dostanete krátký návod, který ukazuje přesně ty řádky, kde se mění ceny, otevírací doba nebo fotky. Pokud se do toho nechcete pouštět, drobné úpravy pokrývá měsíční správa.</p>
+      </details>
+      <details>
+        <summary>Děláte e-shopy nebo weby na WordPressu?</summary>
+        <p>Není to naše silná stránka a raději to řekneme rovnou. Stavíme rychlé prezentační weby, jednostránkové kampaně a dashboardy. Na e-shop se skladem a fakturací je lepší Shopify se specialistou — rádi vám ho doporučíme.</p>
+      </details>
+      <details>
+        <summary>Jak probíhá platba?</summary>
+        <p>Polovina na začátku, polovina při předání. Fakturujeme z ČR, u firem z EU s přenesenou daňovou povinností. Žádný měsíční poplatek, pokud si nevezmete správu webu.</p>
+      </details>
     </div>
   </div>
 </section>

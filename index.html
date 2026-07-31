@@ -163,6 +163,32 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .step h3{font-size:1rem;margin-bottom:.4rem}
 .step p{margin:0;color:var(--ink-2);font-size:.9rem}
 
+/* ---------- included / comparison / faq ---------- */
+.included{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+.inc h3{font-size:1rem;margin-bottom:.35rem;display:flex;align-items:center;gap:.5rem}
+.inc h3::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--amber);flex:none}
+.inc p{margin:0;color:var(--ink-2);font-size:.92rem}
+
+.compare{width:100%;border-collapse:collapse;font-size:.94rem;margin-top:.5rem}
+.compare th,.compare td{text-align:left;padding:.85rem 1rem;border-bottom:1px solid var(--line);vertical-align:top}
+.compare thead th{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:400}
+.compare tbody tr:last-child td{border-bottom:0}
+.compare .us{background:var(--card)}
+.compare .us td:first-child{font-weight:600}
+.compare-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+
+.faq{display:grid;gap:0;max-width:62rem}
+.faq details{border-bottom:1px solid var(--line);padding:1.1rem 0}
+.faq summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:1.5rem;font-size:1.02rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--amber-deep);font-family:"JetBrains Mono",monospace}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:.7rem 0 0;color:var(--ink-2);font-size:.95rem;max-width:64ch}
+
+.offer{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:var(--paper);border-radius:16px;padding:1.15rem 1.4rem;margin-bottom:1.4rem}
+.offer p{margin:0;font-size:.95rem;color:rgba(244,243,239,.75);max-width:62ch}
+.offer b{color:var(--amber)}
+
 /* ---------- rates ---------- */
 .rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1rem}
 .rate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;gap:.75rem}
@@ -205,6 +231,7 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       <a href="#studio">Studio</a>
       <a href="#process">Process</a>
       <a href="#rates">Rates</a>
+      <a href="#faq">FAQ</a>
       <span class="lang"><a href="/" aria-current="page">EN</a><a href="/cs/">CS</a></span>
     </nav>
     <a class="btn" href="#contact">Start a project</a>
@@ -402,16 +429,21 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       <h2>Rates</h2>
       <span class="mono">Fixed price · invoiced from Czechia</span>
     </div>
+    <div class="offer">
+      <p>Starting out on the EU market, so the first three projects go out at <b>30 % off</b> — in exchange for a review and permission to show the work here. Ask about it when you write.</p>
+      <a class="btn btn--amber" href="mailto:info@vorthys.eu?subject=Launch%20offer">Claim the offer</a>
+    </div>
+
     <div class="rates">
       <div class="rate">
         <h3>Landing page</h3>
-        <div class="amount">€450</div>
+        <div class="amount">€590</div>
         <ul><li>One page, up to 7 sections</li><li>Copy polish, responsive, contact form</li><li>5 working days, 2 revision rounds</li></ul>
         <a class="btn btn--line" href="#contact">Ask about a landing</a>
       </div>
       <div class="rate rate--main">
         <h3>Business site</h3>
-        <div class="amount">€1 100</div>
+        <div class="amount">€1 390</div>
         <ul><li>Up to 6 pages, shared components</li><li>Gallery, schedule or price list</li><li>10 working days, 3 revision rounds</li></ul>
         <a class="btn" href="#contact">Ask about a site</a>
       </div>
@@ -421,6 +453,128 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
         <ul><li>Layout, responsive and speed fixes</li><li>Small features on an existing site</li><li>Minimum booking: 2 hours</li></ul>
         <a class="btn btn--line" href="#contact">Send the problem</a>
       </div>
+      <div class="rate">
+        <h3>Care plan</h3>
+        <div class="amount">€39 <small>/ month</small></div>
+        <ul><li>Text and image edits, up to an hour a month</li><li>Uptime and form checks</li><li>Cancel any month, no lock-in</li></ul>
+        <a class="btn btn--line" href="#contact">Ask about care</a>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-2);font-size:.92rem;margin:1.4rem 0 0;max-width:66ch">
+      Fixed price, agreed before we start — not an estimate that grows. Payment is split 50 % up front and 50 % on handover. Hosting and domain are paid directly by you, so you keep the keys; typical cost is €0–5 a month.
+    </p>
+  </div>
+</section>
+
+<section id="included">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>In every project</h2>
+      <span class="mono">No line items appear later</span>
+    </div>
+    <div class="included">
+      <div class="inc">
+        <h3>Responsive layout</h3>
+        <p>Tested on a phone, a tablet and a desktop before delivery — not "should work", but opened and checked.</p>
+      </div>
+      <div class="inc">
+        <h3>Technical SEO</h3>
+        <p>Titles, meta descriptions, heading structure, Open Graph preview, sitemap and robots.txt. Your link looks right when shared.</p>
+      </div>
+      <div class="inc">
+        <h3>Speed work</h3>
+        <p>Compressed images, no framework bloat, fonts loaded properly. Our demo pages sit under one second on a normal connection.</p>
+      </div>
+      <div class="inc">
+        <h3>Source files</h3>
+        <p>The site is yours, including the code. No proprietary builder you'd have to pay us to escape from.</p>
+      </div>
+      <div class="inc">
+        <h3>Editing handover</h3>
+        <p>A short written note showing exactly where to change the text, prices or photos you'll want to change yourself.</p>
+      </div>
+      <div class="inc">
+        <h3>Two revision rounds</h3>
+        <p>Included in the price, not billed extra. Most projects use one and a half.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>Four ways to get a website</h2>
+      <span class="mono">Honest comparison</span>
+    </div>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr><th>Route</th><th>Typical cost</th><th>Time</th><th>Where it hurts</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Build it yourself on Wix or Squarespace</td>
+            <td>€15–30 / month, forever</td>
+            <td>A weekend, then evenings</td>
+            <td>Looks like the template it came from; you pay rent for your own site and can't take it with you.</td>
+          </tr>
+          <tr>
+            <td>Buy a theme and adapt it</td>
+            <td>€60 once + your time</td>
+            <td>1–2 weeks of fiddling</td>
+            <td>Cheap until something breaks. Plugin stacks slow the page down and updates break the layout.</td>
+          </tr>
+          <tr class="us">
+            <td>Small studio (us)</td>
+            <td>€590–1 390 once</td>
+            <td>5–10 working days</td>
+            <td>Bigger up-front cost than a template, and we don't do e-shops with warehouse integration.</td>
+          </tr>
+          <tr>
+            <td>Full agency</td>
+            <td>€3 000–8 000</td>
+            <td>1–3 months</td>
+            <td>Account managers between you and the work. Worth it above a certain size — below it, you fund the overhead.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="shell">
+    <div class="sec-head">
+      <h2>Questions we actually get</h2>
+      <span class="mono">Before you write</span>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>What makes the price go up?</summary>
+        <p>Three things, in order: how much text has to be written from scratch, how many pages share a layout, and whether anything has to talk to another system — a booking calendar, a payment gateway, a CRM. Design complexity matters far less than people expect.</p>
+      </details>
+      <details>
+        <summary>What if the direction isn't what I imagined?</summary>
+        <p>That's why you see the hero section and one more block before anything else gets built. If the direction is wrong, we change it there — cheap and quick. Rebuilding a finished page is what gets expensive, so we don't work that way.</p>
+      </details>
+      <details>
+        <summary>Who pays for hosting and the domain?</summary>
+        <p>You do, directly, and the accounts stay in your name. A static site like the demos here can be hosted free, and a domain runs about €10 a year. We'd rather you keep control than have to ask us for access later.</p>
+      </details>
+      <details>
+        <summary>Can I edit the text myself afterwards?</summary>
+        <p>Yes. On handover you get a short note pointing at exactly the lines to change for prices, opening hours or photos. If you'd rather not touch it at all, the care plan covers small edits every month.</p>
+      </details>
+      <details>
+        <summary>Do you build e-shops or WordPress sites?</summary>
+        <p>Not our strong suit, and we'd rather say so. We build fast presentation sites, landing pages and dashboards. For a shop with stock and invoicing, Shopify plus a specialist beats anything we'd hand-code — we can point you to one.</p>
+      </details>
+      <details>
+        <summary>How does payment work?</summary>
+        <p>Half at the start, half on handover, invoiced from Czechia with the right VAT treatment for EU companies. No monthly fee unless you take the care plan.</p>
+      </details>
     </div>
   </div>
 </section>
