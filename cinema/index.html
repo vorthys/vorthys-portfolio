@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinematic hero — Vorthys</title>
+<meta name="description" content="Full-viewport streaming hero: background video, bottom-masked blur, liquid glass controls and staggered blur-fade-up entrances.">
+
+<link rel="icon" href="../brand/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cinematic hero — Vorthys">
+<meta property="og:description" content="Background video, masked blur, liquid glass UI. React + Tailwind + lucide.">
+<meta property="og:url" content="https://vorthys.eu/cinema/">
+<meta property="og:image" content="https://vorthys.eu/brand/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vorthys.eu/brand/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  /* Bottom-only blur: no darkening, the mask fades the blur out toward the middle */
+  .bottom-blur {
+    -webkit-mask-image: linear-gradient(to top, black 0%, transparent 45%);
+    mask-image: linear-gradient(to top, black 0%, transparent 45%);
+  }
+
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.01);
+    background-blend-mode: luminosity;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.15) 80%,
+      rgba(255, 255, 255, 0.45) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @keyframes blurFadeUp {
+    from { opacity: 0; filter: blur(20px); transform: translateY(40px); }
+    to   { opacity: 1; filter: blur(0);    transform: translateY(0); }
+  }
+  .animate-blur-fade-up {
+    opacity: 0;
+    animation: blurFadeUp 1s ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blur-fade-up { animation-duration: .01ms; opacity: 1; }
+    * { transition-duration: .01ms !important; }
+  }
+</style>
+
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/": "https://esm.sh/react@18.3.1/",
+    "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react",
+    "lucide-react": "https://esm.sh/lucide-react@0.446.0?external=react"
+  }
+}
+</script>
+<script src="https://unpkg.com/@babel/standalone@7.25.7/babel.min.js"></script>
+</head>
+<body class="bg-black">
+  <div id="root"></div>
+
+<script type="text/babel" data-type="module" data-presets="react">
+import React, { useCallback, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import {
+  Calendar, ChevronLeft, ChevronRight, Clock, Menu, Play, Search, Star, User, X,
+} from "lucide-react";
+
+const VIDEO_SRC =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_094145_4a271a6c-3869-4f1c-8aa7-aeb0cb227994.mp4";
+
+const NAV_LINKS = ["Movies", "TV Series", "Editor's Pick", "Interviews", "User Reviews"];
+
+const SLIDES = [
+  {
+    title: "Step Through. Work Smarter.",
+    description: "A voyage through forgotten realms, where past and future intertwine.",
+    rating: "8.7/10 IMDB",
+    runtime: "132 min",
+    released: "April, 2025",
+  },
+  {
+    title: "The Long Silence.",
+    description: "Two weeks of radio silence from the station, and one engineer who refuses to sign it off.",
+    rating: "8.2/10 IMDB",
+    runtime: "118 min",
+    released: "October, 2025",
+  },
+  {
+    title: "Harbour Lights.",
+    description: "A port town wakes to find every clock stopped at the same hour.",
+    rating: "7.9/10 IMDB",
+    runtime: "104 min",
+    released: "January, 2026",
+  },
+];
+
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [index, setIndex] = useState(0);
+  const slide = SLIDES[index];
+
+  const go = useCallback((step) => {
+    setIndex((prev) => (prev + step + SLIDES.length) % SLIDES.length);
+  }, []);
+
+  // arrow keys move between titles, same as the on-screen pills
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go]);
+
+  return (
+    <div className="relative h-full w-full overflow-hidden bg-black text-white">
+      {/* background video */}
+      <video
+        className="fixed inset-0 z-0 h-full w-full object-cover"
+        src={VIDEO_SRC}
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden="true"
+      />
+
+      {/* bottom-only blur, no darkening */}
+      <div className="bottom-blur pointer-events-none fixed inset-0 z-[1] backdrop-blur-xl" />
+
+      <div className="relative z-10 flex h-full flex-col">
+        {/* navbar */}
+        <nav className="relative z-50 flex items-center justify-between px-4 py-4 sm:px-6 md:px-12 md:py-6">
+          <a
+            href="/"
+            className="animate-blur-fade-up flex h-8 items-center text-lg font-semibold tracking-[0.28em] md:h-10 md:text-xl"
+            style={{ animationDelay: "0ms" }}
+          >
+            CINEMATIC
+          </a>
+
+          <div className="hidden items-center gap-8 lg:flex">
+            {NAV_LINKS.map((link, i) => (
+              <a
+                key={link}
+                href="#"
+                className="animate-blur-fade-up text-sm transition-colors hover:text-gray-300"
+                style={{ animationDelay: `${100 + i * 50}ms` }}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              className="liquid-glass animate-blur-fade-up hidden items-center gap-2 rounded-full px-4 py-2 text-sm transition-opacity hover:opacity-80 sm:flex md:px-6"
+              style={{ animationDelay: "350ms" }}
+            >
+              Search
+              <Search size={18} />
+            </button>
+
+            <button
+              aria-label="Account"
+              className="liquid-glass animate-blur-fade-up hidden h-10 w-10 items-center justify-center rounded-full transition-opacity hover:opacity-80 sm:flex"
+              style={{ animationDelay: "400ms" }}
+            >
+              <User size={18} />
+            </button>
+
+            <button
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+              className="liquid-glass animate-blur-fade-up flex h-10 w-10 items-center justify-center rounded-full lg:hidden"
+              style={{ animationDelay: "350ms" }}
+            >
+              <span className="relative flex h-[18px] w-[18px] items-center justify-center">
+                <Menu
+                  size={18}
+                  className={`absolute transition-all duration-500 ease-out ${
+                    menuOpen ? "rotate-180 scale-50 opacity-0" : "rotate-0 scale-100 opacity-100"
+                  }`}
+                />
+                <X
+                  size={18}
+                  className={`absolute transition-all duration-500 ease-out ${
+                    menuOpen ? "rotate-0 scale-100 opacity-100" : "rotate-180 scale-50 opacity-0"
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
+        </nav>
+
+        {/* mobile menu */}
+        <div
+          className={`absolute left-0 right-0 top-[72px] z-40 border-b border-t border-gray-800 bg-gray-900/95 shadow-2xl backdrop-blur-lg transition-all duration-500 ease-out lg:hidden ${
+            menuOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
+          }`}
+        >
+          <div className="flex flex-col px-4 py-3 sm:px-6">
+            {NAV_LINKS.map((link, i) => (
+              <a
+                key={link}
+                href="#"
+                onClick={() => setMenuOpen(false)}
+                className={`rounded-lg px-3 py-3 text-sm transition-all duration-500 ease-out hover:bg-gray-800/50 ${
+                  menuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                }`}
+                style={{ transitionDelay: menuOpen ? `${i * 50}ms` : "0ms" }}
+              >
+                {link}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3 border-t border-gray-800 px-4 py-4 sm:hidden">
+            <button className="liquid-glass flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm">
+              Search
+              <Search size={18} />
+            </button>
+            <button
+              aria-label="Account"
+              className="liquid-glass flex h-10 w-10 items-center justify-center rounded-full"
+            >
+              <User size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* hero content */}
+        <div className="z-10 flex flex-1 flex-col justify-end px-4 pb-8 sm:px-6 md:px-12 md:pb-16">
+          <div key={index} className="flex flex-col items-end gap-8 md:flex-row">
+            <div className="flex-1">
+              <div
+                className="animate-blur-fade-up mb-6 flex flex-wrap items-center gap-3 text-xs sm:gap-6 sm:text-sm md:mb-8"
+                style={{ animationDelay: "300ms" }}
+              >
+                <span className="flex items-center gap-2">
+                  <Star size={16} className="fill-white sm:h-5 sm:w-5" />
+                  <span className="font-medium">{slide.rating}</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <Clock size={16} className="sm:h-5 sm:w-5" />
+                  {slide.runtime}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Calendar size={16} className="sm:h-5 sm:w-5" />
+                  {slide.released}
+                </span>
+              </div>
+
+              <h1
+                className="animate-blur-fade-up mb-4 text-3xl font-normal sm:text-5xl md:mb-6 md:text-6xl lg:text-7xl"
+                style={{ animationDelay: "400ms", letterSpacing: "-0.04em" }}
+              >
+                {slide.title}
+              </h1>
+
+              <p
+                className="animate-blur-fade-up mb-6 max-w-2xl text-base text-gray-400 sm:text-lg md:mb-12 md:text-xl"
+                style={{ animationDelay: "500ms" }}
+              >
+                {slide.description}
+              </p>
+
+              <div className="flex flex-wrap gap-3 sm:gap-4">
+                <button
+                  className="animate-blur-fade-up flex items-center gap-2 rounded-full bg-white px-6 py-2.5 font-medium text-black transition-colors hover:bg-gray-200 sm:px-8 sm:py-3"
+                  style={{ animationDelay: "600ms" }}
+                >
+                  <Play size={18} className="fill-black" />
+                  Watch Now
+                </button>
+                <button
+                  className="liquid-glass animate-blur-fade-up rounded-full px-6 py-2.5 font-medium transition-opacity hover:opacity-80 sm:px-8 sm:py-3"
+                  style={{ animationDelay: "700ms" }}
+                >
+                  Learn More
+                </button>
+              </div>
+            </div>
+
+            <div className="flex w-full items-center gap-3 md:w-auto md:justify-end">
+              <button
+                onClick={() => go(-1)}
+                className="liquid-glass animate-blur-fade-up flex items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-opacity hover:opacity-80 sm:px-6 sm:py-3"
+                style={{ animationDelay: "800ms" }}
+              >
+                <ChevronLeft size={18} />
+                Previous
+              </button>
+              <button
+                onClick={() => go(1)}
+                className="liquid-glass animate-blur-fade-up flex items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-opacity hover:opacity-80 sm:px-6 sm:py-3"
+                style={{ animationDelay: "900ms" }}
+              >
+                Next
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* slide indicator */}
+          <div className="mt-6 flex items-center gap-2 md:mt-8">
+            {SLIDES.map((s, i) => (
+              <button
+                key={s.title}
+                onClick={() => setIndex(i)}
+                aria-label={`Show ${s.title}`}
+                aria-current={i === index}
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  i === index ? "w-8 bg-white" : "w-4 bg-white/30 hover:bg-white/60"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

@@ -130,6 +130,15 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .t-fitness .t-col:nth-child(3){background:#2b2a6b}
 .t-fitness .t-label{color:#2b2a6b}
 
+.t-cinema{background:linear-gradient(180deg,#1a1c22 0%,#0a0b0e 100%);justify-content:flex-end;position:relative}
+.t-cinema .t-bar{background:rgba(255,255,255,.5);opacity:1;width:38%}
+.t-cinema .t-title{background:rgba(255,255,255,.92);height:26px;width:72%}
+.t-cinema .pills{display:flex;gap:6px;margin-top:2px}
+.t-cinema .pill{height:20px;border-radius:99px;background:rgba(255,255,255,.14);box-shadow:inset 0 1px 1px rgba(255,255,255,.25)}
+.t-cinema .pill.solid{background:#fff}
+.t-cinema .glow{position:absolute;inset:auto 0 0 0;height:58%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.07));backdrop-filter:blur(2px)}
+.t-cinema .t-label{color:rgba(255,255,255,.75)}
+
 .t-smart{background:#05070c;align-items:center;justify-content:center}
 .t-smart .orbit{width:132px;height:132px;border-radius:50%;border:1px solid rgba(255,255,255,.16);position:relative}
 .t-smart .orbit::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#6366f1,#34d399)}
@@ -369,6 +378,26 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
           <h3>Dashboard, orbital layout</h3>
           <p>Eight home subsystems orbit the hub: live metrics, status states, scenario links drawn between related nodes.</p>
           <div class="tags"><span class="tag">React + Tailwind</span><span class="tag">Data UI</span><span class="tag">Animation</span></div>
+          <span class="open">Open demo</span>
+        </div>
+      </a>
+
+      <a class="case" href="cinema/index.html">
+        <div class="thumb t-cinema">
+          <span class="glow"></span>
+          <div class="t-bar"></div>
+          <div class="t-title"></div>
+          <div class="pills">
+            <span class="pill solid" style="width:78px"></span>
+            <span class="pill" style="width:86px"></span>
+            <span class="pill" style="width:34px;margin-left:auto"></span>
+          </div>
+          <span class="t-label">Streaming</span>
+        </div>
+        <div class="case-body">
+          <h3>Cinematic hero, video background</h3>
+          <p>Full-viewport hero with looping video, a blur that only touches the bottom edge, liquid-glass controls and every element arriving on its own delay.</p>
+          <div class="tags"><span class="tag">Video</span><span class="tag">Liquid glass</span><span class="tag">Motion</span></div>
           <span class="open">Open demo</span>
         </div>
       </a>
