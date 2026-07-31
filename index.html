@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vorthys — web design &amp; front-end, Prague</title>
 <meta name="description" content="Landing pages, small business sites and dashboards. Hand-built, fast, responsive. Five live demos inside.">
+
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="brand/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vorthys — web design &amp; front-end, Prague">
+<meta property="og:description" content="Landing pages, small business sites and dashboards. Hand-built, fast, responsive. Five live demos inside.">
+<meta property="og:url" content="https://vorthys.github.io/vorthys-portfolio/">
+<meta property="og:image" content="https://vorthys.github.io/vorthys-portfolio/brand/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vorthys — web design &amp; front-end, Prague">
+<meta name="twitter:description" content="Landing pages, small business sites and dashboards. Five live demos inside.">
+<meta name="twitter:image" content="https://vorthys.github.io/vorthys-portfolio/brand/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=latin-ext" rel="stylesheet">
@@ -28,7 +45,8 @@ a{color:inherit}
 
 header{padding:1.5rem 0;position:sticky;top:0;background:rgba(233,232,228,.88);backdrop-filter:blur(8px);z-index:50}
 .bar{display:flex;align-items:center;gap:2rem}
-.brand{font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+.brand{display:flex;align-items:center;gap:.55rem;font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;flex:none}
 .brand i{font-style:normal;color:var(--muted)}
 nav{margin-left:auto;display:flex;gap:1.5rem}
 nav a{text-decoration:none;font-size:.92rem;color:var(--muted)}
@@ -123,7 +141,10 @@ footer{padding:2.5rem 0 3.5rem;color:var(--muted);font-size:.86rem}
 
 <header>
   <div class="shell bar">
-    <div class="brand">Vorthys <i>— web &amp; front-end</i></div>
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="currentColor"/><path d="M42 8h16L38 58h-8l12-50z" fill="#e0a800"/></svg>
+      Vorthys <i>— web &amp; front-end</i>
+    </div>
     <nav>
       <a href="#work">Work</a>
       <a href="#services">Services</a>
