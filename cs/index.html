@@ -160,9 +160,33 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .faq details[open] summary::after{content:"–"}
 .faq p{margin:.7rem 0 0;color:var(--ink-2);font-size:.95rem;max-width:64ch}
 
-.offer{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:var(--paper);border-radius:16px;padding:1.15rem 1.4rem;margin-bottom:1.4rem}
-.offer p{margin:0;font-size:.95rem;color:rgba(244,243,239,.75);max-width:62ch}
+.offer{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:var(--paper);border-radius:18px;padding:1.4rem 1.6rem;margin-bottom:1.4rem;position:relative;overflow:hidden}
+.offer::after{content:"";position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.2),transparent 70%)}
+.offer p{margin:0;font-size:.95rem;color:rgba(244,243,239,.72);max-width:56ch;position:relative}
 .offer b{color:var(--amber)}
+.offer-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;position:relative}
+.offer-head h3{font-size:1.15rem}
+.slots{display:flex;gap:.3rem}
+.slot-dot{width:11px;height:11px;border-radius:3px;background:var(--amber);display:block}
+.offer .side{position:relative;display:grid;gap:.5rem;justify-items:end}
+.offer .side small{color:rgba(244,243,239,.45);font-size:.78rem}
+
+.form{display:grid;gap:.85rem}
+.form label{display:grid;gap:.3rem;font-size:.85rem;color:rgba(244,243,239,.7)}
+.form input,.form select,.form textarea{
+  font:inherit;font-size:.95rem;color:var(--paper);background:rgba(244,243,239,.07);
+  border:1px solid rgba(244,243,239,.18);border-radius:10px;padding:.7rem .85rem;width:100%;
+}
+.form textarea{min-height:96px;resize:vertical}
+.form input::placeholder,.form textarea::placeholder{color:rgba(244,243,239,.35)}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--amber)}
+.form select option{color:#14161a}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.form button{border:0;cursor:pointer}
+.form .fine{font-size:.78rem;color:rgba(244,243,239,.45);margin:0}
+.form .fine a{color:rgba(244,243,239,.7)}
+.honey{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+@media (max-width:620px){.form .row{grid-template-columns:1fr}}
 
 .rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1rem}
 .rate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;gap:.75rem}
@@ -173,7 +197,8 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .rate ul{margin:.2rem 0 0;padding-left:1.05rem;color:var(--ink-2);font-size:.9rem;display:grid;gap:.32rem}
 .rate .btn{margin-top:auto;justify-content:center}
 
-.contact{background:var(--ink);color:var(--paper);border-radius:26px;padding:clamp(2rem,5vw,3.6rem);display:flex;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;align-items:center;position:relative;overflow:hidden}
+.contact{background:var(--ink);color:var(--paper);border-radius:26px;padding:clamp(2rem,5vw,3.6rem);display:grid;grid-template-columns:1fr minmax(320px,.9fr);gap:clamp(2rem,4vw,3.5rem);align-items:start;position:relative;overflow:hidden}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
 .contact::after{content:"";position:absolute;left:-60px;bottom:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.22),transparent 70%)}
 .contact h2{font-size:clamp(1.8rem,4vw,2.9rem);max-width:18ch;position:relative}
 .contact .side{display:grid;gap:.85rem;position:relative}
@@ -399,8 +424,19 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       <span class="mono">Pevná cena · fakturujeme z ČR</span>
     </div>
     <div class="offer">
-      <p>Rozjíždíme se, a tak první tři zakázky děláme se <b>slevou 30 %</b> — výměnou za referenci a svolení ukázat práci tady. Napište si o ni v poptávce.</p>
-      <a class="btn btn--amber" href="mailto:info@vorthys.eu?subject=Zaj%C3%ADm%C3%A1%20m%C4%9B%20sleva">Chci slevu</a>
+      <div>
+        <div class="offer-head">
+          <h3>Zaváděcí nabídka</h3>
+          <span class="slots" aria-label="Tři volná místa">
+            <span class="slot-dot"></span><span class="slot-dot"></span><span class="slot-dot"></span>
+          </span>
+        </div>
+        <p>První tři zakázky děláme se <b>slevou 30 %</b> — výměnou za referenci a svolení ukázat práci tady. Tři místa, pak už platí běžný ceník.</p>
+      </div>
+      <div class="side">
+        <a class="btn btn--amber" href="#kontakt">Chci místo</a>
+        <small>volná 3 ze 3</small>
+      </div>
     </div>
 
     <div class="rates">
@@ -551,12 +587,45 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 <section id="kontakt">
   <div class="shell">
     <div class="contact">
-      <h2>Napište, co má stránka umět.</h2>
-      <div class="side">
-        <a class="big" href="mailto:info@vorthys.eu?subject=Popt%C3%A1vka%20webu">info@vorthys.eu</a>
-        <a class="btn" href="mailto:info@vorthys.eu?subject=Popt%C3%A1vka%20webu">Napsat o projektu</a>
-        <small>Odpovídáme tentýž pracovní den.</small>
+      <div style="position:relative;max-width:34ch">
+        <h2>Napište, co má stránka umět.</h2>
+        <p style="color:rgba(244,243,239,.6);margin:1.2rem 0 0">Stačí dvě tři věty. Odpovíme tentýž pracovní den, rovnou s cenou a termínem — ne pozvánkou na schůzku.</p>
+        <p style="margin:1.6rem 0 0"><a class="big" href="mailto:info@vorthys.eu?subject=Popt%C3%A1vka%20webu">info@vorthys.eu</a></p>
       </div>
+
+      <form class="form" action="https://formsubmit.co/info@vorthys.eu" method="POST" style="position:relative;min-width:min(420px,100%)">
+        <input type="hidden" name="_subject" value="Nová poptávka z vorthys.eu">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://vorthys.eu/cs/dekujeme/">
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="row">
+          <label>Jméno
+            <input type="text" name="name" placeholder="Jana Nováková" required minlength="2">
+          </label>
+          <label>E-mail
+            <input type="email" name="email" placeholder="jana@firma.cz" required>
+          </label>
+        </div>
+
+        <label>Co potřebujete?
+          <select name="project">
+            <option>Jednostránkový web</option>
+            <option>Firemní web</option>
+            <option>Opravu stávajícího webu</option>
+            <option>Dashboard nebo UI</option>
+            <option>Zatím nevím</option>
+          </select>
+        </label>
+
+        <label>Pár vět o projektu
+          <textarea name="message" placeholder="Co má stránka dokázat, kdo ji bude číst a zhruba do kdy ji potřebujete." required minlength="10"></textarea>
+        </label>
+
+        <button class="btn btn--amber" type="submit">Odeslat poptávku</button>
+        <p class="fine">Zprávu použijeme jen k odpovědi — viz <a href="/cs/ochrana-udaju/">ochrana údajů</a>. Chcete zaváděcí slevu? Napište to sem.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -566,7 +635,7 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
     <div class="disclaimer">
       <strong>K ukázkám:</strong> všechny značky na tomto webu jsou smyšlené a slouží k předvedení designu a kódu. Nejde o skutečné podniky ani o data klientů.
     </div>
-    <div>© 2026 Vorthys · Praha · <a href="/">English</a></div>
+    <div>© 2026 Vorthys · Praha · <a href="/cs/ochrana-udaju/">Ochrana údajů</a> · <a href="/">English</a></div>
   </div>
 </footer>
 

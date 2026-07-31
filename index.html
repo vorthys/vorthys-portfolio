@@ -185,9 +185,35 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .faq details[open] summary::after{content:"–"}
 .faq p{margin:.7rem 0 0;color:var(--ink-2);font-size:.95rem;max-width:64ch}
 
-.offer{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:var(--paper);border-radius:16px;padding:1.15rem 1.4rem;margin-bottom:1.4rem}
-.offer p{margin:0;font-size:.95rem;color:rgba(244,243,239,.75);max-width:62ch}
+.offer{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:var(--paper);border-radius:18px;padding:1.4rem 1.6rem;margin-bottom:1.4rem;position:relative;overflow:hidden}
+.offer::after{content:"";position:absolute;right:-40px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.2),transparent 70%)}
+.offer p{margin:0;font-size:.95rem;color:rgba(244,243,239,.72);max-width:56ch;position:relative}
 .offer b{color:var(--amber)}
+.offer-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;position:relative}
+.offer-head h3{font-size:1.15rem}
+.slots{display:flex;gap:.3rem}
+.slot-dot{width:11px;height:11px;border-radius:3px;background:var(--amber);display:block}
+.slot-dot.taken{background:rgba(244,243,239,.22)}
+.offer .side{position:relative;display:grid;gap:.5rem;justify-items:end}
+.offer .side small{color:rgba(244,243,239,.45);font-size:.78rem}
+
+/* ---------- contact form ---------- */
+.form{display:grid;gap:.85rem}
+.form label{display:grid;gap:.3rem;font-size:.85rem;color:rgba(244,243,239,.7)}
+.form input,.form select,.form textarea{
+  font:inherit;font-size:.95rem;color:var(--paper);background:rgba(244,243,239,.07);
+  border:1px solid rgba(244,243,239,.18);border-radius:10px;padding:.7rem .85rem;width:100%;
+}
+.form textarea{min-height:96px;resize:vertical}
+.form input::placeholder,.form textarea::placeholder{color:rgba(244,243,239,.35)}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--amber)}
+.form select option{color:#14161a}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.form button{border:0;cursor:pointer}
+.form .fine{font-size:.78rem;color:rgba(244,243,239,.45);margin:0}
+.form .fine a{color:rgba(244,243,239,.7)}
+.honey{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+@media (max-width:620px){.form .row{grid-template-columns:1fr}}
 
 /* ---------- rates ---------- */
 .rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1rem}
@@ -200,7 +226,8 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .rate .btn{margin-top:auto;justify-content:center}
 
 /* ---------- contact ---------- */
-.contact{background:var(--ink);color:var(--paper);border-radius:26px;padding:clamp(2rem,5vw,3.6rem);display:flex;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;align-items:center;position:relative;overflow:hidden}
+.contact{background:var(--ink);color:var(--paper);border-radius:26px;padding:clamp(2rem,5vw,3.6rem);display:grid;grid-template-columns:1fr minmax(320px,.9fr);gap:clamp(2rem,4vw,3.5rem);align-items:start;position:relative;overflow:hidden}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
 .contact::after{content:"";position:absolute;left:-60px;bottom:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.22),transparent 70%)}
 .contact h2{font-size:clamp(1.8rem,4vw,2.9rem);max-width:17ch;position:relative}
 .contact .side{display:grid;gap:.85rem;position:relative}
@@ -430,8 +457,19 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       <span class="mono">Fixed price · invoiced from Czechia</span>
     </div>
     <div class="offer">
-      <p>Starting out on the EU market, so the first three projects go out at <b>30 % off</b> — in exchange for a review and permission to show the work here. Ask about it when you write.</p>
-      <a class="btn btn--amber" href="mailto:info@vorthys.eu?subject=Launch%20offer">Claim the offer</a>
+      <div>
+        <div class="offer-head">
+          <h3>Launch offer</h3>
+          <span class="slots" aria-label="Three slots available">
+            <span class="slot-dot"></span><span class="slot-dot"></span><span class="slot-dot"></span>
+          </span>
+        </div>
+        <p>The first three projects go out at <b>30 % off</b> — in exchange for a review and permission to show the work here. Three slots, then the price is the price.</p>
+      </div>
+      <div class="side">
+        <a class="btn btn--amber" href="#contact">Take a slot</a>
+        <small>3 of 3 still open</small>
+      </div>
     </div>
 
     <div class="rates">
@@ -582,12 +620,45 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 <section id="contact">
   <div class="shell">
     <div class="contact">
-      <h2>Tell us what the page has to do.</h2>
-      <div class="side">
-        <a class="big" href="mailto:info@vorthys.eu?subject=Project%20enquiry">info@vorthys.eu</a>
-        <a class="btn" href="mailto:info@vorthys.eu?subject=Project%20enquiry">Write about a project</a>
-        <small>We answer the same working day.</small>
+      <div style="position:relative;max-width:34ch">
+        <h2>Tell us what the page has to do.</h2>
+        <p style="color:rgba(244,243,239,.6);margin:1.2rem 0 0">Two or three sentences are enough to start. You'll get an answer the same working day, with a price and a date — not a request for a meeting.</p>
+        <p style="margin:1.6rem 0 0"><a class="big" href="mailto:info@vorthys.eu?subject=Project%20enquiry">info@vorthys.eu</a></p>
       </div>
+
+      <form class="form" action="https://formsubmit.co/info@vorthys.eu" method="POST" style="position:relative;min-width:min(420px,100%)">
+        <input type="hidden" name="_subject" value="New enquiry from vorthys.eu">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://vorthys.eu/thanks/">
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="row">
+          <label>Your name
+            <input type="text" name="name" placeholder="Jana Nováková" required minlength="2">
+          </label>
+          <label>Email
+            <input type="email" name="email" placeholder="jana@company.cz" required>
+          </label>
+        </div>
+
+        <label>What do you need?
+          <select name="project">
+            <option>Landing page</option>
+            <option>Business site</option>
+            <option>Fix an existing site</option>
+            <option>Dashboard or UI work</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+
+        <label>A few sentences about the project
+          <textarea name="message" placeholder="What the page has to do, who reads it, roughly when you need it." required minlength="10"></textarea>
+        </label>
+
+        <button class="btn btn--amber" type="submit">Send enquiry</button>
+        <p class="fine">We use your message only to answer it — see the <a href="/privacy/">privacy notice</a>. Prefer the launch offer? Mention it here.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -597,7 +668,7 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
     <div class="disclaimer">
       <strong>About these demos:</strong> every brand on this site is fictional and built to show design and front-end work. No client data, no real business is represented.
     </div>
-    <div>© 2026 Vorthys · Prague · <a href="/cs/">Česky</a></div>
+    <div>© 2026 Vorthys · Prague · <a href="/privacy/">Privacy</a> · <a href="/cs/">Česky</a></div>
   </div>
 </footer>
 
