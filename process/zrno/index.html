@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How we built ZRNO — Vorthys case study</title>
+<meta name="description" content="The full route from brief to launch: two directions we rejected, why the roast scale became the hero, and what broke on a phone.">
+
+<link rel="icon" href="../../brand/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../../brand/favicon-32.png" sizes="32x32">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How we built ZRNO — Vorthys case study">
+<meta property="og:description" content="Brief, rejected directions, the decision that made the page, and the two things a phone broke.">
+<meta property="og:url" content="https://vorthys.eu/process/zrno/">
+<meta property="og:image" content="https://vorthys.eu/brand/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vorthys.eu/brand/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f3ef;--card:#fbfaf8;--ink:#14161a;--ink-2:#5c6068;
+  --amber:#f2c230;--amber-deep:#c99a10;--line:rgba(20,22,26,.13);
+  --shell:min(1080px, 100% - 3rem);--read:min(680px, 100% - 3rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:18px;line-height:1.68;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.08;letter-spacing:-.025em;font-weight:600}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.71rem;letter-spacing:.13em;text-transform:uppercase}
+a{color:inherit}
+.shell{width:var(--shell);margin-inline:auto}
+.read{width:var(--read);margin-inline:auto}
+p{margin:0 0 1.15rem}
+
+header{border-bottom:1px solid var(--line);background:rgba(244,243,239,.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.bar{display:flex;align-items:center;gap:1.5rem;padding:1rem 0}
+.brand{display:flex;align-items:center;gap:.6rem;font-size:1.05rem;font-weight:600;text-decoration:none;letter-spacing:-.02em}
+.brand svg{width:22px;height:22px}
+.back{margin-left:auto;font-size:.92rem;color:var(--ink-2);text-decoration:none}
+.back:hover{color:var(--ink)}
+
+.intro{padding:clamp(2.5rem,6vw,4.5rem) 0 clamp(1.5rem,3vw,2.5rem)}
+.intro h1{font-size:clamp(2.3rem,5.4vw,3.9rem);max-width:20ch;margin:1.2rem 0 1.5rem}
+.intro .stand{font-size:1.2rem;color:var(--ink-2);max-width:60ch}
+.meta-row{display:flex;gap:2rem;flex-wrap:wrap;margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.meta-row div span{display:block}
+.meta-row .k{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:.25rem}
+.meta-row .v{font-weight:500;font-size:.95rem}
+
+.note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:0 12px 12px 0;padding:1.1rem 1.3rem;font-size:.95rem;color:var(--ink-2)}
+.note strong{color:var(--ink)}
+
+section{padding:clamp(2rem,4vw,3rem) 0}
+h2{font-size:clamp(1.6rem,3.2vw,2.3rem);margin:0 0 1.2rem}
+h2 .num{font-family:"Instrument Serif",serif;color:var(--amber-deep);margin-right:.5rem}
+h3{font-size:1.15rem;margin:2rem 0 .6rem}
+
+/* direction cards */
+.dirs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem;margin:2rem 0}
+.dir{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);display:flex;flex-direction:column}
+.dir.picked{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.dir .prev{height:150px;padding:14px;display:flex;flex-direction:column;gap:7px;position:relative}
+.dir .prev .b{height:8px;border-radius:3px}
+.dir .prev .t{height:22px;border-radius:4px;width:64%}
+.dir .prev .row{display:flex;gap:6px;flex:1}
+.dir .prev .row div{flex:1;border-radius:6px}
+.dir .body{padding:1.1rem 1.2rem 1.3rem}
+.dir h3{margin:0 0 .4rem;font-size:1.05rem}
+.dir p{margin:0;font-size:.9rem;color:var(--ink-2)}
+.verdict{display:inline-block;margin-top:.8rem;font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:999px}
+.verdict.no{background:rgba(20,22,26,.07);color:var(--ink-2)}
+.verdict.yes{background:var(--amber);color:var(--ink)}
+
+/* cosy */
+.p-cosy{background:#f4f1ea}
+.p-cosy .b{background:#c0714f}
+.p-cosy .t{background:#3a3128}
+.p-cosy .row div{background:#e8e2d6}
+/* magazine */
+.p-mag{background:#ffffff}
+.p-mag .b{background:#111}
+.p-mag .t{background:#111;width:82%;height:30px}
+.p-mag .row div{background:#ddd}
+.p-mag .row div:first-child{flex:2.4;background:#bbb}
+/* workshop */
+.p-shop{background:#15171b}
+.p-shop .b{background:#f2c230}
+.p-shop .t{background:#efede8}
+.p-shop .row div{background:rgba(239,237,232,.12);border:1px solid rgba(239,237,232,.18)}
+
+/* before/after */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.8rem 0}
+.ba figure{margin:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.ba .shot{height:170px;background:#15171b;padding:14px;display:flex;flex-direction:column;justify-content:center;gap:8px;overflow:hidden}
+.ba .line{height:14px;background:#efede8;border-radius:3px}
+.ba .line.wide{width:135%}
+.ba .line.ok{width:88%}
+.ba .line.small{height:9px;background:rgba(239,237,232,.35);width:62%}
+.ba figcaption{padding:.85rem 1rem;font-size:.86rem;color:var(--ink-2)}
+.ba figcaption b{color:var(--ink);display:block;margin-bottom:.15rem}
+
+.checks{display:grid;gap:.7rem;margin:1.5rem 0;padding:0;list-style:none}
+.checks li{display:flex;gap:.7rem;align-items:flex-start;font-size:.98rem}
+.checks li::before{content:"✓";color:var(--amber-deep);font-weight:600}
+
+.cta{background:var(--ink);color:var(--paper);border-radius:24px;padding:clamp(1.8rem,4vw,3rem);display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;align-items:center;margin:3rem 0 1rem}
+.cta h2{color:var(--paper);margin:0;max-width:18ch;font-size:clamp(1.5rem,3.2vw,2.2rem)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--amber);color:var(--ink);border-radius:999px;padding:.75rem 1.35rem;text-decoration:none;font-weight:500;font-size:.95rem;transition:transform .16s}
+.btn:hover{transform:translateY(-2px)}
+.btn--line{background:transparent;color:var(--paper);box-shadow:inset 0 0 0 1px rgba(244,243,239,.35)}
+
+footer{padding:2rem 0 3.5rem;color:var(--ink-2);font-size:.86rem;border-top:1px solid var(--line)}
+.foot{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding-top:1.4rem}
+
+@media (max-width:760px){.ba{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important}html{scroll-behavior:auto}}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell bar">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="currentColor"/><path d="M42 8h16L38 58h-8l12-50z" fill="#e0a800"/></svg>
+      Vorthys
+    </a>
+    <a class="back" href="/#work">← Back to work</a>
+  </div>
+</header>
+
+<div class="intro">
+  <div class="read">
+    <p class="mono" style="color:var(--amber-deep);margin:0">Case study · coffee roastery</p>
+    <h1>How ZRNO got its <span class="serif">roast scale</span> instead of a cosy café look</h1>
+    <p class="stand">A landing page for a small Prague roastery. Three directions on the table, one survived — and it wasn't the one that looks like every other coffee site.</p>
+
+    <div class="meta-row">
+      <div><span class="k">Type</span><span class="v">One-page site</span></div>
+      <div><span class="k">Language</span><span class="v">Czech</span></div>
+      <div><span class="k">Build time</span><span class="v">2 days</span></div>
+      <div><span class="k">Stack</span><span class="v">HTML, CSS, no JS</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="read">
+  <p class="note"><strong>Full disclosure:</strong> ZRNO is a fictional brand and the brief is ours — we wrote it to have a realistic problem to solve. Everything else on this page is real: the directions, the reasoning, the mistakes a phone screen found for us.</p>
+</div>
+
+<section>
+  <div class="read">
+    <h2><span class="num">01</span>The brief</h2>
+    <p>A roastery with one drum, twenty kilos a week, and a café attached. They don't have a warehouse, so what's roasted on Wednesday is poured on Thursday. That fact is the entire business — and most coffee websites bury it under photos of cups.</p>
+    <p>The page had two jobs: convince a walk-in customer that the coffee here is fresher than in the chain across the street, and let wholesale buyers see what's currently in the drum without writing an email.</p>
+    <p>Constraints: no professional photos yet, no online shop, text in Czech, and it has to work on a phone in the tram.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="read"><h2><span class="num">02</span>Three directions</h2>
+      <p>Before writing any code we sketched three ways the page could look and feel. Only one of them survived contact with the brief.</p>
+    </div>
+
+    <div class="dirs">
+      <div class="dir">
+        <div class="prev p-cosy">
+          <div class="b"></div><div class="t"></div>
+          <div class="row"><div></div><div></div></div>
+        </div>
+        <div class="body">
+          <h3>Cosy café</h3>
+          <p>Cream background, high-contrast serif, terracotta accent, big photo of a cup. The safe answer — and the one every second coffee shop already has.</p>
+          <span class="verdict no">Rejected</span>
+        </div>
+      </div>
+
+      <div class="dir">
+        <div class="prev p-mag">
+          <div class="b"></div><div class="t"></div>
+          <div class="row"><div></div><div></div><div></div></div>
+        </div>
+        <div class="body">
+          <h3>Coffee magazine</h3>
+          <p>Editorial layout, huge type, full-bleed photography. Beautiful when you have a photographer — but the client has none, and stock photos would undo the whole point.</p>
+          <span class="verdict no">Rejected</span>
+        </div>
+      </div>
+
+      <div class="dir picked">
+        <div class="prev p-shop">
+          <div class="b"></div><div class="t"></div>
+          <div class="row"><div></div><div></div><div></div></div>
+        </div>
+        <div class="body">
+          <h3>The workshop</h3>
+          <p>Concrete, steel, yellow floor-marking. The roastery is an industrial room in Holešovice, so the page looks like the room: data first, decoration last.</p>
+          <span class="verdict yes">Built this</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="read">
+      <p>The deciding argument was simple. A cosy look asks the visitor to trust a mood; the workshop look hands them evidence. If freshness is the product, show the batch — not the latte art.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="read">
+    <h2><span class="num">03</span>The decision that made the page</h2>
+    <p>Speciality coffee already has a language for this. Every bag carries altitude, varietal, processing method, roast date and a roast level. Customers who care read it; customers who don't at least see that someone bothered.</p>
+    <p>So we made that the hero. Three batch cards, each with the same fields you'd find on the bag, and a gradient scale from light to dark with a marker showing where this particular lot sits. It's the only decorative element on the page that carries actual information.</p>
+
+    <h3>What followed from it</h3>
+    <ul class="checks">
+      <li>A monospaced typeface for all measured values — altitude, dates, lot numbers. Numbers line up, and the page starts to read like a spec sheet.</li>
+      <li>A ticker strip under the hero with the current lots. It moves, so the eye catches it, and it says something true rather than "welcome to our website".</li>
+      <li>Yellow used exactly the way it's used in a workshop: as marking, not as decoration. Buttons, the ticker, the current-batch tape.</li>
+      <li>No hero photo of coffee. One photo of a brewer at work, desaturated, behind a gradient — atmosphere without pretending we have a photoshoot.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="read">
+      <h2><span class="num">04</span>What the phone broke</h2>
+      <p>The desktop version was done in an afternoon. Then we opened it at 375 pixels wide and found two problems that no amount of design taste catches — only testing does.</p>
+    </div>
+
+    <div class="ba">
+      <figure>
+        <div class="shot">
+          <div class="line wide"></div>
+          <div class="line wide"></div>
+          <div class="line small"></div>
+        </div>
+        <figcaption><b>Before</b>The headline refused to shrink. Grid children default to <code>min-width: auto</code>, so the longest Czech word pushed the whole block past the screen edge and got clipped.</figcaption>
+      </figure>
+      <figure>
+        <div class="shot">
+          <div class="line ok"></div>
+          <div class="line ok"></div>
+          <div class="line small"></div>
+        </div>
+        <figcaption><b>After</b>Explicit <code>min-width: 0</code> on the grid children and a lower floor in the <code>clamp()</code> for the headline. Nothing overflows, the type still fills the screen.</figcaption>
+      </figure>
+    </div>
+
+    <div class="read">
+      <p>The second problem was subtler: the batch cards were fine, but the roast scale label sat under the marker and collided with the card edge on narrow screens. We moved the legend to a separate row instead of trying to squeeze it.</p>
+      <p>Both fixes took ten minutes. Finding them took opening the page on a phone — which is why that step is in every project we run, not an optional extra at the end.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="read">
+    <h2><span class="num">05</span>What we'd add with a real client</h2>
+    <p>The demo stops where a real project would continue. With an actual roastery on the other side of the table, the next three things would be:</p>
+    <ul class="checks">
+      <li>Real photography — one hour in the room replaces every stock image on the page, and the workshop direction only gets stronger with it.</li>
+      <li>Batch data from a spreadsheet the roaster already keeps, so updating the site means editing a row, not calling us.</li>
+      <li>A wholesale enquiry form that lands in their inbox with the lot pre-filled, instead of a plain email address.</li>
+    </ul>
+    <p>None of that changes the design. That's the point of deciding the direction before building: the page can grow without being redrawn.</p>
+  </div>
+</section>
+
+<div class="shell">
+  <div class="cta">
+    <h2>See how it turned out</h2>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+      <a class="btn" href="../../kavarna/index.html">Open the ZRNO demo</a>
+      <a class="btn btn--line" href="mailto:info@vorthys.eu?subject=Project%20enquiry">Talk about your project</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="shell foot">
+    <div>ZRNO is a fictional brand, built to demonstrate design and front-end work.</div>
+    <div>© 2026 Vorthys · <a href="/">vorthys.eu</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

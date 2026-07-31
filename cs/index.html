@@ -1,25 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="cs">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vorthys — web studio in Prague</title>
-<meta name="description" content="A small Prague studio building landing pages, business sites and dashboards by hand. Five live demos, five different directions.">
+<title>Vorthys — webové studio v Praze</title>
+<meta name="description" content="Malé pražské studio. Stavíme jednostránkové weby, firemní prezentace a dashboardy ručně — bez šablon a bez zbytečných pluginů.">
 
-<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="brand/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="icon" href="../brand/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="../brand/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../brand/apple-touch-icon.png">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Vorthys — web studio in Prague">
-<meta property="og:description" content="Landing pages, business sites and dashboards, built by hand. Five live demos inside.">
-<meta property="og:url" content="https://vorthys.eu/">
+<meta property="og:title" content="Vorthys — webové studio v Praze">
+<meta property="og:description" content="Jednostránkové weby, firemní prezentace a dashboardy. Pět ukázek uvnitř.">
+<meta property="og:url" content="https://vorthys.eu/cs/">
 <meta property="og:image" content="https://vorthys.eu/brand/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vorthys — web studio in Prague">
-<meta name="twitter:description" content="Landing pages, business sites and dashboards. Five live demos inside.">
 <meta name="twitter:image" content="https://vorthys.eu/brand/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,13 +25,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap&subset=latin-ext" rel="stylesheet">
 <style>
 :root{
-  --paper:#f4f3ef;
-  --card:#fbfaf8;
-  --ink:#14161a;
-  --ink-2:#5c6068;
-  --amber:#f2c230;
-  --amber-deep:#c99a10;
-  --line:rgba(20,22,26,.13);
+  --paper:#f4f3ef;--card:#fbfaf8;--ink:#14161a;--ink-2:#5c6068;
+  --amber:#f2c230;--amber-deep:#c99a10;--line:rgba(20,22,26,.13);
   --shell:min(1180px, 100% - 3rem);
 }
 *{box-sizing:border-box}
@@ -43,17 +36,15 @@ h1,h2,h3{margin:0;line-height:1.04;letter-spacing:-.025em;font-weight:600}
 .serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-.01em}
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.71rem;letter-spacing:.13em;text-transform:uppercase}
 a{color:inherit}
-img{display:block;max-width:100%}
 .shell{width:var(--shell);margin-inline:auto}
 
-/* ---------- header ---------- */
-header{position:sticky;top:0;z-index:60;background:rgba(244,243,239,.9);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+header{position:sticky;top:0;z-index:60;background:rgba(244,243,239,.9);backdrop-filter:blur(10px)}
 .bar{display:flex;align-items:center;gap:1.5rem;padding:1.1rem 0}
 .brand{display:flex;align-items:center;gap:.6rem;font-size:1.1rem;font-weight:600;letter-spacing:-.02em;text-decoration:none}
 .brand svg{width:23px;height:23px;flex:none}
 .brand i{font-style:normal;color:var(--ink-2);font-weight:400}
 nav{margin-left:auto;display:flex;gap:1.5rem;align-items:center}
-nav a{text-decoration:none;font-size:.93rem;color:var(--ink-2);transition:color .18s}
+nav a{text-decoration:none;font-size:.93rem;color:var(--ink-2)}
 nav a:hover{color:var(--ink)}
 .lang{display:flex;gap:.15rem;font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.08em}
 .lang a{padding:.25rem .45rem;border-radius:6px;text-decoration:none}
@@ -65,32 +56,26 @@ nav a:hover{color:var(--ink)}
 .btn--line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
 .btn--line:hover{background:var(--card);transform:translateY(-2px)}
 
-/* ---------- hero ---------- */
 .hero{padding:clamp(3.5rem,9vw,7rem) 0 clamp(2.5rem,5vw,4rem);position:relative;overflow:hidden}
-.hero::after{
-  content:"";position:absolute;right:-14vw;top:-12vw;width:46vw;height:46vw;border-radius:50%;
-  background:radial-gradient(circle,rgba(242,194,48,.22),transparent 68%);pointer-events:none;
-}
-.hero h1{font-size:clamp(2.9rem,7.4vw,5.6rem);max-width:16ch;position:relative}
+.hero::after{content:"";position:absolute;right:-14vw;top:-12vw;width:46vw;height:46vw;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.22),transparent 68%);pointer-events:none}
+.hero h1{font-size:clamp(2.7rem,7vw,5.2rem);max-width:17ch;position:relative}
 .hero h1 em{font-style:italic}
 .hero h1 mark{background:linear-gradient(180deg,transparent 58%,rgba(242,194,48,.55) 58%);color:inherit;padding:0 .06em}
-.hero .lead{font-size:1.16rem;color:var(--ink-2);max-width:54ch;margin:1.9rem 0 2.3rem}
+.hero .lead{font-size:1.16rem;color:var(--ink-2);max-width:56ch;margin:1.9rem 0 2.3rem}
 .hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
 .avail{display:inline-flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--ink-2)}
 .avail i{width:8px;height:8px;border-radius:50%;background:#2f9e5f;display:block;box-shadow:0 0 0 4px rgba(47,158,95,.16)}
 
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:clamp(2.5rem,5vw,3.5rem)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:clamp(2.5rem,5vw,3.5rem)}
 .fact{background:var(--paper);padding:1.35rem 1.4rem}
 .fact b{display:block;font-family:"Instrument Serif",serif;font-size:2.3rem;line-height:1;font-weight:400}
 .fact span{font-size:.87rem;color:var(--ink-2);display:block;margin-top:.35rem}
 
-/* ---------- sections ---------- */
 section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.3rem;margin-bottom:2.6rem}
 .sec-head h2{font-size:clamp(1.7rem,3.6vw,2.6rem)}
 .sec-head .mono{color:var(--ink-2)}
 
-/* ---------- work cards with layout previews ---------- */
 .work{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.4rem}
 .case{display:flex;flex-direction:column;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .26s ease,box-shadow .26s ease}
 .case:hover{transform:translateY(-5px);box-shadow:0 28px 54px -34px rgba(20,22,26,.5)}
@@ -100,14 +85,11 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .thumb .t-row{display:flex;gap:6px;flex:1}
 .thumb .t-col{flex:1;border-radius:6px}
 .thumb .t-label{position:absolute;right:14px;bottom:12px;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
-
-/* per-case palettes */
 .t-kavarna{background:#15171b}
 .t-kavarna .t-bar{background:#f2c230;opacity:1}
 .t-kavarna .t-title{background:#efede8}
 .t-kavarna .t-col{background:rgba(239,237,232,.13);border:1px solid rgba(239,237,232,.18)}
 .t-kavarna .t-label{color:#f2c230}
-
 .t-saas{background:#f7f8fa;box-shadow:inset 0 0 0 1px rgba(27,58,107,.08)}
 .t-saas .t-bar{background:#1b3a6b}
 .t-saas .t-title{background:#0e1420;opacity:.85}
@@ -115,27 +97,23 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .t-saas .t-col:nth-child(2){background:#1b3a6b}
 .t-saas .t-col:nth-child(4){background:#ff5a1f;opacity:.85}
 .t-saas .t-label{color:#1b3a6b}
-
 .t-studio{background:#121212}
 .t-studio .t-bar{background:#c1272d;opacity:1}
 .t-studio .t-title{background:#ded8cd;opacity:.8}
 .t-studio .t-row{gap:4px}
 .t-studio .t-col{background:linear-gradient(160deg,#3a3a3a,#1b1b1b);border:1px solid rgba(222,216,205,.12)}
 .t-studio .t-label{color:#c1272d}
-
 .t-fitness{background:#edeae4}
 .t-fitness .t-bar{background:#ff3d7f;opacity:1}
 .t-fitness .t-title{background:#2b2a6b}
 .t-fitness .t-col{background:#fffdfa;border:1px solid rgba(43,42,107,.16)}
 .t-fitness .t-col:nth-child(3){background:#2b2a6b}
 .t-fitness .t-label{color:#2b2a6b}
-
 .t-smart{background:#05070c;align-items:center;justify-content:center}
 .t-smart .orbit{width:132px;height:132px;border-radius:50%;border:1px solid rgba(255,255,255,.16);position:relative}
 .t-smart .orbit::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#6366f1,#34d399)}
 .t-smart .node{position:absolute;width:15px;height:15px;border-radius:5px;background:rgba(8,12,20,.9);border:1px solid rgba(255,255,255,.35)}
 .t-smart .t-label{color:#38bdf8}
-
 .case-body{padding:1.35rem 1.45rem 1.6rem;display:grid;gap:.6rem}
 .case-body h3{font-size:1.2rem}
 .case-body p{margin:0;color:var(--ink-2);font-size:.93rem}
@@ -145,7 +123,6 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .case:hover .open{gap:.7rem}
 .open::after{content:"→";color:var(--amber-deep)}
 
-/* ---------- studio band (dark) ---------- */
 .band{background:var(--ink);color:var(--paper)}
 .band .sec-head{border-color:rgba(244,243,239,.16)}
 .band .sec-head .mono{color:rgba(244,243,239,.5)}
@@ -156,27 +133,24 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .band-note{margin-top:2.6rem;padding-top:1.6rem;border-top:1px solid rgba(244,243,239,.16);display:flex;gap:2rem;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .band-note p{margin:0;max-width:52ch;color:rgba(244,243,239,.62)}
 
-/* ---------- process ---------- */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem}
-.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;position:relative}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem}
 .step .n{font-family:"Instrument Serif",serif;font-size:2.1rem;line-height:1;display:block;margin-bottom:.5rem;color:var(--amber-deep)}
 .step h3{font-size:1rem;margin-bottom:.4rem}
 .step p{margin:0;color:var(--ink-2);font-size:.9rem}
 
-/* ---------- rates ---------- */
 .rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1rem}
 .rate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;gap:.75rem}
 .rate--main{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .rate h3{font-size:1.1rem}
-.rate .amount{font-family:"Instrument Serif",serif;font-size:2.5rem;line-height:1}
+.rate .amount{font-family:"Instrument Serif",serif;font-size:2.4rem;line-height:1}
 .rate .amount small{font-family:"Instrument Sans";font-size:.95rem;color:var(--ink-2)}
 .rate ul{margin:.2rem 0 0;padding-left:1.05rem;color:var(--ink-2);font-size:.9rem;display:grid;gap:.32rem}
 .rate .btn{margin-top:auto;justify-content:center}
 
-/* ---------- contact ---------- */
 .contact{background:var(--ink);color:var(--paper);border-radius:26px;padding:clamp(2rem,5vw,3.6rem);display:flex;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;align-items:center;position:relative;overflow:hidden}
 .contact::after{content:"";position:absolute;left:-60px;bottom:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.22),transparent 70%)}
-.contact h2{font-size:clamp(1.8rem,4vw,2.9rem);max-width:17ch;position:relative}
+.contact h2{font-size:clamp(1.8rem,4vw,2.9rem);max-width:18ch;position:relative}
 .contact .side{display:grid;gap:.85rem;position:relative}
 .contact a.big{font-size:1.25rem;color:var(--paper);text-decoration:none;border-bottom:1px solid rgba(244,243,239,.3);padding-bottom:.15rem}
 .contact a.big:hover{border-color:var(--amber)}
@@ -196,110 +170,106 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 
 <header>
   <div class="shell bar">
-    <a class="brand" href="/">
+    <a class="brand" href="/cs/">
       <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="currentColor"/><path d="M42 8h16L38 58h-8l12-50z" fill="#e0a800"/></svg>
-      Vorthys <i>— web studio</i>
+      Vorthys <i>— webové studio</i>
     </a>
     <nav>
-      <a href="#work">Work</a>
+      <a href="#prace">Práce</a>
       <a href="#studio">Studio</a>
-      <a href="#process">Process</a>
-      <a href="#rates">Rates</a>
-      <span class="lang"><a href="/" aria-current="page">EN</a><a href="/cs/">CS</a></span>
+      <a href="#postup">Postup</a>
+      <a href="#cenik">Ceník</a>
+      <span class="lang"><a href="/">EN</a><a href="/cs/" aria-current="page">CS</a></span>
     </nav>
-    <a class="btn" href="#contact">Start a project</a>
+    <a class="btn" href="#kontakt">Poptat web</a>
   </div>
 </header>
 
 <div class="hero">
   <div class="shell">
-    <p class="mono" style="color:var(--ink-2);margin:0 0 1.6rem">Prague · working across the EU</p>
-    <h1>We build small sites that <mark>look expensive</mark> and load <em class="serif">fast</em>.</h1>
-    <p class="lead">Vorthys is a small studio. Design, front-end and copy sit at the same table, so a landing page takes days instead of a month — and nothing gets lost between people.</p>
+    <p class="mono" style="color:var(--ink-2);margin:0 0 1.6rem">Praha · pracujeme po celé EU</p>
+    <h1>Stavíme weby, které <mark>vypadají draze</mark> a načtou se <em class="serif">okamžitě</em>.</h1>
+    <p class="lead">Vorthys je malé studio. Design, kód i texty vznikají u jednoho stolu — jednostránkový web tak trvá dny místo měsíce a nic se cestou mezi lidmi neztratí.</p>
     <div class="hero-actions">
-      <a class="btn btn--amber" href="#work">See the work</a>
-      <a class="btn btn--line" href="#rates">Rates &amp; turnaround</a>
-      <span class="avail"><i></i>Taking projects this month</span>
+      <a class="btn btn--amber" href="#prace">Podívat se na práci</a>
+      <a class="btn btn--line" href="#cenik">Ceník a termíny</a>
+      <span class="avail"><i></i>Tento měsíc bereme zakázky</span>
     </div>
 
     <div class="facts">
-      <div class="fact"><b>5</b><span>demo builds, five directions</span></div>
-      <div class="fact"><b>&lt;1s</b><span>typical load, no page builders</span></div>
-      <div class="fact"><b>2</b><span>languages we write in: EN, CS</span></div>
-      <div class="fact"><b>5–10</b><span>working days per project</span></div>
+      <div class="fact"><b>5</b><span>ukázek, pět různých směrů</span></div>
+      <div class="fact"><b>&lt;1s</b><span>načtení, žádné šablonové stavebnice</span></div>
+      <div class="fact"><b>2</b><span>jazyky, ve kterých píšeme: CS, EN</span></div>
+      <div class="fact"><b>5–10</b><span>pracovních dní na zakázku</span></div>
     </div>
   </div>
 </div>
 
-<section id="work">
+<section id="prace">
   <div class="shell">
     <div class="sec-head">
-      <h2>Selected work</h2>
-      <span class="mono">Five briefs · five directions</span>
+      <h2>Vybrané ukázky</h2>
+      <span class="mono">Pět zadání · pět směrů</span>
     </div>
 
     <div class="work">
-      <a class="case" href="kavarna/index.html">
+      <a class="case" href="../kavarna/index.html">
         <div class="thumb t-kavarna">
-          <div class="t-bar"></div>
-          <div class="t-title"></div>
+          <div class="t-bar"></div><div class="t-title"></div>
           <div class="t-row"><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div></div>
           <span class="t-label">ZRNO</span>
         </div>
         <div class="case-body">
-          <h3>Coffee roastery, Prague</h3>
-          <p>Roast batches as the hero: lot data, altitude, processing and a roast-level scale — the way speciality coffee labels itself.</p>
-          <div class="tags"><span class="tag">Czech copy</span><span class="tag">Local business</span><span class="tag">Case study</span></div>
-          <span class="open">Open demo</span>
+          <h3>Pražírna kávy, Praha 7</h3>
+          <p>Hlavním hrdinou je šarže: nadmořská výška, zpracování, odrůda a škála pražení — tak, jak si výběrová káva popisuje sáčky.</p>
+          <div class="tags"><span class="tag">Česky</span><span class="tag">Lokální podnik</span><span class="tag">Případovka</span></div>
+          <span class="open">Otevřít ukázku</span>
         </div>
       </a>
 
-      <a class="case" href="saas/index.html">
+      <a class="case" href="../saas/index.html">
         <div class="thumb t-saas">
-          <div class="t-bar"></div>
-          <div class="t-title"></div>
+          <div class="t-bar"></div><div class="t-title"></div>
           <div class="t-row"><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div></div>
           <span class="t-label">Hodina</span>
         </div>
         <div class="case-body">
-          <h3>SaaS landing, EU invoicing</h3>
-          <p>Interactive hero: click blocks on a tracked day and watch them become invoice lines with live totals and reverse-charge VAT.</p>
-          <div class="tags"><span class="tag">Product page</span><span class="tag">Live interaction</span><span class="tag">Pricing &amp; FAQ</span></div>
-          <span class="open">Open demo</span>
+          <h3>SaaS pro fakturaci v EU</h3>
+          <p>Interaktivní úvod: kliknete na blok odpracovaného dne a on se promění v řádek faktury — částky i přenesená daňová povinnost se přepočítají živě.</p>
+          <div class="tags"><span class="tag">Produktová stránka</span><span class="tag">Interakce</span><span class="tag">Ceník a FAQ</span></div>
+          <span class="open">Otevřít ukázku</span>
         </div>
       </a>
 
-      <a class="case" href="studio/index.html">
+      <a class="case" href="../studio/index.html">
         <div class="thumb t-studio">
-          <div class="t-bar"></div>
-          <div class="t-title"></div>
+          <div class="t-bar"></div><div class="t-title"></div>
           <div class="t-row"><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div></div>
           <span class="t-label">SVĚTLO</span>
         </div>
         <div class="case-body">
-          <h3>Portrait studio</h3>
-          <p>Gallery built as a film contact sheet — sprocket holes, frame numbers, colour appearing on hover, lightbox with shooting data.</p>
-          <div class="tags"><span class="tag">Photography</span><span class="tag">Lightbox</span><span class="tag">Dark UI</span></div>
-          <span class="open">Open demo</span>
+          <h3>Portrétní ateliér</h3>
+          <p>Galerie postavená jako kontaktní list filmu — perforace, čísla políček, barva se objeví při najetí, lightbox ukáže parametry snímku.</p>
+          <div class="tags"><span class="tag">Fotografie</span><span class="tag">Lightbox</span><span class="tag">Tmavé UI</span></div>
+          <span class="open">Otevřít ukázku</span>
         </div>
       </a>
 
-      <a class="case" href="fitness/index.html">
+      <a class="case" href="../fitness/index.html">
         <div class="thumb t-fitness">
-          <div class="t-bar"></div>
-          <div class="t-title"></div>
+          <div class="t-bar"></div><div class="t-title"></div>
           <div class="t-row"><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div><div class="t-col"></div></div>
           <span class="t-label">PULS</span>
         </div>
         <div class="case-body">
-          <h3>Training studio, booking</h3>
-          <p>The weekly schedule is the hero. Pick a slot, it drops into the booking form; the form validates and answers you by name.</p>
-          <div class="tags"><span class="tag">Czech copy</span><span class="tag">Booking form</span><span class="tag">Schedule grid</span></div>
-          <span class="open">Open demo</span>
+          <h3>Tréninkové studio s rezervací</h3>
+          <p>Hlavní je rozvrh. Kliknete na termín, ten se propíše do formuláře, formulář si pohlídá údaje a odpoví vám jménem.</p>
+          <div class="tags"><span class="tag">Česky</span><span class="tag">Rezervace</span><span class="tag">Rozvrh</span></div>
+          <span class="open">Otevřít ukázku</span>
         </div>
       </a>
 
-      <a class="case" href="smart-home/index.html">
+      <a class="case" href="../smart-home/index.html">
         <div class="thumb t-smart">
           <div class="orbit">
             <span class="node" style="left:-7px;top:52px"></span>
@@ -309,29 +279,29 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
             <span class="node" style="left:12px;top:12px"></span>
             <span class="node" style="right:12px;bottom:12px"></span>
           </div>
-          <span class="t-label">Smart home</span>
+          <span class="t-label">Chytrá domácnost</span>
         </div>
         <div class="case-body">
-          <h3>Dashboard, orbital layout</h3>
-          <p>Eight home subsystems orbit the hub: live metrics, status states, scenario links drawn between related nodes.</p>
-          <div class="tags"><span class="tag">React + Tailwind</span><span class="tag">Data UI</span><span class="tag">Animation</span></div>
-          <span class="open">Open demo</span>
+          <h3>Dashboard chytré domácnosti</h3>
+          <p>Osm podsystémů obíhá kolem centrální jednotky: živé hodnoty, stavy zařízení a linky scénářů mezi propojenými uzly.</p>
+          <div class="tags"><span class="tag">React + Tailwind</span><span class="tag">Datové UI</span><span class="tag">Animace</span></div>
+          <span class="open">Otevřít ukázku</span>
         </div>
       </a>
 
-      <a class="case" href="process/zrno/index.html">
+      <a class="case" href="../process/zrno/index.html">
         <div class="thumb" style="background:linear-gradient(140deg,#14161a,#2a2e35);align-items:center;justify-content:center">
           <div style="text-align:center">
             <div class="serif" style="color:#f2c230;font-size:2.6rem;line-height:1">01 → 05</div>
-            <div class="mono" style="color:rgba(244,243,239,.6);margin-top:.5rem">brief to launch</div>
+            <div class="mono" style="color:rgba(244,243,239,.6);margin-top:.5rem">od zadání ke spuštění</div>
           </div>
-          <span class="t-label" style="color:#f2c230">Case study</span>
+          <span class="t-label" style="color:#f2c230">Případovka</span>
         </div>
         <div class="case-body">
-          <h3>How we built ZRNO</h3>
-          <p>The whole route: brief, the two directions we rejected, why the roast scale became the hero, and what changed after testing on a phone.</p>
-          <div class="tags"><span class="tag">Process</span><span class="tag">Decisions</span><span class="tag">Before / after</span></div>
-          <span class="open">Read the case</span>
+          <h3>Jak vznikalo ZRNO</h3>
+          <p>Celá cesta: zadání, dva zamítnuté směry, proč se hlavním prvkem stala škála pražení a co se změnilo po testu na telefonu.</p>
+          <div class="tags"><span class="tag">Postup</span><span class="tag">Rozhodnutí</span><span class="tag">Před / po</span></div>
+          <span class="open">Přečíst případovku</span>
         </div>
       </a>
     </div>
@@ -341,98 +311,98 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 <section class="band" id="studio">
   <div class="shell">
     <div class="sec-head">
-      <h2 style="color:var(--paper)">How the studio works</h2>
-      <span class="mono">Three roles, one table</span>
+      <h2 style="color:var(--paper)">Jak studio funguje</h2>
+      <span class="mono">Tři role, jeden stůl</span>
     </div>
     <div class="roles">
       <div class="role">
         <h3>Design</h3>
-        <p>Every project starts from its own subject, not from a template. That's why the roastery, the photo studio and the gym on this page share no visual DNA.</p>
+        <p>Každý projekt začíná u svého oboru, ne u šablony. Proto pražírna, ateliér i tělocvična na této stránce nesdílejí jediný vizuální prvek.</p>
       </div>
       <div class="role">
         <h3>Front-end</h3>
-        <p>Hand-written HTML, CSS and JavaScript, or React with Tailwind when the project needs it. No page builders, no plugin stacks, nothing to slow the page down.</p>
+        <p>Ručně psané HTML, CSS a JavaScript, u větších věcí React s Tailwindem. Žádné stavebnice stránek, žádné hromady pluginů, nic, co web zpomalí.</p>
       </div>
       <div class="role">
-        <h3>Copy</h3>
-        <p>We write the text with the design, in English or Czech. A page that says the right thing in the right place converts better than a prettier page that mumbles.</p>
+        <h3>Texty</h3>
+        <p>Text píšeme spolu s designem, česky i anglicky. Stránka, která říká správnou věc na správném místě, prodává líp než hezčí stránka, co mlží.</p>
       </div>
     </div>
     <div class="band-note">
-      <p>Small studio means you talk to the people doing the work. No account manager relaying your comments, no ticket queue — you write, the person who built the page answers.</p>
-      <a class="btn btn--amber" href="#contact">Tell us about the project</a>
+      <p>Malé studio znamená, že mluvíte přímo s lidmi, kteří na webu pracují. Žádný account manager, který přeposílá vaše připomínky, žádná fronta tiketů.</p>
+      <a class="btn btn--amber" href="#kontakt">Napsat o projektu</a>
     </div>
   </div>
 </section>
 
-<section id="process">
+<section id="postup">
   <div class="shell">
     <div class="sec-head">
-      <h2>How a project runs</h2>
-      <span class="mono">Typically 5—10 working days</span>
+      <h2>Jak zakázka probíhá</h2>
+      <span class="mono">Obvykle 5—10 pracovních dní</span>
     </div>
     <div class="steps">
       <div class="step">
         <span class="n serif">1</span>
-        <h3>Brief, in writing</h3>
-        <p>What the page must achieve, who reads it, what you already have. Half an hour of questions saves a week of revisions.</p>
+        <h3>Zadání písemně</h3>
+        <p>Co má stránka dokázat, kdo ji bude číst, co už máte hotové. Půlhodina otázek ušetří týden předělávek.</p>
       </div>
       <div class="step">
         <span class="n serif">2</span>
-        <h3>Direction first</h3>
-        <p>You see the hero and one section before the rest exists. Type, colour and tone get agreed there — not at the end.</p>
+        <h3>Nejdřív směr</h3>
+        <p>Úvodní obrazovku a jednu sekci vidíte dřív, než vznikne zbytek. Písmo, barvy a tón ladíme tam — ne na konci.</p>
       </div>
       <div class="step">
         <span class="n serif">3</span>
-        <h3>Build and review</h3>
-        <p>Full page on a preview link, tested on phone and desktop. Two rounds of changes are part of the price.</p>
+        <h3>Stavba a připomínky</h3>
+        <p>Celá stránka na náhledovém odkazu, otestovaná na telefonu i na počítači. Dvě kola úprav jsou součástí ceny.</p>
       </div>
       <div class="step">
         <span class="n serif">4</span>
-        <h3>Handover</h3>
-        <p>Deployed to your hosting or ours, source files yours, plus a short note on how to edit the parts you'll want to change.</p>
+        <h3>Předání</h3>
+        <p>Nasadíme na váš hosting nebo náš, zdrojové soubory jsou vaše. Přidáme krátký návod, jak si upravíte to, co budete měnit.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="rates">
+<section id="cenik">
   <div class="shell">
     <div class="sec-head">
-      <h2>Rates</h2>
-      <span class="mono">Fixed price · invoiced from Czechia</span>
+      <h2>Ceník</h2>
+      <span class="mono">Pevná cena · fakturujeme z ČR</span>
     </div>
     <div class="rates">
       <div class="rate">
-        <h3>Landing page</h3>
-        <div class="amount">€450</div>
-        <ul><li>One page, up to 7 sections</li><li>Copy polish, responsive, contact form</li><li>5 working days, 2 revision rounds</li></ul>
-        <a class="btn btn--line" href="#contact">Ask about a landing</a>
+        <h3>Jednostránkový web</h3>
+        <div class="amount">11 000 Kč</div>
+        <ul><li>Jedna stránka, až 7 sekcí</li><li>Texty, responzivita, kontaktní formulář</li><li>5 pracovních dní, 2 kola úprav</li></ul>
+        <a class="btn btn--line" href="#kontakt">Poptat jednostránku</a>
       </div>
       <div class="rate rate--main">
-        <h3>Business site</h3>
-        <div class="amount">€1 100</div>
-        <ul><li>Up to 6 pages, shared components</li><li>Gallery, schedule or price list</li><li>10 working days, 3 revision rounds</li></ul>
-        <a class="btn" href="#contact">Ask about a site</a>
+        <h3>Firemní web</h3>
+        <div class="amount">27 000 Kč</div>
+        <ul><li>Až 6 stránek se sdílenými prvky</li><li>Galerie, rozvrh nebo ceník</li><li>10 pracovních dní, 3 kola úprav</li></ul>
+        <a class="btn" href="#kontakt">Poptat firemní web</a>
       </div>
       <div class="rate">
-        <h3>Fix &amp; improve</h3>
-        <div class="amount">€45 <small>/ hour</small></div>
-        <ul><li>Layout, responsive and speed fixes</li><li>Small features on an existing site</li><li>Minimum booking: 2 hours</li></ul>
-        <a class="btn btn--line" href="#contact">Send the problem</a>
+        <h3>Opravy a vylepšení</h3>
+        <div class="amount">1 100 Kč <small>/ hod</small></div>
+        <ul><li>Rozbité rozložení, mobil, rychlost</li><li>Drobné funkce na stávajícím webu</li><li>Minimální objednávka 2 hodiny</li></ul>
+        <a class="btn btn--line" href="#kontakt">Popsat problém</a>
       </div>
     </div>
   </div>
 </section>
 
-<section id="contact">
+<section id="kontakt">
   <div class="shell">
     <div class="contact">
-      <h2>Tell us what the page has to do.</h2>
+      <h2>Napište, co má stránka umět.</h2>
       <div class="side">
-        <a class="big" href="mailto:info@vorthys.eu?subject=Project%20enquiry">info@vorthys.eu</a>
-        <a class="btn" href="mailto:info@vorthys.eu?subject=Project%20enquiry">Write about a project</a>
-        <small>We answer the same working day.</small>
+        <a class="big" href="mailto:info@vorthys.eu?subject=Popt%C3%A1vka%20webu">info@vorthys.eu</a>
+        <a class="btn" href="mailto:info@vorthys.eu?subject=Popt%C3%A1vka%20webu">Napsat o projektu</a>
+        <small>Odpovídáme tentýž pracovní den.</small>
       </div>
     </div>
   </div>
@@ -441,9 +411,9 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 <footer>
   <div class="shell foot">
     <div class="disclaimer">
-      <strong>About these demos:</strong> every brand on this site is fictional and built to show design and front-end work. No client data, no real business is represented.
+      <strong>K ukázkám:</strong> všechny značky na tomto webu jsou smyšlené a slouží k předvedení designu a kódu. Nejde o skutečné podniky ani o data klientů.
     </div>
-    <div>© 2026 Vorthys · Prague · <a href="/cs/">Česky</a></div>
+    <div>© 2026 Vorthys · Praha · <a href="/">English</a></div>
   </div>
 </footer>
 
