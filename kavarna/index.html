@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="cs">
 <head>
 <meta charset="utf-8">
@@ -159,7 +159,22 @@ footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size
 }
 :focus-visible{outline:3px solid var(--marker);outline-offset:3px}
 </style>
-</head>
+<style>
+.vorthys-back{
+  position:fixed;z-index:9999;display:inline-flex;align-items:center;gap:.5rem;
+  left:max(1rem, env(safe-area-inset-left));bottom:max(1rem, env(safe-area-inset-bottom));
+  background:rgba(20,22,26,.88);color:#f4f3ef;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-radius:999px;padding:.6rem 1rem;min-height:44px;
+  font:500 .85rem/1 "Instrument Sans",system-ui,-apple-system,sans-serif;letter-spacing:-.01em;
+  text-decoration:none;box-shadow:0 12px 30px -14px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .16s ease, background .2s ease;
+}
+.vorthys-back:hover,.vorthys-back:focus-visible{transform:translateY(-2px);background:#000;color:#fff}
+.vorthys-back svg{width:15px;height:15px;flex:none}
+.vorthys-back .arrow{opacity:.6}
+@media (max-width:600px){.vorthys-back{padding:.55rem .85rem;font-size:.8rem;gap:.4rem}}
+@media (prefers-reduced-motion:reduce){.vorthys-back{transition:none}}
+</style></head>
 <body>
 
 <header>
@@ -366,5 +381,9 @@ footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size
   </div>
 </footer>
 
-</body>
+<a class="vorthys-back" href="/" aria-label="Back to the Vorthys portfolio">
+  <span class="arrow">←</span>
+  <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="#f4f3ef"/><path d="M42 8h16L38 58h-8l12-50z" fill="#f2c230"/></svg>
+  Vorthys
+</a></body>
 </html>

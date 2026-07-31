@@ -78,6 +78,20 @@
     animation: blurFadeUp 1s ease-out forwards;
   }
 
+  /* return to the portfolio: this demo has its own brand, so make the way back explicit */
+  .vorthys-back{
+    position:fixed;z-index:9999;display:inline-flex;align-items:center;gap:.5rem;
+    right:max(1rem, env(safe-area-inset-right));bottom:max(1rem, env(safe-area-inset-bottom));
+    background:rgba(20,22,26,.72);color:#f4f3ef;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border-radius:999px;padding:.6rem 1rem;min-height:44px;
+    font:500 .85rem/1 'Inter',system-ui,sans-serif;letter-spacing:-.01em;text-decoration:none;
+    box-shadow:0 12px 30px -14px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.14);
+    transition:transform .16s ease, background .2s ease;
+  }
+  .vorthys-back:hover,.vorthys-back:focus-visible{transform:translateY(-2px);background:rgba(0,0,0,.92)}
+  .vorthys-back svg{width:15px;height:15px;flex:none}
+  .vorthys-back .arrow{opacity:.6}
+  @media (max-width:600px){.vorthys-back{padding:.55rem .85rem;font-size:.8rem;gap:.4rem}}
   @media (prefers-reduced-motion: reduce) {
     .animate-blur-fade-up { animation-duration: .01ms; opacity: 1; }
     * { transition-duration: .01ms !important; }
@@ -157,6 +171,11 @@ function App() {
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-black text-white">
+    <a className="vorthys-back" href="/" aria-label="Back to the Vorthys portfolio">
+      <span className="arrow">←</span>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="#f4f3ef"/><path d="M42 8h16L38 58h-8l12-50z" fill="#f2c230"/></svg>
+      Vorthys
+    </a>
       {/* background video */}
       <video
         className="fixed inset-0 z-0 h-full w-full object-cover"
