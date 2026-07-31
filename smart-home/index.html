@@ -1,11 +1,20 @@
 <!doctype html>
-<html lang="ru" class="dark">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Умный дом — орбитальная панель (превью без сборки)</title>
+    <title>Smart home dashboard — Vorthys</title>
+    <meta name="description" content="Eight home subsystems on an orbit around the hub: live metrics, status states and scenario links. React, Tailwind, shadcn/ui." />
 
-    <!-- Tailwind Play CDN: нужен только для этого превью. В проекте Tailwind ставится через npm. -->
+    <link rel="icon" href="../brand/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Smart home dashboard — Vorthys" />
+    <meta property="og:description" content="Orbital dashboard: climate, air, lighting, security and energy around one hub." />
+    <meta property="og:url" content="https://vorthys.eu/smart-home/" />
+    <meta property="og:image" content="https://vorthys.eu/brand/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://vorthys.eu/brand/og-image.png" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -14,48 +23,20 @@
           extend: {
             colors: {
               border: "hsl(var(--border))",
+              card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+              accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
               input: "hsl(var(--input))",
-              ring: "hsl(var(--ring))",
-              background: "hsl(var(--background))",
               foreground: "hsl(var(--foreground))",
-              primary: {
-                DEFAULT: "hsl(var(--primary))",
-                foreground: "hsl(var(--primary-foreground))",
-              },
-              secondary: {
-                DEFAULT: "hsl(var(--secondary))",
-                foreground: "hsl(var(--secondary-foreground))",
-              },
-              destructive: {
-                DEFAULT: "hsl(var(--destructive))",
-                foreground: "hsl(var(--destructive-foreground))",
-              },
-              muted: {
-                DEFAULT: "hsl(var(--muted))",
-                foreground: "hsl(var(--muted-foreground))",
-              },
-              accent: {
-                DEFAULT: "hsl(var(--accent))",
-                foreground: "hsl(var(--accent-foreground))",
-              },
-              card: {
-                DEFAULT: "hsl(var(--card))",
-                foreground: "hsl(var(--card-foreground))",
-              },
             },
             keyframes: {
               "hub-breathe": {
                 "0%, 100%": { transform: "scale(1)", opacity: "1" },
                 "50%": { transform: "scale(1.06)", opacity: "0.85" },
               },
-              "link-flow": {
-                from: { strokeDashoffset: "24" },
-                to: { strokeDashoffset: "0" },
-              },
+              "link-flow": { from: { strokeDashoffset: "24" }, to: { strokeDashoffset: "0" } },
             },
             animation: {
-              "hub-breathe":
-                "hub-breathe 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "hub-breathe": "hub-breathe 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
               "link-flow": "link-flow 1.2s linear infinite",
             },
           },
@@ -66,72 +47,32 @@
     <style type="text/tailwindcss">
       @layer base {
         :root {
-          --background: 222.2 84% 4.9%;
           --foreground: 210 40% 98%;
           --card: 222.2 84% 4.9%;
           --card-foreground: 210 40% 98%;
-          --primary: 210 40% 98%;
-          --primary-foreground: 222.2 47.4% 11.2%;
-          --secondary: 217.2 32.6% 17.5%;
-          --secondary-foreground: 210 40% 98%;
-          --muted: 217.2 32.6% 17.5%;
-          --muted-foreground: 215 20.2% 65.1%;
           --accent: 217.2 32.6% 17.5%;
           --accent-foreground: 210 40% 98%;
-          --destructive: 0 62.8% 30.6%;
-          --destructive-foreground: 210 40% 98%;
           --border: 217.2 32.6% 17.5%;
           --input: 217.2 32.6% 17.5%;
-          --ring: 212.7 26.8% 83.9%;
           --radius: 0.5rem;
         }
-        body {
-          @apply bg-[#05070c] text-foreground;
-        }
+        body { @apply bg-[#05070c] text-foreground; }
       }
-
       @layer components {
         .smart-home-scene {
           background:
-            radial-gradient(
-              circle at 50% 45%,
-              rgba(56, 189, 248, 0.12),
-              transparent 55%
-            ),
-            radial-gradient(
-              circle at 15% 15%,
-              rgba(168, 85, 247, 0.1),
-              transparent 45%
-            ),
-            radial-gradient(
-              circle at 85% 80%,
-              rgba(45, 212, 191, 0.1),
-              transparent 45%
-            ),
+            radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.12), transparent 55%),
+            radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.1), transparent 45%),
+            radial-gradient(circle at 85% 80%, rgba(45, 212, 191, 0.1), transparent 45%),
             #05070c;
         }
         .smart-home-grid {
-          background-image: linear-gradient(
-              to right,
-              rgba(255, 255, 255, 0.035) 1px,
-              transparent 1px
-            ),
-            linear-gradient(
-              to bottom,
-              rgba(255, 255, 255, 0.035) 1px,
-              transparent 1px
-            );
+          background-image:
+            linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
           background-size: 48px 48px;
-          mask-image: radial-gradient(
-            circle at 50% 50%,
-            black 0%,
-            transparent 72%
-          );
-          -webkit-mask-image: radial-gradient(
-            circle at 50% 50%,
-            black 0%,
-            transparent 72%
-          );
+          mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 72%);
+          -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 72%);
         }
       }
     </style>
@@ -155,135 +96,314 @@
     <div id="root"></div>
 
     <!--
-      Это зеркало компонента src/components/ui/smart-home-orbital.tsx на чистом JSX:
-      оно нужно только чтобы посмотреть результат без Node.js.
-      Рабочий, типизированный исходник живёт в src/.
+      Mirror of src/components/ui/smart-home-orbital.tsx written in plain JSX so the
+      demo runs without a build step. The typed source lives in the Vite project.
     -->
     <script type="text/babel" data-type="module" data-presets="react">
-      import React, {
-        useCallback,
-        useEffect,
-        useMemo,
-        useRef,
-        useState,
-      } from "react";
+      import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
       import { createRoot } from "react-dom/client";
       import { clsx } from "clsx";
       import { twMerge } from "tailwind-merge";
       import {
-        Activity,
-        AlertTriangle,
-        ArrowRight,
-        Blinds,
-        Camera,
-        Cpu,
-        Droplet,
-        Droplets,
-        Fan,
-        Gauge,
-        Leaf,
-        Lightbulb,
-        Link2,
-        Lock,
-        Moon,
-        Pause,
-        Plug,
-        Play,
-        Power,
-        ShieldCheck,
-        Sparkles,
-        Sun,
-        Thermometer,
-        Timer,
-        Waves,
-        WifiOff,
-        Wind,
-        Zap,
+        Activity, AlertTriangle, ArrowRight, Blinds, Camera, Cpu, Droplet, Droplets,
+        Fan, Gauge, Leaf, Lightbulb, Link2, Lock, Moon, Pause, Plug, Play, Power,
+        ShieldCheck, Sparkles, Sun, Thermometer, Timer, Waves, WifiOff, Wind, Zap,
       } from "lucide-react";
 
       const cn = (...inputs) => twMerge(clsx(inputs));
 
-      /* ---------- shadcn/ui: badge, button, card ---------- */
+      /* ---------------- translations ---------------- */
+
+      const I18N = {
+        en: {
+          htmlLang: "en",
+          back: "Back to work",
+          caseKicker: "Case · dashboard",
+          caseTitle: "Smart home dashboard",
+          caseLead:
+            "Eight subsystems orbit the hub. Pick one and the orbit stops, the node moves to the top, and the card shows what that part of the house is doing right now.",
+          hubTitle: "Smart home",
+          hubSub: "Hub · Vorthys",
+          devices: "devices",
+          subsystemsActive: "subsystems active",
+          needsAttention: "needs attention",
+          active: "active",
+          attention: "attention",
+          offline: "offline",
+          selected: "selected",
+          pause: "Pause",
+          rotate: "Rotate",
+          load: "Load",
+          linked: "Linked scenes",
+          statuses: { active: "ACTIVE", idle: "IDLE", alert: "ATTENTION", offline: "OFFLINE" },
+          aboutBody:
+            "Built as one screen a smart-home installer could hand to a client: no menus, no settings tree, everything visible at once. The orbit carries meaning — the selected subsystem rises to the top, related ones stay lit, the rest dim out.",
+          builtWith: "Built with",
+          notes: [
+            ["Data model", "Every node carries a status, a load value, up to four metrics and links to related subsystems. Nothing is hardcoded into the layout."],
+            ["Interaction", "Click a node to open it, click the background to reset, use Tab and Enter for keyboard control. Auto-rotation pauses while a card is open."],
+            ["Responsive", "Orbit radius scales from 112 to 208 px with the viewport; on phones the card docks to the bottom edge instead of floating."],
+            ["Motion", "Respects prefers-reduced-motion — the whole scene freezes for visitors who ask for less movement."],
+          ],
+          otherWork: "Other work",
+          demoNote: "Demo with fictional data. No real home or device is represented.",
+        },
+        cs: {
+          htmlLang: "cs",
+          back: "Zpět na práce",
+          caseKicker: "Případ · dashboard",
+          caseTitle: "Dashboard chytré domácnosti",
+          caseLead:
+            "Osm podsystémů obíhá kolem centrální jednotky. Kliknutím se orbita zastaví, uzel vyjede nahoru a karta ukáže, co daná část domu právě dělá.",
+          hubTitle: "Chytrá domácnost",
+          hubSub: "Jednotka · Vorthys",
+          devices: "zařízení",
+          subsystemsActive: "podsystémů aktivních",
+          needsAttention: "vyžaduje pozornost",
+          active: "aktivní",
+          attention: "pozor",
+          offline: "offline",
+          selected: "vybráno",
+          pause: "Pauza",
+          rotate: "Otáčet",
+          load: "Zátěž",
+          linked: "Propojené scénáře",
+          statuses: { active: "AKTIVNÍ", idle: "ČEKÁ", alert: "POZOR", offline: "OFFLINE" },
+          aboutBody:
+            "Postavené jako jedna obrazovka, kterou může instalatér chytré domácnosti předat klientovi: žádná menu, žádný strom nastavení, všechno je vidět naráz. Orbita nese význam — vybraný podsystém vyjede nahoru, propojené zůstanou svítit, zbytek pohasne.",
+          builtWith: "Postaveno na",
+          notes: [
+            ["Datový model", "Každý uzel nese stav, hodnotu zátěže, až čtyři metriky a odkazy na související podsystémy. Nic není napevno v rozvržení."],
+            ["Ovládání", "Kliknutím se uzel otevře, kliknutím do pozadí zavře, klávesnice funguje přes Tab a Enter. Automatické otáčení se při otevřené kartě zastaví."],
+            ["Responzivita", "Poloměr orbity se mění od 112 do 208 px podle šířky okna; na telefonu se karta zaparkuje u spodního okraje místo plovoucí bubliny."],
+            ["Pohyb", "Respektuje prefers-reduced-motion — celá scéna se zastaví, pokud si návštěvník přeje méně animací."],
+          ],
+          otherWork: "Další práce",
+          demoNote: "Ukázka se smyšlenými daty. Nejde o skutečnou domácnost ani zařízení.",
+        },
+      };
+
+      /* ---------------- data ---------------- */
+
+      const NODES = {
+        en: [
+          {
+            id: 1, title: "Climate", zone: "Living room · Bedroom · Study",
+            content: "Holds 22 °C during the day and drops to 20 °C at 23:00. Underfloor heating kicks in when a room falls half a degree below target.",
+            icon: Thermometer, relatedIds: [3, 4, 8], status: "active", load: 64,
+            loadLabel: "Circuit load", devices: 9, accent: { from: "#fb923c", to: "#f43f5e" },
+            metrics: [
+              { label: "Temperature", value: "22.4 °C", icon: Thermometer },
+              { label: "Humidity", value: "41 %", icon: Droplets },
+              { label: "Floor", value: "27 °C", icon: Activity },
+              { label: "Mode", value: "Comfort", icon: Sun },
+            ],
+          },
+          {
+            id: 2, title: "Air purifier", zone: "Nursery · Living room",
+            content: "Auto mode follows PM2.5 and climbs to speed three above 15 µg/m³. The HEPA filter is close to the end of its life.",
+            icon: Wind, relatedIds: [3, 4], status: "alert", load: 18,
+            loadLabel: "HEPA filter life", devices: 3, accent: { from: "#22d3ee", to: "#34d399" },
+            metrics: [
+              { label: "PM2.5", value: "7 µg/m³", icon: Leaf },
+              { label: "Speed", value: "Auto · 2", icon: Gauge },
+              { label: "Runtime", value: "1 840 h", icon: Timer },
+              { label: "Night mode", value: "On", icon: Moon },
+            ],
+          },
+          {
+            id: 3, title: "Ventilation", zone: "Whole flat · Heat recovery",
+            content: "Fresh air with heat recovery. Ramps up on CO₂: above 900 ppm it forces a full air change.",
+            icon: Fan, relatedIds: [1, 2, 4], status: "active", load: 45,
+            loadLabel: "Airflow", devices: 4, accent: { from: "#38bdf8", to: "#818cf8" },
+            metrics: [
+              { label: "CO₂", value: "620 ppm", icon: Gauge },
+              { label: "Intake", value: "120 m³/h", icon: Wind },
+              { label: "Recovery", value: "78 %", icon: Sparkles },
+              { label: "G4 filter", value: "62 %", icon: Timer },
+            ],
+          },
+          {
+            id: 4, title: "Humidity", zone: "Bedroom · Nursery",
+            content: "Brings humidity to 45 % before bedtime, then switches to quiet mode. Pauses while ventilation runs at full speed.",
+            icon: Droplets, relatedIds: [1, 3], status: "idle", load: 72,
+            loadLabel: "Water level", devices: 2, accent: { from: "#60a5fa", to: "#22d3ee" },
+            metrics: [
+              { label: "Humidity", value: "41 %", icon: Droplet },
+              { label: "Target", value: "45 %", icon: Gauge },
+              { label: "Usage", value: "0.3 l/h", icon: Waves },
+              { label: "Noise", value: "26 dB", icon: Activity },
+            ],
+          },
+          {
+            id: 5, title: "Lighting", zone: "All rooms · 34 fixtures",
+            content: "Evening scene: 2700 K warm light, kitchen strip at 30 %. After 23:00 the hallway comes up to 10 % on motion.",
+            icon: Lightbulb, relatedIds: [6, 7, 8], status: "active", load: 38,
+            loadLabel: "Scene brightness", devices: 34, accent: { from: "#fbbf24", to: "#f472b6" },
+            metrics: [
+              { label: "Scene", value: "Evening", icon: Sparkles },
+              { label: "Colour", value: "2700 K", icon: Sun },
+              { label: "On", value: "12 / 34", icon: Lightbulb },
+              { label: "Draw", value: "148 W", icon: Zap },
+            ],
+          },
+          {
+            id: 6, title: "Blinds", zone: "Living room · Bedroom",
+            content: "Open at sunrise, close when the sun loads the window above 700 W/m² — which takes the strain off the air conditioning.",
+            icon: Blinds, relatedIds: [1, 5], status: "active", load: 70,
+            loadLabel: "Open", devices: 5, accent: { from: "#a3a3a3", to: "#e2e8f0" },
+            metrics: [
+              { label: "Position", value: "70 %", icon: Blinds },
+              { label: "Light", value: "540 lx", icon: Sun },
+              { label: "Sunset", value: "21:14", icon: Timer },
+              { label: "Mode", value: "Sun", icon: Sparkles },
+            ],
+          },
+          {
+            id: 7, title: "Security", zone: "Hallway · Perimeter",
+            content: "Disarmed — someone is home. Cameras record on motion, the smart lock is closed, the kitchen leak sensor is dry.",
+            icon: ShieldCheck, relatedIds: [5], status: "idle", load: 96,
+            loadLabel: "Sensor battery", devices: 16, accent: { from: "#a78bfa", to: "#6366f1" },
+            metrics: [
+              { label: "Sensors", value: "12 online", icon: Activity },
+              { label: "Cameras", value: "4 recording", icon: Camera },
+              { label: "Lock", value: "Closed", icon: Lock },
+              { label: "Leak", value: "Dry", icon: Waves },
+            ],
+          },
+          {
+            id: 8, title: "Energy", zone: "Main panel",
+            content: "Meters consumption per subsystem and moves the boiler and washing machine to the night tariff after 23:00.",
+            icon: Zap, relatedIds: [1, 5, 6], status: "active", load: 27,
+            loadLabel: "Grid load", devices: 6, accent: { from: "#4ade80", to: "#facc15" },
+            metrics: [
+              { label: "Now", value: "1.84 kW", icon: Plug },
+              { label: "Today", value: "12.6 kWh", icon: Gauge },
+              { label: "Tariff", value: "Night", icon: Moon },
+              { label: "Peak", value: "3.2 kW", icon: Activity },
+            ],
+          },
+        ],
+        cs: [
+          {
+            id: 1, title: "Klima", zone: "Obývák · Ložnice · Pracovna",
+            content: "Přes den drží 22 °C, ve 23:00 klesá na 20 °C. Podlahové topení naskočí, když teplota spadne půl stupně pod nastavenou hodnotu.",
+            icon: Thermometer, relatedIds: [3, 4, 8], status: "active", load: 64,
+            loadLabel: "Zátěž okruhu", devices: 9, accent: { from: "#fb923c", to: "#f43f5e" },
+            metrics: [
+              { label: "Teplota", value: "22,4 °C", icon: Thermometer },
+              { label: "Vlhkost", value: "41 %", icon: Droplets },
+              { label: "Podlaha", value: "27 °C", icon: Activity },
+              { label: "Režim", value: "Komfort", icon: Sun },
+            ],
+          },
+          {
+            id: 2, title: "Čistička vzduchu", zone: "Dětský pokoj · Obývák",
+            content: "Automatika sleduje PM2.5 a nad 15 µg/m³ přepne na třetí stupeň. Životnost HEPA filtru se blíží ke konci.",
+            icon: Wind, relatedIds: [3, 4], status: "alert", load: 18,
+            loadLabel: "Životnost HEPA filtru", devices: 3, accent: { from: "#22d3ee", to: "#34d399" },
+            metrics: [
+              { label: "PM2.5", value: "7 µg/m³", icon: Leaf },
+              { label: "Stupeň", value: "Auto · 2", icon: Gauge },
+              { label: "Provoz", value: "1 840 h", icon: Timer },
+              { label: "Noční režim", value: "Zapnuto", icon: Moon },
+            ],
+          },
+          {
+            id: 3, title: "Ventilace", zone: "Byt · Rekuperace",
+            content: "Přívod čerstvého vzduchu s rekuperací tepla. Zrychluje podle CO₂: nad 900 ppm vyvětrá naplno.",
+            icon: Fan, relatedIds: [1, 2, 4], status: "active", load: 45,
+            loadLabel: "Výkon", devices: 4, accent: { from: "#38bdf8", to: "#818cf8" },
+            metrics: [
+              { label: "CO₂", value: "620 ppm", icon: Gauge },
+              { label: "Přívod", value: "120 m³/h", icon: Wind },
+              { label: "Rekuperace", value: "78 %", icon: Sparkles },
+              { label: "Filtr G4", value: "62 %", icon: Timer },
+            ],
+          },
+          {
+            id: 4, title: "Zvlhčování", zone: "Ložnice · Dětský pokoj",
+            content: "Před spaním dožene vlhkost na 45 % a přepne do tichého režimu. Když jede ventilace naplno, dělá pauzu.",
+            icon: Droplets, relatedIds: [1, 3], status: "idle", load: 72,
+            loadLabel: "Hladina vody", devices: 2, accent: { from: "#60a5fa", to: "#22d3ee" },
+            metrics: [
+              { label: "Vlhkost", value: "41 %", icon: Droplet },
+              { label: "Cíl", value: "45 %", icon: Gauge },
+              { label: "Spotřeba", value: "0,3 l/h", icon: Waves },
+              { label: "Hluk", value: "26 dB", icon: Activity },
+            ],
+          },
+          {
+            id: 5, title: "Osvětlení", zone: "Všechny místnosti · 34 svítidel",
+            content: "Scéna „Večer“: teplé světlo 2700 K, kuchyňský pás na 30 %. Po 23:00 se chodba rozsvítí na 10 % podle pohybu.",
+            icon: Lightbulb, relatedIds: [6, 7, 8], status: "active", load: 38,
+            loadLabel: "Jas scény", devices: 34, accent: { from: "#fbbf24", to: "#f472b6" },
+            metrics: [
+              { label: "Scéna", value: "Večer", icon: Sparkles },
+              { label: "Teplota", value: "2700 K", icon: Sun },
+              { label: "Svítí", value: "12 / 34", icon: Lightbulb },
+              { label: "Odběr", value: "148 W", icon: Zap },
+            ],
+          },
+          {
+            id: 6, title: "Žaluzie", zone: "Obývák · Ložnice",
+            content: "Otevřou se s východem slunce a zavřou, když slunce zatíží okno víc než 700 W/m² — uleví se tím klimatizaci.",
+            icon: Blinds, relatedIds: [1, 5], status: "active", load: 70,
+            loadLabel: "Otevřeno", devices: 5, accent: { from: "#a3a3a3", to: "#e2e8f0" },
+            metrics: [
+              { label: "Poloha", value: "70 %", icon: Blinds },
+              { label: "Osvětlení", value: "540 lx", icon: Sun },
+              { label: "Západ", value: "21:14", icon: Timer },
+              { label: "Režim", value: "Slunce", icon: Sparkles },
+            ],
+          },
+          {
+            id: 7, title: "Zabezpečení", zone: "Předsíň · Perimetr",
+            content: "Odjištěno — někdo je doma. Kamery nahrávají na pohyb, chytrý zámek je zamčený, čidlo na kuchyňské podlaze hlásí sucho.",
+            icon: ShieldCheck, relatedIds: [5], status: "idle", load: 96,
+            loadLabel: "Baterie čidel", devices: 16, accent: { from: "#a78bfa", to: "#6366f1" },
+            metrics: [
+              { label: "Čidla", value: "12 online", icon: Activity },
+              { label: "Kamery", value: "4 nahrávají", icon: Camera },
+              { label: "Zámek", value: "Zamčeno", icon: Lock },
+              { label: "Zatopení", value: "Sucho", icon: Waves },
+            ],
+          },
+          {
+            id: 8, title: "Energie", zone: "Rozvaděč",
+            content: "Měří spotřebu po podsystémech a po 23:00 přesouvá bojler s pračkou na noční tarif.",
+            icon: Zap, relatedIds: [1, 5, 6], status: "active", load: 27,
+            loadLabel: "Zatížení sítě", devices: 6, accent: { from: "#4ade80", to: "#facc15" },
+            metrics: [
+              { label: "Teď", value: "1,84 kW", icon: Plug },
+              { label: "Dnes", value: "12,6 kWh", icon: Gauge },
+              { label: "Tarif", value: "Noční", icon: Moon },
+              { label: "Špička", value: "3,2 kW", icon: Activity },
+            ],
+          },
+        ],
+      };
+
+      /* ---------------- shadcn/ui primitives ---------------- */
 
       function Badge({ className, ...props }) {
-        return (
-          <div
-            className={cn(
-              "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors",
-              className
-            )}
-            {...props}
-          />
-        );
+        return <div className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors", className)} {...props} />;
       }
-
       function Button({ className, ...props }) {
-        return (
-          <button
-            className={cn(
-              "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent",
-              className
-            )}
-            {...props}
-          />
-        );
+        return <button className={cn("inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent", className)} {...props} />;
       }
+      const Card = ({ className, ...props }) => <div className={cn("rounded-lg border bg-card text-card-foreground shadow-sm", className)} {...props} />;
+      const CardHeader = ({ className, ...props }) => <div className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />;
+      const CardTitle = ({ className, ...props }) => <h3 className={cn("text-2xl font-semibold leading-none tracking-tight", className)} {...props} />;
+      const CardContent = ({ className, ...props }) => <div className={cn("p-6 pt-0", className)} {...props} />;
 
-      const Card = ({ className, ...props }) => (
-        <div
-          className={cn(
-            "rounded-lg border bg-card text-card-foreground shadow-sm",
-            className
-          )}
-          {...props}
-        />
-      );
-      const CardHeader = ({ className, ...props }) => (
-        <div
-          className={cn("flex flex-col space-y-1.5 p-6", className)}
-          {...props}
-        />
-      );
-      const CardTitle = ({ className, ...props }) => (
-        <h3
-          className={cn(
-            "text-2xl font-semibold leading-none tracking-tight",
-            className
-          )}
-          {...props}
-        />
-      );
-      const CardContent = ({ className, ...props }) => (
-        <div className={cn("p-6 pt-0", className)} {...props} />
-      );
+      /* ---------------- orbital scene ---------------- */
 
-      /* ---------- SmartHomeOrbital ---------- */
-
-      const STATUS_META = {
-        active: {
-          label: "АКТИВНО",
-          dot: "#34d399",
-          badge: "border-emerald-400/40 bg-emerald-400/15 text-emerald-200",
-          icon: Activity,
-        },
-        idle: {
-          label: "ОЖИДАНИЕ",
-          dot: "#94a3b8",
-          badge: "border-slate-400/30 bg-slate-400/10 text-slate-200",
-          icon: Power,
-        },
-        alert: {
-          label: "ВНИМАНИЕ",
-          dot: "#fbbf24",
-          badge: "border-amber-400/40 bg-amber-400/15 text-amber-200",
-          icon: AlertTriangle,
-        },
-        offline: {
-          label: "НЕ В СЕТИ",
-          dot: "#f87171",
-          badge: "border-rose-400/40 bg-rose-400/15 text-rose-200",
-          icon: WifiOff,
-        },
+      const STATUS_STYLE = {
+        active: { dot: "#34d399", badge: "border-emerald-400/40 bg-emerald-400/15 text-emerald-200", icon: Activity },
+        idle: { dot: "#94a3b8", badge: "border-slate-400/30 bg-slate-400/10 text-slate-200", icon: Power },
+        alert: { dot: "#fbbf24", badge: "border-amber-400/40 bg-amber-400/15 text-amber-200", icon: AlertTriangle },
+        offline: { dot: "#f87171", badge: "border-rose-400/40 bg-rose-400/15 text-rose-200", icon: WifiOff },
       };
 
       function getRadius(width) {
@@ -293,17 +413,10 @@
         return 208;
       }
 
-      function SmartHomeOrbital({
-        nodes,
-        hubTitle = "Умный дом",
-        hubSubtitle = "Центральный хаб",
-        autoRotate: autoRotateProp = true,
-        className,
-        onNodeSelect,
-      }) {
+      function SmartHomeOrbital({ nodes, t, className }) {
         const [expandedItems, setExpandedItems] = useState({});
         const [rotationAngle, setRotationAngle] = useState(0);
-        const [autoRotate, setAutoRotate] = useState(autoRotateProp);
+        const [autoRotate, setAutoRotate] = useState(true);
         const [pulseEffect, setPulseEffect] = useState({});
         const [activeNodeId, setActiveNodeId] = useState(null);
         const [size, setSize] = useState({ width: 0, height: 0 });
@@ -311,18 +424,22 @@
         const containerRef = useRef(null);
         const orbitRef = useRef(null);
         const nodeRefs = useRef({});
-
         const radius = getRadius(size.width || 1024);
 
         useEffect(() => {
           const el = orbitRef.current;
           if (!el) return;
-          const update = () =>
-            setSize({ width: el.clientWidth, height: el.clientHeight });
+          const update = () => setSize({ width: el.clientWidth, height: el.clientHeight });
           update();
+          // ResizeObserver is the primary signal; the window listener is a fallback
+          // for cases where the observer is throttled (background or hidden tabs)
           const observer = new ResizeObserver(update);
           observer.observe(el);
-          return () => observer.disconnect();
+          window.addEventListener("resize", update);
+          return () => {
+            observer.disconnect();
+            window.removeEventListener("resize", update);
+          };
         }, []);
 
         useEffect(() => {
@@ -333,9 +450,15 @@
           return () => clearInterval(timer);
         }, [autoRotate]);
 
+        // switching language rebuilds the node list — close any open card
+        useEffect(() => {
+          setExpandedItems({});
+          setActiveNodeId(null);
+          setPulseEffect({});
+        }, [nodes]);
+
         const getRelatedItems = useCallback(
-          (itemId) =>
-            (nodes.find((item) => item.id === itemId) || {}).relatedIds || [],
+          (itemId) => (nodes.find((item) => item.id === itemId) || {}).relatedIds || [],
           [nodes]
         );
 
@@ -354,60 +477,48 @@
           setActiveNodeId(null);
           setPulseEffect({});
           setAutoRotate(true);
-          onNodeSelect && onNodeSelect(null);
-        }, [onNodeSelect]);
+        }, []);
 
         const toggleItem = useCallback(
           (id) => {
             const isOpening = !expandedItems[id];
             setExpandedItems(isOpening ? { [id]: true } : {});
-
             if (isOpening) {
               setActiveNodeId(id);
               setAutoRotate(false);
               const newPulse = {};
-              getRelatedItems(id).forEach((relId) => {
-                newPulse[relId] = true;
-              });
+              getRelatedItems(id).forEach((relId) => { newPulse[relId] = true; });
               setPulseEffect(newPulse);
               centerViewOnNode(id);
-              onNodeSelect &&
-                onNodeSelect(nodes.find((item) => item.id === id) || null);
             } else {
               setActiveNodeId(null);
               setAutoRotate(true);
               setPulseEffect({});
-              onNodeSelect && onNodeSelect(null);
             }
           },
-          [centerViewOnNode, expandedItems, getRelatedItems, nodes, onNodeSelect]
+          [centerViewOnNode, expandedItems, getRelatedItems]
         );
 
         const handleContainerClick = (e) => {
-          if (e.target === containerRef.current || e.target === orbitRef.current) {
-            resetView();
-          }
+          if (e.target === containerRef.current || e.target === orbitRef.current) resetView();
         };
 
         const calculateNodePosition = useCallback(
           (index, total) => {
             const angle = ((index / total) * 360 + rotationAngle) % 360;
             const radian = (angle * Math.PI) / 180;
-            const x = radius * Math.cos(radian);
-            const y = radius * Math.sin(radian);
-            const zIndex = Math.round(100 + 50 * Math.cos(radian));
-            const opacity = Math.max(
-              0.45,
-              Math.min(1, 0.45 + 0.55 * ((1 + Math.sin(radian)) / 2))
-            );
-            return { x, y, angle, zIndex, opacity };
+            return {
+              x: radius * Math.cos(radian),
+              y: radius * Math.sin(radian),
+              zIndex: Math.round(100 + 50 * Math.cos(radian)),
+              opacity: Math.max(0.45, Math.min(1, 0.45 + 0.55 * ((1 + Math.sin(radian)) / 2))),
+            };
           },
           [radius, rotationAngle]
         );
 
         const positions = useMemo(
-          () =>
-            nodes.map((_, index) => calculateNodePosition(index, nodes.length)),
+          () => nodes.map((_, index) => calculateNodePosition(index, nodes.length)),
           [calculateNodePosition, nodes]
         );
 
@@ -428,18 +539,12 @@
             .filter(Boolean);
         }, [activeNodeId, getRelatedItems, nodes, positions]);
 
-        const summary = useMemo(() => {
-          const devices = nodes.reduce(
-            (acc, node) => acc + (node.devices || 0),
-            0
-          );
-          return {
-            devices,
-            active: nodes.filter((n) => n.status === "active").length,
-            alerts: nodes.filter((n) => n.status === "alert").length,
-            offline: nodes.filter((n) => n.status === "offline").length,
-          };
-        }, [nodes]);
+        const summary = useMemo(() => ({
+          devices: nodes.reduce((acc, node) => acc + (node.devices || 0), 0),
+          active: nodes.filter((n) => n.status === "active").length,
+          alerts: nodes.filter((n) => n.status === "alert").length,
+          offline: nodes.filter((n) => n.status === "offline").length,
+        }), [nodes]);
 
         const activeNode = nodes.find((n) => n.id === activeNodeId) || null;
 
@@ -447,10 +552,7 @@
           <div
             ref={containerRef}
             onClick={handleContainerClick}
-            className={cn(
-              "smart-home-scene relative flex h-screen w-full flex-col items-center justify-center overflow-hidden",
-              className
-            )}
+            className={cn("smart-home-scene relative flex w-full flex-col items-center justify-center overflow-hidden", className)}
           >
             <div className="smart-home-grid pointer-events-none absolute inset-0" />
 
@@ -460,70 +562,40 @@
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                 </span>
-                <h1 className="text-sm font-semibold uppercase tracking-[0.25em]">
-                  {hubTitle}
-                </h1>
+                <h2 className="text-sm font-semibold uppercase tracking-[0.25em]">{t.hubTitle}</h2>
               </div>
               <p className="text-xs text-white/45">
-                {summary.devices} устройств · {summary.active} подсистем активно
-                {summary.alerts > 0
-                  ? ` · ${summary.alerts} требует внимания`
-                  : ""}
+                {summary.devices} {t.devices} · {summary.active} {t.subsystemsActive}
+                {summary.alerts > 0 ? ` · ${summary.alerts} ${t.needsAttention}` : ""}
               </p>
             </div>
 
             <div className="relative flex h-full w-full max-w-5xl items-center justify-center">
-              <div
-                ref={orbitRef}
-                className="absolute flex h-full w-full items-center justify-center"
-                style={{ perspective: "1200px" }}
-              >
+              <div ref={orbitRef} className="absolute flex h-full w-full items-center justify-center" style={{ perspective: "1200px" }}>
                 {size.width > 0 && links.length > 0 && (
                   <svg
                     className="pointer-events-none absolute inset-0 h-full w-full"
-                    viewBox={`${-size.width / 2} ${-size.height / 2} ${
-                      size.width
-                    } ${size.height}`}
+                    viewBox={`${-size.width / 2} ${-size.height / 2} ${size.width} ${size.height}`}
                     style={{ zIndex: 90 }}
                   >
                     {links.map((link) => (
-                      <line
-                        key={link.id}
-                        x1={link.from.x}
-                        y1={link.from.y}
-                        x2={link.to.x}
-                        y2={link.to.y}
-                        stroke="rgba(255,255,255,0.35)"
-                        strokeWidth={1}
-                        strokeDasharray="4 8"
-                        className="animate-link-flow"
-                      />
+                      <line key={link.id} x1={link.from.x} y1={link.from.y} x2={link.to.x} y2={link.to.y}
+                        stroke="rgba(255,255,255,0.35)" strokeWidth={1} strokeDasharray="4 8" className="animate-link-flow" />
                     ))}
                   </svg>
                 )}
 
-                <div
-                  className="absolute rounded-full border border-white/10"
-                  style={{ width: radius * 2, height: radius * 2 }}
-                />
-                <div
-                  className="absolute rounded-full border border-dashed border-white/[0.06]"
-                  style={{ width: radius * 2 + 56, height: radius * 2 + 56 }}
-                />
+                <div className="absolute rounded-full border border-white/10" style={{ width: radius * 2, height: radius * 2 }} />
+                <div className="absolute rounded-full border border-dashed border-white/[0.06]" style={{ width: radius * 2 + 56, height: radius * 2 + 56 }} />
 
                 <div className="absolute z-10 flex h-20 w-20 items-center justify-center">
                   <div className="absolute h-24 w-24 animate-ping rounded-full border border-white/15 opacity-60" />
-                  <div
-                    className="absolute h-28 w-28 animate-ping rounded-full border border-white/10 opacity-40"
-                    style={{ animationDelay: "0.6s" }}
-                  />
+                  <div className="absolute h-28 w-28 animate-ping rounded-full border border-white/10 opacity-40" style={{ animationDelay: "0.6s" }} />
                   <div className="absolute h-16 w-16 animate-hub-breathe rounded-full bg-gradient-to-br from-sky-400 via-indigo-500 to-emerald-400 opacity-90 blur-[2px]" />
-                  <div className="relative flex h-12 w-12 flex-col items-center justify-center rounded-full bg-slate-950/80 text-white ring-1 ring-white/25 backdrop-blur-md">
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-950/80 text-white ring-1 ring-white/25 backdrop-blur-md">
                     <Cpu size={18} />
                   </div>
-                  <div className="absolute -bottom-8 whitespace-nowrap text-[10px] uppercase tracking-[0.2em] text-white/40">
-                    {hubSubtitle}
-                  </div>
+                  <div className="absolute -bottom-8 whitespace-nowrap text-[10px] uppercase tracking-[0.2em] text-white/40">{t.hubSub}</div>
                 </div>
 
                 {nodes.map((item, index) => {
@@ -531,92 +603,60 @@
                   const isExpanded = Boolean(expandedItems[item.id]);
                   const isRelated = isRelatedToActive(item.id);
                   const isPulsing = Boolean(pulseEffect[item.id]);
-                  const isDimmed =
-                    activeNodeId !== null && !isExpanded && !isRelated;
+                  const isDimmed = activeNodeId !== null && !isExpanded && !isRelated;
                   const Icon = item.icon;
-                  const status = STATUS_META[item.status];
+                  const status = STATUS_STYLE[item.status];
                   const StatusIcon = status.icon;
+                  const statusLabel = t.statuses[item.status];
                   const glowSize = item.load * 0.5 + 46;
 
                   return (
                     <div
                       key={item.id}
-                      ref={(el) => {
-                        nodeRefs.current[item.id] = el;
-                      }}
+                      ref={(el) => { nodeRefs.current[item.id] = el; }}
                       role="button"
                       tabIndex={0}
                       aria-expanded={isExpanded}
-                      aria-label={`${item.title}: ${status.label.toLowerCase()}`}
+                      aria-label={`${item.title}: ${statusLabel.toLowerCase()}`}
                       className="absolute cursor-pointer transition-all duration-700 focus:outline-none"
                       style={{
                         transform: `translate(${position.x}px, ${position.y}px)`,
                         zIndex: isExpanded ? 250 : position.zIndex,
-                        opacity: isExpanded
-                          ? 1
-                          : isDimmed
-                          ? 0.3
-                          : position.opacity,
+                        opacity: isExpanded ? 1 : isDimmed ? 0.3 : position.opacity,
                       }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleItem(item.id);
-                      }}
+                      onClick={(e) => { e.stopPropagation(); toggleItem(item.id); }}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          toggleItem(item.id);
-                        }
+                        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); toggleItem(item.id); }
                       }}
                     >
                       <div
-                        className={cn(
-                          "pointer-events-none absolute rounded-full",
-                          isPulsing && "animate-pulse"
-                        )}
+                        className={cn("pointer-events-none absolute rounded-full", isPulsing && "animate-pulse")}
                         style={{
                           background: `radial-gradient(circle, ${item.accent.from}40 0%, ${item.accent.to}00 70%)`,
-                          width: glowSize,
-                          height: glowSize,
-                          left: -(glowSize - 44) / 2,
-                          top: -(glowSize - 44) / 2,
+                          width: glowSize, height: glowSize,
+                          left: -(glowSize - 44) / 2, top: -(glowSize - 44) / 2,
                         }}
                       />
 
                       <div
                         className={cn(
                           "relative flex h-11 w-11 items-center justify-center rounded-2xl border transition-all duration-300",
-                          isExpanded
-                            ? "scale-125 border-white/70 text-slate-950"
-                            : isRelated
-                            ? "border-white/60 text-white"
-                            : "border-white/20 text-white/80"
+                          isExpanded ? "scale-125 border-white/70 text-slate-950"
+                            : isRelated ? "border-white/60 text-white" : "border-white/20 text-white/80"
                         )}
                         style={{
-                          background: isExpanded
-                            ? `linear-gradient(135deg, ${item.accent.from}, ${item.accent.to})`
-                            : "rgba(8, 12, 20, 0.85)",
-                          boxShadow: isExpanded
-                            ? `0 0 28px ${item.accent.from}66`
-                            : isRelated
-                            ? `0 0 16px ${item.accent.from}55`
-                            : "none",
+                          background: isExpanded ? `linear-gradient(135deg, ${item.accent.from}, ${item.accent.to})` : "rgba(8, 12, 20, 0.85)",
+                          boxShadow: isExpanded ? `0 0 28px ${item.accent.from}66` : isRelated ? `0 0 16px ${item.accent.from}55` : "none",
                         }}
                       >
                         <Icon size={18} />
-                        <span
-                          className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-slate-950"
-                          style={{ background: status.dot }}
-                        />
+                        <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-slate-950" style={{ background: status.dot }} />
                       </div>
 
-                      <div
-                        className={cn(
-                          "absolute left-1/2 top-14 -translate-x-1/2 whitespace-nowrap text-[11px] font-medium tracking-wide transition-all duration-300",
-                          isExpanded ? "scale-110 text-white" : "text-white/60"
-                        )}
-                      >
+                      <div className={cn(
+                        "absolute left-1/2 top-14 -translate-x-1/2 whitespace-nowrap text-[11px] font-medium tracking-wide transition-all duration-300",
+                        isExpanded ? "scale-110 text-white" : "text-white/60"
+                      )}>
                         {item.title}
                       </div>
 
@@ -626,30 +666,16 @@
                           className="absolute left-1/2 top-24 w-72 max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-visible border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-xl max-sm:fixed max-sm:inset-x-4 max-sm:bottom-6 max-sm:left-auto max-sm:top-auto max-sm:w-auto max-sm:max-w-none max-sm:translate-x-0"
                         >
                           <div className="absolute -top-3 left-1/2 h-3 w-px -translate-x-1/2 bg-white/30 max-sm:hidden" />
-                          <div
-                            className="absolute inset-x-0 -top-px h-px"
-                            style={{
-                              background: `linear-gradient(90deg, transparent, ${item.accent.from}, transparent)`,
-                            }}
-                          />
+                          <div className="absolute inset-x-0 -top-px h-px" style={{ background: `linear-gradient(90deg, transparent, ${item.accent.from}, transparent)` }} />
                           <CardHeader className="space-y-2 p-4 pb-2">
                             <div className="flex items-center justify-between gap-2">
-                              <Badge
-                                className={cn(
-                                  "gap-1 px-2 py-0 text-[10px] tracking-wider",
-                                  status.badge
-                                )}
-                              >
+                              <Badge className={cn("gap-1 px-2 py-0 text-[10px] tracking-wider", status.badge)}>
                                 <StatusIcon size={10} />
-                                {status.label}
+                                {statusLabel}
                               </Badge>
-                              <span className="text-[10px] uppercase tracking-wider text-white/40">
-                                {item.zone}
-                              </span>
+                              <span className="text-[10px] uppercase tracking-wider text-white/40">{item.zone}</span>
                             </div>
-                            <CardTitle className="text-base font-semibold">
-                              {item.title}
-                            </CardTitle>
+                            <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
                           </CardHeader>
 
                           <CardContent className="p-4 pt-0 text-xs text-white/70">
@@ -660,17 +686,12 @@
                                 {item.metrics.map((metric) => {
                                   const MetricIcon = metric.icon;
                                   return (
-                                    <div
-                                      key={metric.label}
-                                      className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-2"
-                                    >
+                                    <div key={metric.label} className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-2">
                                       <div className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/40">
                                         {MetricIcon && <MetricIcon size={10} />}
                                         {metric.label}
                                       </div>
-                                      <div className="mt-0.5 font-mono text-sm text-white">
-                                        {metric.value}
-                                      </div>
+                                      <div className="mt-0.5 font-mono text-sm text-white">{metric.value}</div>
                                     </div>
                                   );
                                 })}
@@ -679,21 +700,12 @@
 
                             <div className="mt-4 border-t border-white/10 pt-3">
                               <div className="mb-1 flex items-center justify-between text-[11px]">
-                                <span className="text-white/50">
-                                  {item.loadLabel || "Нагрузка"}
-                                </span>
-                                <span className="font-mono text-white">
-                                  {item.load}%
-                                </span>
+                                <span className="text-white/50">{item.loadLabel || t.load}</span>
+                                <span className="font-mono text-white">{item.load}%</span>
                               </div>
                               <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                                <div
-                                  className="h-full rounded-full transition-all duration-700"
-                                  style={{
-                                    width: `${item.load}%`,
-                                    background: `linear-gradient(90deg, ${item.accent.from}, ${item.accent.to})`,
-                                  }}
-                                />
+                                <div className="h-full rounded-full transition-all duration-700"
+                                  style={{ width: `${item.load}%`, background: `linear-gradient(90deg, ${item.accent.from}, ${item.accent.to})` }} />
                               </div>
                             </div>
 
@@ -701,23 +713,16 @@
                               <div className="mt-4 border-t border-white/10 pt-3">
                                 <div className="mb-2 flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/40">
                                   <Link2 size={10} />
-                                  Связанные сценарии
+                                  {t.linked}
                                 </div>
                                 <div className="flex flex-wrap gap-1.5">
                                   {item.relatedIds.map((relatedId) => {
-                                    const relatedItem = nodes.find(
-                                      (i) => i.id === relatedId
-                                    );
+                                    const relatedItem = nodes.find((i) => i.id === relatedId);
                                     if (!relatedItem) return null;
                                     return (
-                                      <Button
-                                        key={relatedId}
+                                      <Button key={relatedId}
                                         className="h-7 gap-1 rounded-full border-white/15 bg-white/[0.03] px-2.5 text-[11px] text-white/75 hover:bg-white/10 hover:text-white"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          toggleItem(relatedId);
-                                        }}
-                                      >
+                                        onClick={(e) => { e.stopPropagation(); toggleItem(relatedId); }}>
                                         {relatedItem.title}
                                         <ArrowRight size={10} />
                                       </Button>
@@ -737,220 +742,113 @@
 
             <div className="absolute bottom-0 left-0 right-0 z-[300] flex flex-wrap items-center justify-between gap-3 p-5 sm:p-8">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-white/45">
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  активно {summary.active}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                  внимание {summary.alerts}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
-                  не в сети {summary.offline}
-                </span>
-                {activeNode && (
-                  <span className="text-white/70">
-                    выбрано: {activeNode.title}
-                  </span>
-                )}
+                <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />{t.active} {summary.active}</span>
+                <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-amber-400" />{t.attention} {summary.alerts}</span>
+                <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-rose-400" />{t.offline} {summary.offline}</span>
+                {activeNode && <span className="text-white/70">{t.selected}: {activeNode.title}</span>}
               </div>
 
               <Button
                 className="h-8 gap-1.5 rounded-full border-white/15 bg-white/[0.04] px-3 text-[11px] text-white/70 hover:bg-white/10 hover:text-white"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setAutoRotate((prev) => !prev);
-                }}
+                onClick={(e) => { e.stopPropagation(); setAutoRotate((prev) => !prev); }}
               >
                 {autoRotate ? <Pause size={12} /> : <Play size={12} />}
-                {autoRotate ? "Пауза" : "Вращать"}
+                {autoRotate ? t.pause : t.rotate}
               </Button>
             </div>
           </div>
         );
       }
 
-      /* ---------- Данные умного дома ---------- */
+      /* ---------------- page around the demo ---------------- */
 
-      const smartHomeNodes = [
-        {
-          id: 1,
-          title: "Микроклимат",
-          zone: "Гостиная · Спальня · Кабинет",
-          content:
-            "Держит 22 °C днём и опускает до 20 °C к 23:00. Тёплый пол включается, если температура падает ниже уставки на 0.5 °C.",
-          category: "Климат",
-          icon: Thermometer,
-          relatedIds: [3, 4, 8],
-          status: "active",
-          load: 64,
-          loadLabel: "Нагрузка контура",
-          devices: 9,
-          accent: { from: "#fb923c", to: "#f43f5e" },
-          metrics: [
-            { label: "Температура", value: "22.4 °C", icon: Thermometer },
-            { label: "Влажность", value: "41 %", icon: Droplets },
-            { label: "Тёплый пол", value: "27 °C", icon: Activity },
-            { label: "Режим", value: "Комфорт", icon: Sun },
-          ],
-        },
-        {
-          id: 2,
-          title: "Очиститель воздуха",
-          zone: "Детская · Гостиная",
-          content:
-            "Авторежим по PM2.5: разгоняется до 3-й скорости, когда частицы превышают 15 мкг/м³. Ресурс HEPA-фильтра подходит к концу.",
-          category: "Воздух",
-          icon: Wind,
-          relatedIds: [3, 4],
-          status: "alert",
-          load: 18,
-          loadLabel: "Ресурс HEPA-фильтра",
-          devices: 3,
-          accent: { from: "#22d3ee", to: "#34d399" },
-          metrics: [
-            { label: "PM2.5", value: "7 мкг/м³", icon: Leaf },
-            { label: "Скорость", value: "Авто · 2", icon: Gauge },
-            { label: "Наработка", value: "1 840 ч", icon: Timer },
-            { label: "Ночной режим", value: "Вкл", icon: Moon },
-          ],
-        },
-        {
-          id: 3,
-          title: "Вентиляция",
-          zone: "Квартира · Рекуператор",
-          content:
-            "Приток свежего воздуха с рекуперацией тепла. Разгоняется по CO₂: выше 900 ppm — принудительное проветривание.",
-          category: "Воздух",
-          icon: Fan,
-          relatedIds: [1, 2, 4],
-          status: "active",
-          load: 45,
-          loadLabel: "Производительность",
-          devices: 4,
-          accent: { from: "#38bdf8", to: "#818cf8" },
-          metrics: [
-            { label: "CO₂", value: "620 ppm", icon: Gauge },
-            { label: "Приток", value: "120 м³/ч", icon: Wind },
-            { label: "Рекуперация", value: "78 %", icon: Sparkles },
-            { label: "Фильтр G4", value: "62 %", icon: Timer },
-          ],
-        },
-        {
-          id: 4,
-          title: "Увлажнение",
-          zone: "Спальня · Детская",
-          content:
-            "Догоняет влажность до 45 % перед сном и уходит в тихий режим. Пауза, если работает приточная вентиляция на максимуме.",
-          category: "Климат",
-          icon: Droplets,
-          relatedIds: [1, 3],
-          status: "idle",
-          load: 72,
-          loadLabel: "Уровень воды",
-          devices: 2,
-          accent: { from: "#60a5fa", to: "#22d3ee" },
-          metrics: [
-            { label: "Влажность", value: "41 %", icon: Droplet },
-            { label: "Цель", value: "45 %", icon: Gauge },
-            { label: "Расход", value: "0.3 л/ч", icon: Waves },
-            { label: "Шум", value: "26 дБ", icon: Activity },
-          ],
-        },
-        {
-          id: 5,
-          title: "Освещение",
-          zone: "Все комнаты · 34 источника",
-          content:
-            "Сцена «Вечер»: тёплый свет 2700 K, подсветка кухни 30 %. После 23:00 коридор включается на 10 % по датчику движения.",
-          category: "Свет",
-          icon: Lightbulb,
-          relatedIds: [6, 7, 8],
-          status: "active",
-          load: 38,
-          loadLabel: "Яркость сцены",
-          devices: 34,
-          accent: { from: "#fbbf24", to: "#f472b6" },
-          metrics: [
-            { label: "Сцена", value: "Вечер", icon: Sparkles },
-            { label: "Температура", value: "2700 K", icon: Sun },
-            { label: "Включено", value: "12 / 34", icon: Lightbulb },
-            { label: "Потребление", value: "148 Вт", icon: Zap },
-          ],
-        },
-        {
-          id: 6,
-          title: "Шторы",
-          zone: "Гостиная · Спальня",
-          content:
-            "Открываются по восходу и закрываются, когда солнце греет окно сильнее 700 Вт/м² — снимает нагрузку с кондиционера.",
-          category: "Свет",
-          icon: Blinds,
-          relatedIds: [1, 5],
-          status: "active",
-          load: 70,
-          loadLabel: "Открыто",
-          devices: 5,
-          accent: { from: "#a3a3a3", to: "#e2e8f0" },
-          metrics: [
-            { label: "Положение", value: "70 %", icon: Blinds },
-            { label: "Освещённость", value: "540 лк", icon: Sun },
-            { label: "Закат", value: "21:14", icon: Timer },
-            { label: "Режим", value: "Солнце", icon: Sparkles },
-          ],
-        },
-        {
-          id: 7,
-          title: "Безопасность",
-          zone: "Прихожая · Периметр",
-          content:
-            "Охрана снята — дома есть люди. Камеры пишут по движению, умный замок закрыт, датчик протечки на кухне сухой.",
-          category: "Охрана",
-          icon: ShieldCheck,
-          relatedIds: [5],
-          status: "idle",
-          load: 96,
-          loadLabel: "Заряд датчиков",
-          devices: 16,
-          accent: { from: "#a78bfa", to: "#6366f1" },
-          metrics: [
-            { label: "Датчики", value: "12 онлайн", icon: Activity },
-            { label: "Камеры", value: "4 записи", icon: Camera },
-            { label: "Замок", value: "Закрыт", icon: Lock },
-            { label: "Протечка", value: "Сухо", icon: Waves },
-          ],
-        },
-        {
-          id: 8,
-          title: "Энергия",
-          zone: "Щиток · Ввод",
-          content:
-            "Считает потребление по подсистемам и переносит бойлер со стиральной машиной на ночной тариф после 23:00.",
-          category: "Энергия",
-          icon: Zap,
-          relatedIds: [1, 5, 6],
-          status: "active",
-          load: 27,
-          loadLabel: "Нагрузка сети",
-          devices: 6,
-          accent: { from: "#4ade80", to: "#facc15" },
-          metrics: [
-            { label: "Сейчас", value: "1.84 кВт", icon: Plug },
-            { label: "За сутки", value: "12.6 кВт·ч", icon: Gauge },
-            { label: "Тариф", value: "Ночной", icon: Moon },
-            { label: "Пик", value: "3.2 кВт", icon: Activity },
-          ],
-        },
-      ];
+      function SiteBar({ lang, setLang, t }) {
+        return (
+          <header className="sticky top-0 z-[400] border-b border-white/10 bg-[#05070c]/90 backdrop-blur">
+            <div className="mx-auto flex w-[min(1180px,100%-2rem)] items-center gap-4 py-3">
+              <a href="/" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-white">
+                <svg viewBox="0 0 64 64" className="h-5 w-5" aria-hidden="true">
+                  <path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="#f4f3ef" />
+                  <path d="M42 8h16L38 58h-8l12-50z" fill="#f2c230" />
+                </svg>
+                Vorthys
+              </a>
+              <a href={lang === "cs" ? "/cs/#prace" : "/#work"} className="ml-auto text-[13px] text-white/50 transition-colors hover:text-white">
+                ← {t.back}
+              </a>
+              <div className="flex gap-0.5 font-mono text-[11px]">
+                <button onClick={() => setLang("en")}
+                  className={cn("rounded px-2 py-1 tracking-wider transition-colors", lang === "en" ? "bg-white text-slate-950" : "text-white/50 hover:text-white")}>EN</button>
+                <button onClick={() => setLang("cs")}
+                  className={cn("rounded px-2 py-1 tracking-wider transition-colors", lang === "cs" ? "bg-white text-slate-950" : "text-white/50 hover:text-white")}>CS</button>
+              </div>
+            </div>
+          </header>
+        );
+      }
 
-      createRoot(document.getElementById("root")).render(
-        <SmartHomeOrbital
-          nodes={smartHomeNodes}
-          hubTitle="Умный дом"
-          hubSubtitle="Хаб · Vorthys"
-        />
-      );
+      function About({ lang, t }) {
+        const workHref = lang === "cs" ? "/cs/#prace" : "/#work";
+        return (
+          <section className="border-t border-white/10 bg-[#05070c] py-14 text-white sm:py-20">
+            <div className="mx-auto grid w-[min(1180px,100%-3rem)] gap-10 lg:grid-cols-[1.05fr_.95fr]">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-amber-300">{t.caseKicker}</p>
+                <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{t.caseTitle}</h1>
+                <p className="mt-4 max-w-[52ch] text-white/60">{t.caseLead}</p>
+                <p className="mt-5 max-w-[52ch] text-white/60">{t.aboutBody}</p>
+
+                <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">{t.builtWith}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {["React 18", "Tailwind CSS", "shadcn/ui", "lucide-react", "SVG"].map((tech) => (
+                    <span key={tech} className="rounded-full border border-white/15 px-3 py-1 text-[12px] text-white/70">{tech}</span>
+                  ))}
+                </div>
+
+                <div className="mt-9 flex flex-wrap gap-3">
+                  <a href={workHref} className="rounded-full bg-amber-300 px-5 py-2.5 text-[14px] font-medium text-slate-950 transition-transform hover:-translate-y-0.5">
+                    {t.otherWork}
+                  </a>
+                  <a href="mailto:info@vorthys.eu?subject=Project%20enquiry"
+                    className="rounded-full px-5 py-2.5 text-[14px] font-medium text-white ring-1 ring-white/25 transition-colors hover:bg-white/10">
+                    info@vorthys.eu
+                  </a>
+                </div>
+              </div>
+
+              <div className="grid gap-3 self-start">
+                {t.notes.map(([title, body]) => (
+                  <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                    <h2 className="text-[15px] font-semibold">{title}</h2>
+                    <p className="mt-1.5 text-[13.5px] leading-relaxed text-white/55">{body}</p>
+                  </div>
+                ))}
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-white/30">{t.demoNote}</p>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function App() {
+        const [lang, setLang] = useState("en");
+        const t = I18N[lang];
+
+        useEffect(() => {
+          document.documentElement.lang = t.htmlLang;
+          document.title = `${t.caseTitle} — Vorthys`;
+        }, [t]);
+
+        return (
+          <>
+            <SiteBar lang={lang} setLang={setLang} t={t} />
+            <SmartHomeOrbital nodes={NODES[lang]} t={t} className="h-[calc(100vh-53px)] min-h-[620px]" />
+            <About lang={lang} t={t} />
+          </>
+        );
+      }
+
+      createRoot(document.getElementById("root")).render(<App />);
     </script>
   </body>
 </html>
