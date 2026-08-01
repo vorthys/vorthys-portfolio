@@ -82,6 +82,20 @@ section{padding:clamp(3rem,6vw,5.5rem) 0}
 .slot.full{opacity:.5;cursor:not-allowed}
 .slot.full .s-left{color:var(--muted)}
 
+/* filters above the schedule */
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1.5rem}
+.filter{
+  border:1px solid var(--line);background:var(--card);color:var(--muted);
+  border-radius:999px;padding:.55rem 1.05rem;cursor:pointer;font-weight:700;font-size:.85rem;
+  min-height:42px;transition:background .2s,color .2s,border-color .2s,transform .15s;
+}
+.filter:hover{transform:translateY(-2px);border-color:var(--deep);color:var(--deep)}
+.filter.is-on{background:var(--deep);border-color:var(--deep);color:#fff}
+.filter-count{font-size:.82rem;color:var(--muted);margin-left:.35rem}
+.slot.hidden{display:none}
+.day-col.empty{opacity:.35}
+.day-col.empty .empty-note{display:block}
+.empty-note{display:none;font-size:.78rem;color:var(--muted);padding:.3rem 0}
 /* training types */
 .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
 .type{background:var(--card);border-radius:20px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
@@ -189,6 +203,14 @@ footer{padding:2.5rem 0;color:var(--muted);font-size:.86rem}
         <h2>Klikněte na termín,<br>zbytek je na nás</h2>
       </div>
       <p>Volná místa se aktualizují průběžně. Rezervaci můžete zrušit do 12 hodin před začátkem.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filtr podle typu tréninku">
+      <button type="button" class="filter is-on" data-filter="all" aria-pressed="true">Vše</button>
+      <button type="button" class="filter" data-filter="Silový základ" aria-pressed="false">Silový základ</button>
+      <button type="button" class="filter" data-filter="HIIT 50" aria-pressed="false">HIIT 50</button>
+      <button type="button" class="filter" data-filter="Mobilita" aria-pressed="false">Mobilita</button>
+      <span class="filter-count" id="filterCount"></span>
     </div>
 
     <div class="week" id="week">
@@ -334,6 +356,44 @@ footer{padding:2.5rem 0;color:var(--muted);font-size:.86rem}
 </footer>
 
 <script>
+// schedule filter: the week grid stays put, non-matching slots just drop out
+(function(){
+  const week = document.getElementById('week');
+  const buttons = document.querySelectorAll('.filter');
+  const counter = document.getElementById('filterCount');
+  const slots = [...week.querySelectorAll('.slot')];
+
+  week.querySelectorAll('.day-col').forEach(col => {
+    const note = document.createElement('p');
+    note.className = 'empty-note';
+    note.textContent = 'Tento den nic';
+    col.appendChild(note);
+  });
+
+  function apply(type){
+    buttons.forEach(b => {
+      const on = b.dataset.filter === type;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+
+    slots.forEach(s => {
+      const slotType = s.dataset.type || s.querySelector('.s-type')?.textContent.trim();
+      s.classList.toggle('hidden', type !== 'all' && slotType !== type);
+    });
+
+    week.querySelectorAll('.day-col').forEach(col => {
+      col.classList.toggle('empty', col.querySelectorAll('.slot:not(.hidden)').length === 0);
+    });
+
+    const free = slots.filter(s => !s.classList.contains('hidden') && !s.classList.contains('full')).length;
+    counter.textContent = free + (free === 1 ? ' volný termín' : (free < 5 ? ' volné termíny' : ' volných termínů'));
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.filter)));
+  apply('all');
+})();
+
 (function(){
   const week = document.getElementById('week');
   const picked = document.getElementById('picked');

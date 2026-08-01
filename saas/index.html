@@ -113,7 +113,19 @@ section{padding:clamp(3.5rem,7vw,6rem) 0}
 .vat-card p{font-size:.9rem;margin:0}
 
 /* pricing */
-.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.billing{display:inline-flex;gap:.25rem;background:#eef1f6;border:1px solid var(--rule);border-radius:999px;padding:.25rem;margin-bottom:1.5rem}
+.billing-opt{
+  border:0;background:transparent;border-radius:999px;padding:.55rem 1.1rem;cursor:pointer;
+  font-size:.9rem;font-weight:600;color:var(--ink-2);display:inline-flex;align-items:center;gap:.45rem;
+  transition:background .2s,color .2s;
+}
+.billing-opt.is-on{background:var(--ink);color:#fff}
+.billing-opt .save{font-size:.72rem;font-weight:600;color:var(--stamp);background:rgba(255,90,31,.12);padding:.1rem .4rem;border-radius:99px}
+.billing-opt.is-on .save{background:rgba(255,255,255,.14);color:#fff}
+.plan .price{transition:opacity .18s ease}
+.plan .price.swap{opacity:0}
+.plan .billed{font-size:.82rem;color:var(--ink-2);margin:-.4rem 0 0}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1.25rem}
 .plan{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:1.6rem;display:flex;flex-direction:column;gap:1rem}
 .plan--main{border:2px solid var(--ink);position:relative}
 .plan--main::after{content:"Most freelancers pick this";position:absolute;top:-11px;left:1.4rem;background:var(--stamp);color:#fff;font-size:.68rem;letter-spacing:.06em;padding:.15rem .5rem;border-radius:4px}
@@ -291,10 +303,17 @@ footer{border-top:1px solid var(--rule);padding:2.5rem 0;font-size:.88rem;color:
       <p class="mono" style="color:var(--stamp)">Pricing</p>
       <h2>Two plans. Both cheaper than one lost invoice.</h2>
     </div>
+
+    <div class="billing" role="group" aria-label="Billing period">
+      <button type="button" class="billing-opt is-on" data-cycle="month" aria-pressed="true">Monthly</button>
+      <button type="button" class="billing-opt" data-cycle="year" aria-pressed="false">Yearly <span class="save">−20 %</span></button>
+    </div>
+
     <div class="plans">
       <div class="plan">
         <h3>Solo</h3>
-        <div class="price">€9 <small>/ month</small></div>
+        <div class="price" data-month="9" data-year="7">€9 <small>/ month</small></div>
+        <p class="billed">Billed monthly, cancel anytime</p>
         <ul>
           <li>Unlimited projects and clients</li>
           <li>Invoices in EUR, CZK, USD</li>
@@ -305,7 +324,8 @@ footer{border-top:1px solid var(--rule);padding:2.5rem 0;font-size:.88rem;color:
       </div>
       <div class="plan plan--main">
         <h3>Studio</h3>
-        <div class="price">€19 <small>/ month</small></div>
+        <div class="price" data-month="19" data-year="15">€19 <small>/ month</small></div>
+        <p class="billed">Billed monthly, cancel anytime</p>
         <ul>
           <li>Everything in Solo</li>
           <li>Up to 5 people, shared rates</li>
@@ -398,5 +418,36 @@ footer{border-top:1px solid var(--rule);padding:2.5rem 0;font-size:.88rem;color:
   <span class="arrow">←</span>
   <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="#f4f3ef"/><path d="M42 8h16L38 58h-8l12-50z" fill="#f2c230"/></svg>
   Vorthys
-</a></body>
+</a><script>
+(function(){
+  const opts = document.querySelectorAll('.billing-opt');
+  const prices = document.querySelectorAll('.plan .price');
+  const notes = document.querySelectorAll('.plan .billed');
+
+  function apply(cycle){
+    opts.forEach(o => {
+      const on = o.dataset.cycle === cycle;
+      o.classList.toggle('is-on', on);
+      o.setAttribute('aria-pressed', String(on));
+    });
+    prices.forEach(p => {
+      const value = cycle === 'year' ? p.dataset.year : p.dataset.month;
+      p.classList.add('swap');
+      setTimeout(() => {
+        p.innerHTML = '\u20AC' + value + ' <small>/ month</small>';
+        p.classList.remove('swap');
+      }, 160);
+    });
+    notes.forEach((n, i) => {
+      const yearly = (prices[i].dataset.year * 12);
+      n.textContent = cycle === 'year'
+        ? 'Billed \u20AC' + yearly + ' once a year'
+        : 'Billed monthly, cancel anytime';
+    });
+  }
+
+  opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.cycle)));
+})();
+</script>
+</body>
 </html>

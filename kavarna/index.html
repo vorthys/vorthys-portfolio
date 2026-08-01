@@ -103,6 +103,16 @@ dd{margin:0;font-weight:500}
 .notes{display:flex;flex-wrap:wrap;gap:.4rem}
 .note{border:1px solid var(--line);padding:.22rem .6rem;font-size:.78rem}
 
+/* ---- lot filter ---- */
+.lot-filter{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.lot-btn{
+  border:1px solid var(--line);background:#fff;color:var(--steel);cursor:pointer;
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.65rem 1.05rem;min-height:42px;transition:background .2s,color .2s,border-color .2s;
+}
+.lot-btn:hover{border-color:var(--ink);color:var(--ink)}
+.lot-btn.is-on{background:var(--ink);border-color:var(--ink);color:var(--marker)}
+.batch.hidden{display:none}
 /* ---- space ---- */
 .space{background:var(--ink);color:var(--paper)}
 .space-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
@@ -223,8 +233,14 @@ footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size
       <p>Každý pytel má svůj profil pražení. Píšeme ho na sáček i sem — ať víte, co kupujete, ještě než otevřete víčko.</p>
     </div>
 
+    <div class="lot-filter" role="group" aria-label="Filtr podle profilu pražení">
+      <button type="button" class="lot-btn is-on" data-profile="all" aria-pressed="true">Všechny šarže</button>
+      <button type="button" class="lot-btn" data-profile="filtr" aria-pressed="false">Na filtr</button>
+      <button type="button" class="lot-btn" data-profile="espresso" aria-pressed="false">Na espresso</button>
+    </div>
+
     <div class="batches">
-      <article class="batch">
+      <article class="batch" data-profile="filtr">
         <div class="batch-top">
           <div>
             <h3>Guji Uraga</h3>
@@ -245,7 +261,7 @@ footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size
         </div>
       </article>
 
-      <article class="batch">
+      <article class="batch" data-profile="espresso">
         <div class="batch-top">
           <div>
             <h3>Huila Pitalito</h3>
@@ -266,7 +282,7 @@ footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size
         </div>
       </article>
 
-      <article class="batch">
+      <article class="batch" data-profile="espresso">
         <div class="batch-top">
           <div>
             <h3>Cerrado Mineiro</h3>
@@ -385,5 +401,23 @@ footer{background:var(--ink);color:rgba(239,237,232,.6);padding:3rem 0;font-size
   <span class="arrow">←</span>
   <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 8h16l10 30 10-30h16L38 58H26L6 8z" fill="#f4f3ef"/><path d="M42 8h16L38 58h-8l12-50z" fill="#f2c230"/></svg>
   Vorthys
-</a></body>
+</a><script>
+// filter the batch cards by roast profile
+(function(){
+  const buttons = document.querySelectorAll('.lot-btn');
+  const batches = [...document.querySelectorAll('.batch')];
+  buttons.forEach(b => b.addEventListener('click', () => {
+    const want = b.dataset.profile;
+    buttons.forEach(x => {
+      const on = x === b;
+      x.classList.toggle('is-on', on);
+      x.setAttribute('aria-pressed', String(on));
+    });
+    batches.forEach(card => {
+      card.classList.toggle('hidden', want !== 'all' && card.dataset.profile !== want);
+    });
+  }));
+})();
+</script>
+</body>
 </html>

@@ -110,8 +110,21 @@ dialog{border:0;padding:0;background:transparent;max-width:min(92vw,900px)}
 dialog::backdrop{background:rgba(9,8,8,.92)}
 .lb{border:1px solid var(--edge);background:var(--film);padding:12px}
 .lb img{max-height:74vh;width:100%;object-fit:contain}
-.lb-bar{display:flex;justify-content:space-between;align-items:center;padding-top:.75rem;font-family:"Roboto Mono",monospace;font-size:.7rem;letter-spacing:.1em;color:var(--muted)}
-.lb-bar button{background:none;border:1px solid var(--edge);color:var(--silver);padding:.35rem .7rem;cursor:pointer;font:inherit}
+.lb-stage{position:relative}
+.lb-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  background:rgba(13,12,11,.62);border:1px solid var(--edge);color:var(--silver);
+  font-size:1.6rem;line-height:1;cursor:pointer;backdrop-filter:blur(6px);
+  transition:background .2s,color .2s;
+}
+.lb-nav:hover{background:var(--safelight);color:#fff;border-color:var(--safelight)}
+.lb-prev{left:10px}
+.lb-next{right:10px}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding-top:.75rem;font-family:"Roboto Mono",monospace;font-size:.7rem;letter-spacing:.1em;color:var(--muted)}
+.lb-bar button#lbClose{background:none;border:1px solid var(--edge);color:var(--silver);padding:.5rem .8rem;cursor:pointer;font:inherit;min-height:38px}
+.lb-count{margin-left:auto;color:var(--safelight)}
+@media (max-width:600px){.lb-nav{width:40px;height:40px;font-size:1.35rem}.lb-bar{font-size:.62rem}}
 
 @media (max-width:900px){
   .hero-grid,.studio-grid,.book{grid-template-columns:1fr}
@@ -312,8 +325,16 @@ dialog::backdrop{background:rgba(9,8,8,.92)}
 
 <dialog id="lightbox">
   <div class="lb">
-    <img id="lbImg" alt="">
-    <div class="lb-bar"><span id="lbMeta"></span><button id="lbClose">Close</button></div>
+    <div class="lb-stage">
+      <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous frame">‹</button>
+      <img id="lbImg" alt="">
+      <button class="lb-nav lb-next" id="lbNext" aria-label="Next frame">›</button>
+    </div>
+    <div class="lb-bar">
+      <span id="lbMeta"></span>
+      <span class="lb-count" id="lbCount"></span>
+      <button id="lbClose">Close</button>
+    </div>
   </div>
 </dialog>
 
@@ -322,18 +343,41 @@ dialog::backdrop{background:rgba(9,8,8,.92)}
   const dlg = document.getElementById('lightbox');
   const img = document.getElementById('lbImg');
   const meta = document.getElementById('lbMeta');
+  const count = document.getElementById('lbCount');
+  const frames = [...document.querySelectorAll('.frame')];
+  let index = 0;
 
-  document.querySelectorAll('.frame').forEach(f => {
-    f.addEventListener('click', () => {
-      img.src = f.dataset.full;
-      img.alt = f.querySelector('img').alt;
-      meta.textContent = f.dataset.meta;
-      dlg.showModal();
-    });
-  });
+  function show(i){
+    index = (i + frames.length) % frames.length;
+    const f = frames[index];
+    img.src = f.dataset.full;
+    img.alt = f.querySelector('img').alt;
+    meta.textContent = f.dataset.meta;
+    count.textContent = (index + 1) + ' / ' + frames.length;
+  }
 
+  frames.forEach((f, i) => f.addEventListener('click', () => { show(i); dlg.showModal(); }));
+
+  document.getElementById('lbPrev').addEventListener('click', e => { e.stopPropagation(); show(index - 1); });
+  document.getElementById('lbNext').addEventListener('click', e => { e.stopPropagation(); show(index + 1); });
   document.getElementById('lbClose').addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', e => { if(e.target === dlg) dlg.close(); });
+
+  // arrow keys walk the contact sheet, escape is handled by <dialog> itself
+  dlg.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight'){ e.preventDefault(); show(index + 1); }
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); show(index - 1); }
+  });
+
+  // swipe on touch screens
+  let startX = null;
+  dlg.addEventListener('touchstart', e => { startX = e.changedTouches[0].clientX; }, {passive:true});
+  dlg.addEventListener('touchend', e => {
+    if(startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) > 45) show(index + (dx < 0 ? 1 : -1));
+    startX = null;
+  }, {passive:true});
 })();
 </script>
 <a class="vorthys-back" href="/" aria-label="Back to the Vorthys portfolio">
