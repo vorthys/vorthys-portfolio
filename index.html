@@ -248,7 +248,17 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 @media (max-width:620px){.form .row{grid-template-columns:1fr}}
 
 /* ---------- rates ---------- */
-.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(245px,100%),1fr));gap:1rem}
+.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:1rem;align-items:start}
+.rate-note{margin:-.2rem 0 .2rem;font-size:.86rem;color:var(--amber-deep);font-weight:500}
+.rate ul li b{color:var(--ink)}
+.extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:1rem;margin-top:1.25rem}
+.extra{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+.extra h3{font-size:1.05rem}
+.amount-sm{font-family:"Instrument Serif",serif;font-size:1.9rem;line-height:1}
+.amount-sm small{font-family:"Instrument Sans";font-size:.9rem;color:var(--ink-2)}
+.extra p{margin:0;color:var(--ink-2);font-size:.93rem}
+.extra-note{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.extra .btn{margin-top:auto;align-self:flex-start}
 .rate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;gap:.75rem}
 .rate--main{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .rate h3{font-size:1.1rem}
@@ -547,12 +557,12 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
     <div class="offer">
       <div>
         <div class="offer-head">
-          <h3>Opening discount — 30 %</h3>
+          <h3>Opening discount — 20 %</h3>
           <span class="slots" aria-label="Three slots available">
             <span class="slot-dot"></span><span class="slot-dot"></span><span class="slot-dot"></span>
           </span>
         </div>
-        <p>We've just opened in Plzeň, so the first three projects go out at <b>30 % off</b>: a landing page for <b>€413 instead of €590</b>. In exchange we ask for an honest review and permission to show the work here. Three slots, then the regular price applies.</p>
+        <p>We've just opened in Plzeň, so the first three projects go out at <b>20 % off</b>: the one-pager for <b>€192 instead of €240</b>, Standard for €336. In exchange we ask for an honest review and permission to show the work here. Three slots, then the regular price applies.</p>
       </div>
       <div class="side">
         <a class="btn btn--amber" href="#contact">Take a slot</a>
@@ -562,31 +572,82 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 
     <div class="rates">
       <div class="rate">
-        <h3>Landing page</h3>
-        <div class="amount">€590</div><p style="margin:-.2rem 0 0;font-size:.86rem;color:var(--amber-deep);font-weight:500">Opening price €413</p>
-        <ul><li>One page, up to 7 sections</li><li>Copywriting, responsive layout, working contact form</li><li>Live in 2 working days, 2 revision rounds</li></ul>
-        <a class="btn btn--line" href="#contact">Ask about a landing</a>
+        <h3>One-pager</h3>
+        <div class="amount">€240</div>
+        <p class="rate-note">Opening price €192 · live in 2 days</p>
+        <ul>
+          <li>Designed around your business, not a template</li>
+          <li>One page: intro, about, services, gallery, contact</li>
+          <li>We polish your texts, or write them if you have none</li>
+          <li>Gallery of up to 12 photos, compressed for speed</li>
+          <li>Tap-to-call phone, e-mail, map, opening hours</li>
+          <li>Links to Instagram and Facebook</li>
+          <li>Works on phone, tablet and desktop</li>
+          <li>Basic SEO: title, description, sharing preview</li>
+          <li>Deployed to your domain with HTTPS</li>
+          <li>Source files plus a note on editing the text yourself</li>
+          <li>2 revision rounds included</li>
+        </ul>
+        <a class="btn btn--line" href="#contact">Ask about the one-pager</a>
       </div>
+
       <div class="rate rate--main">
-        <h3>Business site</h3>
-        <div class="amount">€1 390</div><p style="margin:-.2rem 0 0;font-size:.86rem;color:var(--amber-deep);font-weight:500">Opening price €973</p>
-        <ul><li>Up to 6 pages, shared components</li><li>Gallery, schedule or price list</li><li>Live in 4 working days, 3 revision rounds</li></ul>
-        <a class="btn" href="#contact">Ask about a site</a>
+        <h3>Standard</h3>
+        <div class="amount">€420</div>
+        <p class="rate-note">Opening price €336 · live in 3 days</p>
+        <ul>
+          <li><b>Everything in the one-pager</b>, plus:</li>
+          <li>Price list laid out as a readable table</li>
+          <li>Second language (EN, DE or UA) with a switch in the header</li>
+          <li>Enquiry form landing in your inbox, spam-protected</li>
+          <li>Customer reviews section</li>
+          <li>FAQ section</li>
+          <li>Extended SEO: sitemap, robots.txt, heading structure</li>
+          <li>Business data for Google: address, hours, rating</li>
+          <li>Registered in Google Search Console</li>
+          <li>Speed work: WebP images, load under one second</li>
+          <li>3 revision rounds included</li>
+        </ul>
+        <a class="btn" href="#contact">Ask about Standard</a>
       </div>
+
       <div class="rate">
-        <h3>Fix &amp; improve</h3>
-        <div class="amount">€45 <small>/ hour</small></div>
-        <ul><li>Broken layout, mobile view and slow loading</li><li>Small features on an existing site</li><li>Minimum booking: 2 hours</li></ul>
-        <a class="btn btn--line" href="#contact">Send the problem</a>
-      </div>
-      <div class="rate">
-        <h3>Care plan</h3>
-        <div class="amount">€39 <small>/ month</small></div>
-        <ul><li>Text and image edits, up to an hour a month</li><li>Uptime and form checks</li><li>Cancel any month, no lock-in</li></ul>
-        <a class="btn btn--line" href="#contact">Ask about care</a>
+        <h3>Business</h3>
+        <div class="amount">€980</div>
+        <p class="rate-note">Opening price €784 · live in 5 days</p>
+        <ul>
+          <li><b>Everything in Standard</b>, plus:</li>
+          <li>A separate page for every service, up to six pages</li>
+          <li>Its own text per service, written to be found in search</li>
+          <li>Navigation with a drop-down menu</li>
+          <li>Booking form with service and date selection</li>
+          <li>News or blog section you can fill yourself</li>
+          <li>Second language across all pages, not just the front one</li>
+          <li>Google Business Profile set up and linked to the site</li>
+          <li>E-mail on your own domain</li>
+          <li>Half-hour handover call on running the site</li>
+          <li>A month of small edits after launch, free</li>
+        </ul>
+        <a class="btn btn--line" href="#contact">Ask about Business</a>
       </div>
     </div>
 
+    <div class="extras">
+      <div class="extra">
+        <h3>Design improvements and work on your site</h3>
+        <div class="amount-sm">€45 <small>/ hour</small></div>
+        <p>Already have a site that needs a hand? We rebuild a section, fix the broken mobile view, speed up loading, swap photos and prices, add a form, a map or a booking flow. You get the hour estimate before we start and we don't bill past it.</p>
+        <p class="extra-note">Minimum booking 2 hours · answer within 24 hours</p>
+        <a class="btn btn--line" href="#contact">Describe what's needed</a>
+      </div>
+      <div class="extra">
+        <h3>Care plan</h3>
+        <div class="amount-sm">€39 <small>/ month</small></div>
+        <p>An hour of small edits every month, uptime and form checks, backups and seasonal text updates. Unused time rolls over to the next month.</p>
+        <p class="extra-note">Cancel any month, no lock-in and no notice period</p>
+        <a class="btn btn--line" href="#contact">Ask about care</a>
+      </div>
+    </div>
     <p style="color:var(--ink-2);font-size:.92rem;margin:1.4rem 0 0;max-width:66ch">
       Fixed price, agreed before we start — not an estimate that grows. Payment is split 50 % up front and 50 % on handover. Hosting and domain are paid directly by you, so you keep the keys; typical cost is €0–5 a month.
     </p>
@@ -622,7 +683,7 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
       </div>
       <div class="inc">
         <h3>Two revision rounds</h3>
-        <p>Included in the price, not billed extra. Most projects use one and a half.</p>
+        <p>Two on the one-pager, three on Standard and Business. Not billed extra — most projects use one and a half.</p>
       </div>
     </div>
   </div>
@@ -640,12 +701,12 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
         <p>Agreed before the first line of code. It stays the same if the work turns out longer than we thought — that is our problem, not your invoice.</p>
       </div>
       <div class="inc">
-        <h3>Two days from materials</h3>
-        <p>The clock starts when we have your texts and photos, not when you pay. If we are late, the delay comes off the price.</p>
+        <h3>The date we agreed</h3>
+        <p>Two days for a one-pager, five for Business — and the clock starts when we have your texts and photos, not when you pay. If we run late, the delay comes off the price.</p>
       </div>
       <div class="inc">
-        <h3>Two rounds of changes</h3>
-        <p>Included, never billed as an extra. Most projects use one and a half.</p>
+        <h3>Revision rounds included</h3>
+        <p>Two rounds on the one-pager, three on the bigger packages. Never billed as an extra — most projects use one and a half.</p>
       </div>
       <div class="inc">
         <h3>The code is yours</h3>

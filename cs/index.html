@@ -216,7 +216,17 @@ section{padding:clamp(3.2rem,6.5vw,5.5rem) 0}
 .honey{position:absolute;left:-9999px;opacity:0;height:0;width:0}
 @media (max-width:620px){.form .row{grid-template-columns:1fr}}
 
-.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(245px,100%),1fr));gap:1rem}
+.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:1rem;align-items:start}
+.rate-note{margin:-.2rem 0 .2rem;font-size:.86rem;color:var(--amber-deep);font-weight:500}
+.rate ul li b{color:var(--ink)}
+.extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:1rem;margin-top:1.25rem}
+.extra{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+.extra h3{font-size:1.05rem}
+.amount-sm{font-family:"Instrument Serif",serif;font-size:1.9rem;line-height:1}
+.amount-sm small{font-family:"Instrument Sans";font-size:.9rem;color:var(--ink-2)}
+.extra p{margin:0;color:var(--ink-2);font-size:.93rem}
+.extra-note{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.extra .btn{margin-top:auto;align-self:flex-start}
 .rate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;gap:.75rem}
 .rate--main{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .rate h3{font-size:1.1rem}
@@ -512,12 +522,12 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
     <div class="offer">
       <div>
         <div class="offer-head">
-          <h3>Otevírací sleva 30 %</h3>
+          <h3>Otevírací sleva 20 %</h3>
           <span class="slots" aria-label="Tři volná místa">
             <span class="slot-dot"></span><span class="slot-dot"></span><span class="slot-dot"></span>
           </span>
         </div>
-        <p>Právě jsme v Plzni otevřeli, a tak první tři zakázky děláme se <b>slevou 30 %</b>: jednostránkový web za <b>10 430 Kč místo 14 900 Kč</b>. Výměnou poprosíme o upřímnou recenzi a svolení ukázat práci tady. Tři místa, pak platí běžný ceník.</p>
+        <p>Právě jsme v Plzni otevřeli, a tak první tři zakázky děláme se <b>slevou 20 %</b>: vizitka za <b>4 720 Kč místo 5 900 Kč</b>, Standard za 8 400 Kč. Výměnou poprosíme o upřímnou recenzi a svolení ukázat práci tady. Tři místa, pak platí běžný ceník.</p>
       </div>
       <div class="side">
         <a class="btn btn--amber" href="#kontakt">Chci místo</a>
@@ -527,31 +537,82 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
 
     <div class="rates">
       <div class="rate">
-        <h3>Jednostránkový web</h3>
-        <div class="amount">14 900 Kč</div><p style="margin:-.2rem 0 0;font-size:.86rem;color:var(--amber-deep);font-weight:500">Otevírací cena 10 430 Kč</p>
-        <ul><li>Jedna stránka, až 7 sekcí</li><li>Texty, responzivita, kontaktní formulář</li><li>Hotovo za 2 pracovní dny, 2 kola úprav</li></ul>
-        <a class="btn btn--line" href="#kontakt">Poptat jednostránku</a>
+        <h3>Vizitka</h3>
+        <div class="amount">5 900 Kč</div>
+        <p class="rate-note">Otevírací cena 4 720 Kč · hotovo za 2 dny</p>
+        <ul>
+          <li>Návrh na míru vašemu podniku, ne šablona</li>
+          <li>Jedna stránka: úvod, o nás, služby, galerie, kontakt</li>
+          <li>Doladíme vaše texty, případně je napíšeme</li>
+          <li>Galerie až 12 fotek, zmenšených pro rychlé načtení</li>
+          <li>Klikací telefon a e-mail, mapa, otevírací doba</li>
+          <li>Odkazy na Instagram a Facebook</li>
+          <li>Funguje na telefonu, tabletu i počítači</li>
+          <li>Základní SEO: titulek, popisek, náhled při sdílení</li>
+          <li>Nasazení na doménu včetně HTTPS</li>
+          <li>Zdrojové soubory a návod, kde si měnit texty</li>
+          <li>2 kola úprav v ceně</li>
+        </ul>
+        <a class="btn btn--line" href="#kontakt">Poptat vizitku</a>
       </div>
+
       <div class="rate rate--main">
-        <h3>Firemní web</h3>
-        <div class="amount">34 900 Kč</div><p style="margin:-.2rem 0 0;font-size:.86rem;color:var(--amber-deep);font-weight:500">Otevírací cena 24 430 Kč</p>
-        <ul><li>Až 6 stránek se sdílenými prvky</li><li>Galerie, rozvrh nebo ceník</li><li>Hotovo za 4 pracovní dny, 3 kola úprav</li></ul>
-        <a class="btn" href="#kontakt">Poptat firemní web</a>
+        <h3>Standard</h3>
+        <div class="amount">10 500 Kč</div>
+        <p class="rate-note">Otevírací cena 8 400 Kč · hotovo za 3 dny</p>
+        <ul>
+          <li><b>Všechno z vizitky</b>, navíc:</li>
+          <li>Přehledný ceník služeb v tabulce</li>
+          <li>Druhý jazyk (EN, DE nebo UA) s přepínačem v hlavičce</li>
+          <li>Poptávkový formulář chodící na váš e-mail, s ochranou proti spamu</li>
+          <li>Sekce recenzí od zákazníků</li>
+          <li>Sekce častých dotazů</li>
+          <li>Rozšířené SEO: sitemap, robots.txt, struktura nadpisů</li>
+          <li>Údaje o podniku pro Google (adresa, otevírací doba, hodnocení)</li>
+          <li>Registrace do Google Search Console</li>
+          <li>Zrychlení: obrázky ve WebP, načtení pod jednu sekundu</li>
+          <li>3 kola úprav v ceně</li>
+        </ul>
+        <a class="btn" href="#kontakt">Poptat Standard</a>
       </div>
+
       <div class="rate">
-        <h3>Opravy a vylepšení</h3>
-        <div class="amount">1 100 Kč <small>/ hod</small></div>
-        <ul><li>Rozbité rozložení, mobil, rychlost</li><li>Drobné funkce na stávajícím webu</li><li>Minimální objednávka 2 hodiny</li></ul>
-        <a class="btn btn--line" href="#kontakt">Popsat problém</a>
-      </div>
-      <div class="rate">
-        <h3>Správa webu</h3>
-        <div class="amount">990 Kč <small>/ měs</small></div>
-        <ul><li>Úpravy textů a fotek, hodina měsíčně</li><li>Hlídání dostupnosti a formulářů</li><li>Zrušíte kdykoli, bez závazku</li></ul>
-        <a class="btn btn--line" href="#kontakt">Poptat správu</a>
+        <h3>Business</h3>
+        <div class="amount">24 500 Kč</div>
+        <p class="rate-note">Otevírací cena 19 600 Kč · hotovo za 5 dní</p>
+        <ul>
+          <li><b>Všechno ze Standardu</b>, navíc:</li>
+          <li>Samostatná stránka pro každou službu, až šest stránek</li>
+          <li>Vlastní texty ke každé službě, psané pro vyhledávání</li>
+          <li>Navigace s rozbalovacím menu</li>
+          <li>Rezervační formulář s výběrem služby a termínu</li>
+          <li>Aktuality nebo blog, které si plníte sami</li>
+          <li>Druhý jazyk na všech stránkách, ne jen na úvodní</li>
+          <li>Nastavení firemního profilu na Googlu a propojení s webem</li>
+          <li>E-mail na vlastní doméně</li>
+          <li>Půlhodinové zaškolení, jak si web spravovat</li>
+          <li>Měsíc drobných úprav po spuštění zdarma</li>
+        </ul>
+        <a class="btn btn--line" href="#kontakt">Poptat Business</a>
       </div>
     </div>
 
+    <div class="extras">
+      <div class="extra">
+        <h3>Vylepšení designu a práce na vašem webu</h3>
+        <div class="amount-sm">1 100 Kč <small>/ hodina</small></div>
+        <p>Máte web, který potřebuje zásah? Předěláme jednu sekci, spravíme rozbitý mobil, zrychlíme načítání, vyměníme fotky a ceny, přidáme formulář, mapu nebo rezervaci. Řekneme dopředu, kolik hodin to zabere, a víc si nenaúčtujeme.</p>
+        <p class="extra-note">Minimální objednávka 2 hodiny · vyjádření do 24 hodin</p>
+        <a class="btn btn--line" href="#kontakt">Popsat, co je potřeba</a>
+      </div>
+      <div class="extra">
+        <h3>Správa webu</h3>
+        <div class="amount-sm">990 Kč <small>/ měsíc</small></div>
+        <p>Hodina drobných úprav měsíčně, hlídání dostupnosti a funkčnosti formulářů, zálohy a aktualizace textů podle sezóny. Nevyčerpaná hodina se převádí do dalšího měsíce.</p>
+        <p class="extra-note">Zrušíte kdykoli, bez závazku a bez výpovědní lhůty</p>
+        <a class="btn btn--line" href="#kontakt">Poptat správu</a>
+      </div>
+    </div>
     <p style="color:var(--ink-2);font-size:.92rem;margin:1.4rem 0 0;max-width:66ch">
       Cenu domluvíme předem a už se nemění — není to odhad, který během práce naroste. Platba je 50 % na začátku a 50 % při předání. Hosting a doménu platíte přímo vy, takže vám zůstávají v rukou; obvykle vyjdou na 0–150 Kč měsíčně.
     </p>
@@ -586,8 +647,8 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
         <p>Krátký písemný návod, kde přesně měnit texty, ceny nebo fotky, které budete chtít měnit sami.</p>
       </div>
       <div class="inc">
-        <h3>Dvě kola úprav</h3>
-        <p>Jsou v ceně, neúčtujeme je zvlášť. Většina zakázek vyčerpá jedno a půl.</p>
+        <h3>Kola úprav v ceně</h3>
+        <p>Dvě u vizitky, tři u Standardu a Business. Neúčtujeme je zvlášť — většina zakázek vyčerpá jedno a půl.</p>
       </div>
     </div>
   </div>
@@ -605,12 +666,12 @@ footer{padding:2.6rem 0 3.6rem;color:var(--ink-2);font-size:.86rem}
         <p>Domluvíme ji před prvním řádkem kódu. Když práce zabere víc času, než jsme čekali, je to náš problém — ne položka na vaší faktuře.</p>
       </div>
       <div class="inc">
-        <h3>Dva dny od materiálů</h3>
-        <p>Termín běží od chvíle, kdy máme texty a fotky, ne od platby. Když se opozdíme my, sleví se z ceny.</p>
+        <h3>Termín, na kterém jsme se dohodli</h3>
+        <p>Dva dny na vizitku, pět na Business — a termín běží od chvíle, kdy máme texty a fotky, ne od platby. Když se opozdíme my, sleví se z ceny.</p>
       </div>
       <div class="inc">
-        <h3>Dvě kola úprav</h3>
-        <p>Jsou v ceně a nikdy je neúčtujeme zvlášť. Většina zakázek vyčerpá jedno a půl.</p>
+        <h3>Kola úprav v ceně</h3>
+        <p>Dvě kola u vizitky, tři u větších balíčků. Nikdy je neúčtujeme zvlášť — většina zakázek vyčerpá jedno a půl.</p>
       </div>
       <div class="inc">
         <h3>Kód je váš</h3>
