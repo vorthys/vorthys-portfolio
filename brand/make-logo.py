@@ -1,4 +1,4 @@
-"""Генерирует растровые версии знака Vorthys: аватар, фавиконы, og-картинку."""
+﻿"""Генерирует растровые версии знака Vorthys: аватар, фавиконы, og-картинку."""
 import os
 from PIL import Image, ImageDraw, ImageFont
 
@@ -80,7 +80,7 @@ except OSError:
 x = 412
 d.text((x, 196), "Vorthys", font=f_title, fill=PAPER)
 d.text((x + 5, 326), "Web design & front-end", font=f_sub, fill=MUTED)
-d.text((x + 5, 382), "Prague · vorthys.eu", font=f_small, fill=AMBER)
+d.text((x + 5, 382), "Plzen · vorthys.eu", font=f_small, fill=AMBER)
 
 # перечень услуг прижат к низу — заполняет кадр и сразу говорит, чем занимаемся
 d.text((x + 5, 462), "Landing pages · Business sites · Dashboards",
